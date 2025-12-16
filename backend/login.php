@@ -2,14 +2,19 @@
     session_start();
 
     header("Content-Type: application/json");
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Methods: POST, OPTIONS");
+    header("Access-Control-Allow-Headers: Content-Type");
 
     include 'connect.php';
 
-    $username = $_POST['username'] ?? '';
-    $password = $_POST['password'] ?? '';
+    $input = json_decode(file_get_contents("php://input"), true);
+
+    $username = $input['username'] ?? '';
+    $password = $input['password'] ?? '';
 
     if(!empty($username) && !empty($password)){
-        $sql = "SELECT * FROM user WHERE username=? AND password=?";
+        $sql = "SELECT * FROM user u JOIN role r on u.role_id=r.role_id WHERE username=? AND password=?";
         $stmt = $conn -> prepare($sql);
 
         $stmt -> bind_param('ss', $username, $password);
@@ -18,17 +23,35 @@
         $result = $stmt -> get_result();
 
         if ($row = $result -> fetch_assoc()) {
-            echo '<script>alert("Successsss!!!!")</script>';
+
             $_SESSION["user_id"] = $row['user_id'];
+            $_SESSION['role_id'] = $row['role_id'];
+
+            echo json_encode([
+                "status" => "success",
+                "user_id" => $row['user_id'],
+                "role" => $row['role_name']
+            ]);
             # code...
         }
         else {
-            echo '<script>alert("Something wrong??")</script>';
+            echo json_encode([
+            "status" => "error",
+            "message" => "Invalid credentials"
+    ]);
         }
-        echo '<script>alert("habis signin")</script>';
-        echo $username;
-        echo $password;
+        // echo $username;
+        // echo $password;
+
     }
-    echo '<script>alert("habis laaaa")</script>';
+    else{
+        echo json_encode([
+            "status" => "error",
+            "message" => "Missing username or password"
+    ]);
+
+    // exit;
+    }
+
 
 ?>
