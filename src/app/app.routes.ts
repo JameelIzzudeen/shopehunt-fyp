@@ -5,9 +5,30 @@ export const routes: Routes = [
     path: 'home',
     loadComponent: () => import('./home/home.page').then((m) => m.HomePage),
   },
+
   {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full',
+  },
+  {
+    path: 'login',
+    loadComponent: () => import('./login/login.page').then((m) => m.LoginPage)
+  },
+  {
+    path: 'register',
+    loadComponent: () => import('./register/register.page').then( m => m.RegisterPage)
+  },
+  {
+    path: 'dashboard',
+    loadComponent: () => import('./dashboard/dashboard.page').then( m => m.DashboardPage)
+  },
+  {
+    path: 'dashboard-customer',
+    loadComponent: () => import('./dashboard-customer/dashboard-customer.page').then( m => m.DashboardCustomerPage)
+  },
+  {
+    path: 'store-detail/:id',
+    loadComponent: () => import('./store-detail/store-detail.page').then( m => m.StoreDetailPage)
   },
 ];

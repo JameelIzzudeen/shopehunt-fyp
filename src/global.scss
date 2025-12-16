@@ -35,3 +35,47 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+
+
+// .login-box {
+  
+//   width: 350px; 
+//   max-width: 90%;      /* shrink if screen is smaller */
+//   margin: auto;
+//   padding: 20px;
+//   background: blueviolet;
+//   /* background-color: aqua; */
+//   border-radius: 8px;
+//   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+//   position: relative;
+//   top: 50%;
+//   transform: translateY(-50%);
+  
+// }
+
+// ion-input, ion-button {
+//   width: 90%;   
+//   /* margin: 10px 0; */
+//   padding: 10px 0;
+//   /* border-spacing:24px; */
+//   margin: auto;
+//   display: block;
+//   --border-radius: 100px;
+  
+//   /* height: 10%; */
+//   font-size: 16px;
+// }
+
+.button{
+  /* height: 50px; */
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+}
+
+ion-item {
+  --background: transparent;
+}
+ion-item.item-button {
+  --background: transparent; 
+  --inner-border-width: 0;
+}
