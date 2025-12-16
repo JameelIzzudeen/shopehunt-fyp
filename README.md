@@ -19,5 +19,17 @@ providing real-time store stock availability and GPS navigation.
 During festive seasons such as Hari Raya, users face difficulty locating
 essential items due to lack of centralized stock information.
 
+## Database Setup
+Import `backend/database/shopehunt.sql` using phpMyAdmin.
+
+## How to Run
+
+1.  Open a terminal in the project root directory
+2.  Install dependencies:
+    ```bash
+    npm install
+3.  Then run:
+    ionic serve
+
 ## 👤 Author
 **Jameel** – Computer Science (FYP)
