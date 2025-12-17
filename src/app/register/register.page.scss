@@ -1,0 +1,42 @@
+ion-content {
+  --background: linear-gradient(135deg, #3880ff, #4dd0e1);
+}
+
+/* Flex centering container */
+.center-wrapper {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Card */
+.login-box {
+  background: #ffffff;
+  padding: 30px 25px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 350px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Text */
+.login-box ion-input{
+//   margin-bottom: 8px;
+//   font-size: 22px;
+//   font-weight: 600;
+  color: #666;
+}
+
+.login-box p {
+  margin-bottom: 24px;
+  font-size: 14px;
+  color: #666;
+}
+
+/* Buttons */
+ion-button {
+  --border-radius: 10px;
+  margin-bottom: 12px;
+}

@@ -35,4 +35,12 @@ export const routes: Routes = [
     path: 'navigate',
     loadComponent: () => import('./navigate/navigate.page').then( m => m.NavigatePage)
   },
+  {
+    path: 'dashboard-seller',
+    loadComponent: () => import('./dashboard-seller/dashboard-seller.page').then( m => m.DashboardSellerPage)
+  },
+  {
+    path: 'seller-store-detail',
+    loadComponent: () => import('./seller-store-detail/seller-store-detail.page').then( m => m.SellerStoreDetailPage)
+  },
 ];

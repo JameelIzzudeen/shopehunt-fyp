@@ -80,9 +80,9 @@ export class LoginPage {
 
           if (res.role === 'customer') {
             this.router.navigate(['/dashboard-customer']);
-          } //else if (res.role === 'seller') {
-          //   this.router.navigate(['/dashboard-seller']);
-          // }
+          } else if (res.role === 'seller') {
+            this.router.navigate(['/dashboard-seller']);
+          }
         } else {
           alert(res.message);
         }

@@ -11,35 +11,37 @@
     </ion-toolbar>
   </ion-header>
 
-  <div class="login-box">
-          <form (ngSubmit)="register()">
-            <ion-item>
-              <ion-input name="username" placeholder="Username" [(ngModel)]="registerData.username"></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-input name="fname" placeholder="First Name" [(ngModel)]="registerData.fname"></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-input name="lname" placeholder="Last Name" [(ngModel)]="registerData.lname"></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-input name="email" type="email" placeholder="Email" [(ngModel)]="registerData.email"></ion-input>
-            </ion-item>
-            <ion-item>
-                <!-- <ion-label position="floating">Phone</ion-label> -->
-                <ion-input pattern="^[0-9]{9,10}$" name="phone" type="tel" placeholder="Phone" [(ngModel)]="registerData.phone"></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-input name="password" type="password" placeholder="Password" [(ngModel)]="registerData.password"></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-input name="confirm_password" type="password" placeholder="Confirm Password" [(ngModel)]="registerData.confirm_password"></ion-input>
-            </ion-item>
-            <ion-item class="item-button">
-              <ion-button class="button" type="submit">Register</ion-button>
-            </ion-item>
+  <div class="center-wrapper">
+    <div class="login-box">
+      <form (ngSubmit)="register()">
+        <ion-item>
+          <ion-input name="username" placeholder="Username" [(ngModel)]="registerData.username"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input name="fname" placeholder="First Name" [(ngModel)]="registerData.fname"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input name="lname" placeholder="Last Name" [(ngModel)]="registerData.lname"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input name="email" type="email" placeholder="Email" [(ngModel)]="registerData.email"></ion-input>
+        </ion-item>
+        <ion-item>
+            <!-- <ion-label position="floating">Phone</ion-label> -->
+            <ion-input pattern="^[0-9]{9,10}$" name="phone" type="tel" placeholder="Phone" [(ngModel)]="registerData.phone"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input name="password" type="password" placeholder="Password" [(ngModel)]="registerData.password"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input name="confirm_password" type="password" placeholder="Confirm Password" [(ngModel)]="registerData.confirm_password"></ion-input>
+        </ion-item>
+        <ion-item class="item-button">
+          <ion-button class="button" type="submit">Register</ion-button>
+        </ion-item>
 
-        </form>
-      </div>
+    </form>
+  </div>
+</div>
 
 </ion-content>

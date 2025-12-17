@@ -19,7 +19,7 @@
     <ion-card-content>
       <p><strong>Store ID:</strong> {{ store[0]?.store_id }}</p>
       <p><strong>Seller ID:</strong> {{ store[0]?.seller_id }}</p>
-      <p><strong>Location:</strong> {{ store[0]?.location }}</p>
+      <p><strong>Location:</strong> {{ store[0]?.latitude }}, {{ store[0]?.longitude }}</p>
     </ion-card-content>
 
     <ion-card-content *ngFor="let s of store">

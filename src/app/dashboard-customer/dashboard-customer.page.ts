@@ -8,6 +8,12 @@ import { HttpClient } from '@angular/common/http';
 
 import { environment } from 'src/environments/environment';
 
+import { DirectionsService } from '../service/directions';
+import { Geolocation } from '@capacitor/geolocation';
+
+declare var google: any;
+
+
 @Component({
   selector: 'app-dashboard-customer',
   
@@ -40,37 +46,78 @@ export class DashboardCustomerPage implements OnInit {
   store: any[] = [];
 
 
+
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private directionsService: DirectionsService
+
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.userId = localStorage.getItem('user_id');
 
     if (this.userId) {
-      this.getUserData(this.userId);
+      const userLocation = await this.getCurrentLocation();
+      this.getUserData(this.userId, userLocation);
     }
   }
 
-  getUserData(user_id: string){
-    this.http.post<any>(
-      `${environment.Base_URL}/dashboard.php`,
+  async getCurrentLocation() {
+    const position = await Geolocation.getCurrentPosition(
       {
-        // user_id: this.userId
-        user_id
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0
       }
-    ).subscribe( res=> {
-      console.log(res);
-      if (res.status === 'success') {
-        this.user = res.data;
-        this.store = res.store;
-      }
-      else{
-        alert(res.message);
-      }
-    })
+    );
+    return {
+      lat: position.coords.latitude,
+      lng: position.coords.longitude
+    };
   }
+
+  async getUserData(user_id: string, userLocation: any) {
+
+  this.http.post<any>(
+    `${environment.Base_URL}/dashboard.php`,
+    { user_id }
+  ).subscribe(async res => {
+
+    if (res.status === 'success') {
+
+      this.user = res.data;
+      this.store = res.store;
+
+      // 🔑 Calculate distance PER STORE
+      const promises = this.store.map(async (s: any) => {
+
+        const storeLat = Number(s.latitude);
+        const storeLng = Number(s.longitude);
+
+        const routeData = await this.directionsService.getRoute(
+          userLocation,
+          { lat: storeLat, lng: storeLng }
+        );
+
+        return {
+          ...s,
+          distance: routeData.distance,
+          duration: routeData.duration
+        };
+      });
+
+      // 🔑 WAIT FOR ALL STORES
+      this.store = await Promise.all(promises);
+
+      console.log('Stores with distance:', this.store);
+
+    } else {
+      alert(res.message);
+    }
+
+  });
+}
 
   
 

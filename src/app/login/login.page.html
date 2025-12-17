@@ -1,17 +1,16 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <!-- <ion-toolbar>
     <ion-title>login</ion-title>
-  </ion-toolbar>
+  </ion-toolbar> -->
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<!-- <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">login</ion-title>
     </ion-toolbar>
   </ion-header>
   <div class="login-box">
-          <!-- <form action="http://100.117.156.69/backend/login.php" method="post"> -->
           <form (ngSubmit)="login()">
             <ion-item>
               <ion-input name="username" placeholder="Username" [(ngModel)]="loginData.username"></ion-input>
@@ -22,8 +21,29 @@
             <ion-item class="item-button">
               <ion-button class="button" type="submit">Sign In</ion-button>
             </ion-item>
-
-          <!-- <ion-button onclick="login()">Login</ion-button> -->
         </form>
       </div>
+</ion-content> -->
+
+<ion-content [fullscreen]="true">
+  <div class="center-wrapper">
+    <ion-header collapse="condense">
+      <ion-toolbar>
+        <ion-title size="large">login</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <div class="login-box">
+      <form (ngSubmit)="login()">
+        <ion-item>
+          <ion-input name="username" placeholder="Username" [(ngModel)]="loginData.username"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input name="password" type="password" placeholder="Password" [(ngModel)]="loginData.password"></ion-input>
+        </ion-item>
+        <ion-item class="item-button">
+          <ion-button class="button" type="submit">Sign In</ion-button>
+        </ion-item>
+      </form>
+    </div>
+  </div>
 </ion-content>
