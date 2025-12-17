@@ -6,6 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonInput, IonItem } from '@ionic/angular/standalone';
 import { HttpClient } from '@angular/common/http';
 
+import { environment } from 'src/environments/environment';
+
 @Component({
   selector: 'app-login',
   
@@ -66,7 +68,7 @@ export class LoginPage {
     console.log('LOGIN DATA:', this.loginData);
 
     this.http.post<any>(
-      'https://sequence.taile5772e.ts.net/backend/login.php',
+      `${environment.Base_URL}/login.php`,
       this.loginData
     ).subscribe({
       next: (res) => {

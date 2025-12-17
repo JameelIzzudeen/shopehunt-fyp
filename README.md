@@ -29,6 +29,7 @@ Import `backend/database/shopehunt.sql` using phpMyAdmin.
     ```bash
     npm install
 3.  Then run:
+    ```bash
     ionic serve
 
 ## 👤 Author

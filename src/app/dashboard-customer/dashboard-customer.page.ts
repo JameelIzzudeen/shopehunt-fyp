@@ -6,6 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonInput, IonItem,IonCard, IonCardContent, IonCardTitle, IonCardHeader} from '@ionic/angular/standalone';
 import { HttpClient } from '@angular/common/http';
 
+import { environment } from 'src/environments/environment';
+
 @Component({
   selector: 'app-dashboard-customer',
   
@@ -53,7 +55,7 @@ export class DashboardCustomerPage implements OnInit {
 
   getUserData(user_id: string){
     this.http.post<any>(
-      'https://sequence.taile5772e.ts.net/backend/dashboard.php',
+      `${environment.Base_URL}/dashboard.php`,
       {
         // user_id: this.userId
         user_id

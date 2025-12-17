@@ -34,6 +34,8 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonInput, IonItem } from '@ionic/angular/standalone';
 import { HttpClient } from '@angular/common/http';
 
+import { environment } from 'src/environments/environment';
+
 @Component({
   selector: 'app-register',
   
@@ -78,7 +80,7 @@ export class RegisterPage implements OnInit {
     console.log('REGISTER DATA:', this.registerData);
 
     this.http.post<any>(
-      'https://sequence.taile5772e.ts.net/backend/register.php',
+      `${environment.Base_URL}/register.php`,
       this.registerData
     ).subscribe({
       next: (res) => {

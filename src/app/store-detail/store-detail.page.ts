@@ -18,6 +18,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonInput, IonItem,IonCard, IonCardContent, IonCardTitle, IonCardHeader} from '@ionic/angular/standalone';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-store-detail',
@@ -49,9 +52,14 @@ export class StoreDetailPage implements OnInit {
   storeId !: number;
   store: any[] = [];
 
+  latitude!: number;
+  longitude!: number;
+
+
   constructor(
     private route: ActivatedRoute,
-    private http: HttpClient
+    private http: HttpClient,
+    private navCtrl: NavController
   ) { }
 
   ngOnInit() {
@@ -61,7 +69,7 @@ export class StoreDetailPage implements OnInit {
 
   getStoreDetail(){
     this.http.post<any>(
-      'https://sequence.taile5772e.ts.net/backend/store-detail.php',
+      `${environment.Base_URL}/store-detail.php`,
       {
         store_id : this.storeId
       }
@@ -72,6 +80,16 @@ export class StoreDetailPage implements OnInit {
         this.store = res.store;
       } else {
         alert(res.message);
+      }
+    });
+  }
+
+  navigateToStore() {
+    this.navCtrl.navigateForward('/navigate', {
+      queryParams: {
+        lat: this.store[0].latitude,
+        lng: this.store[0].longitude,
+        name: this.store[0].store_name
       }
     });
   }

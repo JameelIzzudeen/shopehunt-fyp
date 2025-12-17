@@ -31,4 +31,8 @@ export const routes: Routes = [
     path: 'store-detail/:id',
     loadComponent: () => import('./store-detail/store-detail.page').then( m => m.StoreDetailPage)
   },
+  {
+    path: 'navigate',
+    loadComponent: () => import('./navigate/navigate.page').then( m => m.NavigatePage)
+  },
 ];
