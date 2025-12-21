@@ -4,36 +4,35 @@
 // import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 
 // @Component({
-//   selector: 'app-profile',
-//   templateUrl: './profile.page.html',
-//   styleUrls: ['./profile.page.scss'],
+//   selector: 'app-cart',
+//   templateUrl: './cart.page.html',
+//   styleUrls: ['./cart.page.scss'],
 //   standalone: true,
 //   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
 // })
 
 import { Component, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonFooter, IonTitle, IonToolbar, IonButton, IonInput, IonItem,IonCard, IonCardContent, IonCardTitle, IonCardHeader} from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonInput, IonItem,IonCard, IonCardContent, IonCardTitle, IonCardHeader} from '@ionic/angular/standalone';
 import { HttpClient } from '@angular/common/http';
+
+
 
 import { environment } from 'src/environments/environment';
 
-
-
 @Component({
-  selector: 'app-profile',
+  selector: 'app-cart',
 
-  templateUrl: './profile.page.html',
-  styleUrls: ['./profile.page.scss'],
+  templateUrl: './cart.page.html',
+  styleUrls: ['./cart.page.scss'],
   standalone: true,
   imports: [
     CommonModule,
     RouterModule,
     IonHeader,
-    IonFooter,
     IonToolbar,
     IonTitle,
     IonContent,
@@ -48,12 +47,10 @@ import { environment } from 'src/environments/environment';
   ],
 })
 
-
-
-export class ProfilePage implements OnInit {
+export class CartPage implements OnInit {
 
   userId : string | null = null;
-  userData: any = {};
+  cartData: any[] = [];
 
   constructor(
     private http: HttpClient,
@@ -64,22 +61,25 @@ export class ProfilePage implements OnInit {
     this.userId = localStorage.getItem('user_id');
 
     if (this.userId) {
-      this.getUserData();
+      this.getCartData();
     } else {
       alert('User ID not found, please login.');
     }
   }
 
-  getUserData() {
+  getCartData() {
     this.http.post<any>(
-      `${environment.Base_URL}/user-profile.php`,
+      `${environment.Base_URL}/cart.php`,
       {
         user_id: this.userId
       }
-    ).subscribe( res=> {
+    ).subscribe( res => {
       console.log(res);
       if (res.status === 'success') {
-        this.userData = res.userData;
+        this.cartData = res.cart_data;
+      }
+      else{
+        alert(res.message);
       }
     });
   }

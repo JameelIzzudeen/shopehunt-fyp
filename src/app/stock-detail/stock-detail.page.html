@@ -12,7 +12,6 @@
   </ion-header>
 
   <div class="content">
-    <!-- <h4>{{ stock[0]?.stock_name }}</h4> -->
     <ion-card *ngIf="stock">
       <ion-card-header>
         <ion-card-title>Stock Name: {{ stock[0]?.stock_name }}</ion-card-title>
@@ -20,7 +19,9 @@
   
       <ion-card-content>
         <p><strong>Stock ID:</strong> {{ stock[0]?.stock_id }}</p>
-        <p><strong>Price:</strong> RM {{ stock[0]?.min_price }} - RM {{ stock[0]?.max_price }}</p>
+        <p *ngIf="stock[0]?.min_price === stock[0]?.max_price"><strong>Price:</strong> RM {{ stock[0]?.min_price }}</p>
+        <p *ngIf="stock[0]?.min_price !== stock[0]?.max_price"><strong>Price:</strong> RM {{ stock[0]?.min_price }} - RM {{ stock[0]?.max_price }}</p>
+
         <p><strong>Description:</strong> {{ stock[0]?.description }}</p>
         Quantity:<ion-input type="number" min="1" placeholder="Insert quantity" [(ngModel)]="quantity"></ion-input>
         <ion-button expand="block" (click)="addToCart(stock[0]?.stock_id, quantity)">

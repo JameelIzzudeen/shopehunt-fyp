@@ -24,11 +24,14 @@ Import `backend/database/shopehunt.sql` using phpMyAdmin.
 
 ## How to Run
 
-1.  Open a terminal in the project root directory
-2.  Install dependencies:
+1.  Import the .sql file to your database. (ex: phpmyadmin).
+2.  Change the configuration in connect-example.php to your localhost/server and rename it to connect.php.
+3.  Modify the BASE_URL in environment.ts (.prod.ts if deploying in android) to your backend url.
+4.  Open a terminal in the project root directory
+5.  Install dependencies:
     ```bash
     npm install
-3.  Then run:
+6.  Then run:
     ```bash
     ionic serve
 

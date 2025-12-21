@@ -30,7 +30,7 @@
         exit;
     }
 
-    $sql = "INSERT INTO user_cart (user_id, stock_id, quantity) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE quantity = quantity + ?";
+    $sql = "INSERT INTO cart (user_id, stock_id, cart_quantity) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE cart_quantity = cart_quantity + ?";
     $stmt = $conn -> prepare($sql);
     $stmt -> bind_param('iiii', $user_id, $stock_id, $quantity, $quantity);
     if ($stmt -> execute()) {

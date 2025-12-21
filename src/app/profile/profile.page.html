@@ -10,4 +10,18 @@
       <ion-title size="large">profile</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <ion-card *ngIf="userData">
+    <ion-card-header>
+      <ion-card-title>User Profile: {{ userData.username }}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <p><strong>User ID:</strong> {{ userData.user_id }}</p>
+      <p><strong>Email:</strong> {{ userData.email }}</p>
+      <p><strong>First Name:</strong> {{ userData.first_name }}</p>
+      <p><strong>Last Name:</strong> {{ userData.last_name }}</p>
+      <p><strong>Phone Number:</strong> {{ userData.phone }}</p>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

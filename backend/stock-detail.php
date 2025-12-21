@@ -20,7 +20,6 @@
         exit;
     }
 
-    // $sql = "SELECT * FROM stock stk, store_stock ss WHERE stk.stock_id=$stock_id AND stk.stock_id=ss.stock_id";
     $sql = "SELECT 
     stk.stock_id,
     stk.stock_name,
