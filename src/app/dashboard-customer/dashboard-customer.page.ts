@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonInput, IonItem,IonCard, IonCardContent, IonCardTitle, IonCardHeader} from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonFooter, IonTitle, IonToolbar, IonButton, IonInput, IonItem,IonCard, IonCardContent, IonCardTitle, IonCardHeader} from '@ionic/angular/standalone';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from 'src/environments/environment';
@@ -24,6 +24,7 @@ declare var google: any;
     CommonModule,
     RouterModule,
     IonHeader,
+    IonFooter,
     IonToolbar,
     IonTitle,
     IonContent,
@@ -43,6 +44,7 @@ export class DashboardCustomerPage implements OnInit {
 
   userId: string | null = null; //maybe want to change it to number
   user: any = {};
+  category: any[] = [];
   store: any[] = [];
 
 
@@ -78,47 +80,43 @@ export class DashboardCustomerPage implements OnInit {
   }
 
   async getUserData(user_id: string, userLocation: any) {
+    this.http.post<any>(
+      `${environment.Base_URL}/dashboard.php`,
+      { user_id }
+    ).subscribe(async res => {
 
-  this.http.post<any>(
-    `${environment.Base_URL}/dashboard.php`,
-    { user_id }
-  ).subscribe(async res => {
+      if (res.status === 'success') {
 
-    if (res.status === 'success') {
+        this.user = res.data;
+        this.category = res.category;
+        this.store = res.store;
 
-      this.user = res.data;
-      this.store = res.store;
+        // 🔑 Calculate distance PER STORE
+        const promises = this.store.map(async (s: any) => {
 
-      // 🔑 Calculate distance PER STORE
-      const promises = this.store.map(async (s: any) => {
+          const storeLat = Number(s.latitude);
+          const storeLng = Number(s.longitude);
 
-        const storeLat = Number(s.latitude);
-        const storeLng = Number(s.longitude);
+          const routeData = await this.directionsService.getRoute(
+            userLocation,
+            { lat: storeLat, lng: storeLng }
+          );
 
-        const routeData = await this.directionsService.getRoute(
-          userLocation,
-          { lat: storeLat, lng: storeLng }
-        );
+          return {
+            ...s,
+            distance: routeData.distance,
+            duration: routeData.duration
+          };
+        });
 
-        return {
-          ...s,
-          distance: routeData.distance,
-          duration: routeData.duration
-        };
-      });
+        // 🔑 WAIT FOR ALL STORES
+        this.store = await Promise.all(promises);
 
-      // 🔑 WAIT FOR ALL STORES
-      this.store = await Promise.all(promises);
+        console.log('Stores with distance:', this.store);
 
-      console.log('Stores with distance:', this.store);
-
-    } else {
-      alert(res.message);
-    }
-
-  });
-}
-
-  
-
+      } else {
+        alert(res.message);
+      }
+    });
+  }
 }

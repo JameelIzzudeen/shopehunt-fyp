@@ -21,17 +21,41 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-card *ngFor="let s of store" [routerLink]="['/store-detail', s.store_id]" button>
-    <ion-card-header>
-      <ion-card-title>Welcome, {{ s.store_name }}</ion-card-title>
-    </ion-card-header>
 
-    <ion-card-content>
-      <p><strong>Store ID:</strong> {{ s.store_id }}</p>
-      <p><strong>Seller ID:</strong> {{ s.seller_id }}</p>
-      <p><strong>Location:</strong> {{ s.latitude }}</p>
-      <p><strong>Location:</strong> {{ s.longitude }}</p>
-      <p><strong>distance:</strong> {{ s.distance }}</p>
-    </ion-card-content>
-  </ion-card>
+  <div class="category">
+    <h4>Category</h4>
+    <ion-card *ngFor="let c of category" [routerLink]="['/category-detail', c.category_id]" button>
+      <ion-card-header>
+        <ion-card-title>{{ c.category_name }}</ion-card-title>
+      </ion-card-header>
+  
+      <ion-card-content>
+        <p><strong>Category ID:</strong> {{ c.category_id }}</p>
+        <!-- <p><strong>Description:</strong> {{ c.description }}</p> -->
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <div class="centre-content">
+    <h4>Store</h4>
+    <ion-card *ngFor="let s of store" [routerLink]="['/store-detail', s.store_id]" button>
+      <ion-card-header>
+        <ion-card-title>Welcome, {{ s.store_name }}</ion-card-title>
+      </ion-card-header>
+  
+      <ion-card-content>
+        <p><strong>Store ID:</strong> {{ s.store_id }}</p>
+        <p><strong>Seller ID:</strong> {{ s.seller_id }}</p>
+        <p><strong>Location:</strong> {{ s.latitude }}</p>
+        <p><strong>Location:</strong> {{ s.longitude }}</p>
+        <p><strong>distance:</strong> {{ s.distance }}</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-title>Footer Content</ion-title>
+  </ion-toolbar>
+</ion-footer>

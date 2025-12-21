@@ -5,6 +5,8 @@
 export const environment = {
   production: false,
   Base_URL: 'https://sequence.taile5772e.ts.net/backend'
+  // Base_URL: 'https://sequencezen.taile5772e.ts.net/backend'
+
 };
 
 /*

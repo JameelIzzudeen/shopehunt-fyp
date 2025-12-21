@@ -33,16 +33,26 @@
         $response['status'] = "success";
         $response['data'] = $row;
         
+        //list categories
+        $sql = "SELECT * FROM category";
+        $result = $conn -> query($sql);
 
+        $categories = [];
+        while ($row = $result->fetch_assoc()) {
+            $categories[] = $row;
+        }
+        $response['category'] = $categories;
+        
+        //list stores
         $sql = "SELECT * FROM store";
         $result = $conn -> query($sql);
 
-        // $result = $stmt -> get_result();
         $stores = [];
         while ($row = $result->fetch_assoc()) {
             $stores[] = $row;
         }
         $response['store'] = $stores;
+
 
     } else {
         
