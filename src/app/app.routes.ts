@@ -59,4 +59,8 @@ export const routes: Routes = [
     path: 'cart',
     loadComponent: () => import('./cart/cart.page').then( m => m.CartPage)
   },
+  {
+    path: 'recommend-store',
+    loadComponent: () => import('./recommend-store/recommend-store.page').then( m => m.RecommendStorePage)
+  },
 ];

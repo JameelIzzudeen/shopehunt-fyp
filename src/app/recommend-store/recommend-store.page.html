@@ -1,0 +1,32 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>recommend-store</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">recommend-store</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="centre-content">
+    <h4>Store</h4>
+    <ion-card *ngFor="let s of store" [routerLink]="['/store-detail', s.store_id]" button>
+      <ion-card-header>
+        <ion-card-title>Welcome, {{ s.store_name }}</ion-card-title>
+      </ion-card-header>
+  
+      <ion-card-content>
+        <p><strong>Store ID:</strong> {{ s.store_id }}</p>
+        <p><strong>Location:</strong> {{ s.latitude }}</p>
+        <p><strong>Location:</strong> {{ s.longitude }}</p>
+        <p><strong>distance:</strong> {{ s.distance }}</p>
+        <p><strong>Missing Stock ID:</strong> {{ s.missing_stock_id }}</p>
+        <p><strong>Match Stock ID:</strong> {{ s.matched_items }}</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+</ion-content>

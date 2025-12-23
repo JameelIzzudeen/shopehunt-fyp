@@ -19,10 +19,22 @@
 
       <ion-card-content>
         <p><strong>Quantity:</strong> {{ c.cart_quantity }}</p>
-          <p *ngIf="c.min_price === c.max_price"><strong>Price:</strong> RM {{ c.min_price }}</p>
+        <p *ngIf="c.min_price === c.max_price"><strong>Price:</strong> RM {{ c.min_price }}</p>
         <p *ngIf="c.min_price !== c.max_price"><strong>Price:</strong> RM {{ c.min_price }} - RM {{ c.max_price }}</p>
 
       </ion-card-content>
     </ion-card>
   </div>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <!-- <ion-title>Footer Content</ion-title> -->
+      <ion-button expand="block" routerLink="/profile">
+        profile
+      </ion-button>
+      <ion-button expand="block" routerLink="/recommend-store">
+        recommend-store
+      </ion-button>
+  </ion-toolbar>
+</ion-footer>
