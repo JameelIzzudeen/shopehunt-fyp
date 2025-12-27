@@ -16,12 +16,13 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonFooter, IonTitle, IonToolbar, IonButton, IonInput, IonItem,IonCard, IonCardContent, IonCardTitle, IonCardHeader} from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonFooter, IonTitle, IonToolbar, IonButton, IonInput, IonItem,IonCard, IonCardContent, IonCardTitle, IonCardHeader, IonCheckbox} from '@ionic/angular/standalone';
 import { HttpClient } from '@angular/common/http';
 
 
 
 import { environment } from 'src/environments/environment';
+import { CartService } from '../service/cart';
 
 @Component({
   selector: 'app-cart',
@@ -44,6 +45,7 @@ import { environment } from 'src/environments/environment';
     IonCardContent,
     IonCardTitle,
     IonCardHeader,
+    IonCheckbox
   ],
 })
 
@@ -55,7 +57,9 @@ export class CartPage implements OnInit {
   constructor(
     private http: HttpClient,
     private router: Router,
-  ) { }
+    private cartService: CartService,
+
+  ) {}
 
   ngOnInit() {
     this.userId = localStorage.getItem('user_id');
@@ -76,7 +80,11 @@ export class CartPage implements OnInit {
     ).subscribe( res => {
       console.log(res);
       if (res.status === 'success') {
-        this.cartData = res.cart_data;
+        // this.cartData = res.cart_data;
+        this.cartData = res.cart_data.map((item: any) => ({
+          ...item,
+          selected: false   // ✅ frontend-only property
+        }));
       }
       else{
         alert(res.message);
@@ -84,4 +92,54 @@ export class CartPage implements OnInit {
     });
   }
 
+  updateCartQuantity(cartId: number, quantity: number) {
+  if (quantity < 1) return;
+
+  this.cartService.updateQuantity(cartId, quantity)
+    .subscribe({
+      next: () => {
+        console.log('Quantity updated');
+      },
+      error: err => {
+        console.error('Update failed', err);
+      }
+    });
+  }
+
+  getSelectedItems() {
+    return this.cartData.filter(c => c.selected);
+  }
+
+  goToRecommendStore() {
+    const selectedItems = this.getSelectedItems();
+
+    // if (selectedItems.length === 0) {
+    //   alert('Please select at least one item');
+    //   return;
+    // }
+
+    localStorage.setItem('selected_cart_items', JSON.stringify(selectedItems));
+    this.router.navigate(['/recommend-store']);
+  }
+
+  deleteCartItem(cartId: number) {
+    console.log('Deleting cart item with ID:', cartId, 'for user ID:', this.userId);
+    this.http.post<any>(
+      `${environment.Base_URL}/delete-cart-item.php`,
+      {
+        user_id: this.userId,
+        cart_id: cartId
+      }
+    ).subscribe( res => {
+      console.log(res);
+      if (res.status === 'success') {
+        // this.cartData = res.cart_data;
+        this.getCartData();
+        alert(res.message);
+      }
+      else{
+        alert(res.message);
+      }
+    });
+  }
 }

@@ -58,6 +58,7 @@ export class RecommendStorePage implements OnInit {
 
     userId: string | null = null; //maybe want to change it to number
     store: any[] = [];
+    selectedCartItems: any[] = [];
 
 
   constructor(
@@ -68,10 +69,13 @@ export class RecommendStorePage implements OnInit {
 
   async ngOnInit() {
     this.userId = localStorage.getItem('user_id');
+    this.selectedCartItems = JSON.parse(localStorage.getItem('selected_cart_items') || '[]');
+    console.log('Selected Cart Items:', this.selectedCartItems);
+
 
     if (this.userId) {
       const userLocation = await this.getCurrentLocation();
-      this.getRecommend(this.userId, userLocation);
+      this.getRecommend(this.userId, userLocation, this.selectedCartItems);
     }
   }
 
@@ -88,11 +92,11 @@ export class RecommendStorePage implements OnInit {
       lng: position.coords.longitude
     };
   }
-  
-  async getRecommend(user_id: string, userLocation: any) {
+
+  async getRecommend(user_id: string, userLocation: any, selectedCartItems: any[]) {
         this.http.post<any>(
       `${environment.Base_URL}/recommend-store.php`,
-      { user_id }
+      { user_id, selected_cart_items: selectedCartItems }
     ).subscribe(async res => {
       if (res.status === 'success') {
         this.store = res.data;

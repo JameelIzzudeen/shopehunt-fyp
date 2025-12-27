@@ -54,6 +54,7 @@ export class ProfilePage implements OnInit {
 
   userId : string | null = null;
   userData: any = {};
+  isEditing: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -82,6 +83,34 @@ export class ProfilePage implements OnInit {
         this.userData = res.userData;
       }
     });
+  }
+
+  toggleEdit() {
+    if (this.isEditing) {
+      // 🔹 SAVE logic here (call backend if needed)
+      console.log('Saving data:', this.userData);
+      this.http.post<any>(
+        `${environment.Base_URL}/update-user-profile.php`,
+        {
+          user_id: this.userId,
+          username: this.userData.username,
+          first_name: this.userData.first_name,
+          last_name: this.userData.last_name,
+          email: this.userData.email,
+          phone: this.userData.phone
+        }
+      ).subscribe( res => {
+        console.log(res);
+        if (res.status === 'success') {
+          alert('Profile updated successfully.');
+        }
+        else{
+          alert(res.message);
+        }
+      });
+      }
+
+    this.isEditing = !this.isEditing;
   }
 
 }

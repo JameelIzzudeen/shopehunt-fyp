@@ -18,10 +18,36 @@
 
     <ion-card-content>
       <p><strong>User ID:</strong> {{ userData.user_id }}</p>
+
+
+
       <p><strong>Email:</strong> {{ userData.email }}</p>
+      <ion-input
+        type="string"
+        [(ngModel)]="userData.email"
+        [readonly]="!isEditing">
+      </ion-input>
       <p><strong>First Name:</strong> {{ userData.first_name }}</p>
+      <ion-input
+        type="string"
+        [(ngModel)]="userData.first_name"
+        [readonly]="!isEditing">
+      </ion-input>
       <p><strong>Last Name:</strong> {{ userData.last_name }}</p>
+      <ion-input
+        type="string"
+        [(ngModel)]="userData.last_name"
+        [readonly]="!isEditing">
+      </ion-input>
       <p><strong>Phone Number:</strong> {{ userData.phone }}</p>
+      <ion-input
+        type="string"
+        [(ngModel)]="userData.phone"
+        [readonly]="!isEditing">
+      </ion-input>
     </ion-card-content>
   </ion-card>
+  <ion-button expand="block" (click)="toggleEdit()">
+    {{ isEditing ? 'Save' : 'Edit' }}
+  </ion-button>
 </ion-content>

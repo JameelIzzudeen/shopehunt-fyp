@@ -17,10 +17,30 @@
         <ion-card-title>{{ c.stock_name }}</ion-card-title>
       </ion-card-header>
 
+      <ion-item lines="none">
+        <ion-checkbox
+          slot="start"
+          [(ngModel)]="c.selected">
+        </ion-checkbox>
+        <!-- <ion-label>Select item</ion-label> -->
+      </ion-item>
+
       <ion-card-content>
         <p><strong>Quantity:</strong> {{ c.cart_quantity }}</p>
+        <p><strong>Cart ID:</strong> {{ c.cart_id }}</p>
+
+        <ion-input
+          type="number"
+          min="1"
+          [(ngModel)]="c.cart_quantity"
+          (ionBlur)="updateCartQuantity(c.cart_id, c.cart_quantity)">
+        </ion-input>
+
         <p *ngIf="c.min_price === c.max_price"><strong>Price:</strong> RM {{ c.min_price }}</p>
         <p *ngIf="c.min_price !== c.max_price"><strong>Price:</strong> RM {{ c.min_price }} - RM {{ c.max_price }}</p>
+        <ion-button expand="block" (click)="deleteCartItem(c.cart_id)">
+          delete
+        </ion-button>
 
       </ion-card-content>
     </ion-card>
@@ -33,8 +53,13 @@
       <ion-button expand="block" routerLink="/profile">
         profile
       </ion-button>
-      <ion-button expand="block" routerLink="/recommend-store">
+      <!-- <ion-button expand="block" routerLink="/recommend-store">
+        recommend-store
+      </ion-button> -->
+
+      <ion-button expand="block" (click)="goToRecommendStore()">
         recommend-store
       </ion-button>
+
   </ion-toolbar>
 </ion-footer>
