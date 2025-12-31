@@ -3,13 +3,15 @@ import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonFooter, IonTitle, IonToolbar, IonButton, IonInput, IonItem,IonCard, IonCardContent, IonCardTitle, IonCardHeader} from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonFooter, IonTitle, IonToolbar, IonButton, IonInput, IonItem,IonCard, IonCardContent, IonCardTitle, IonCardHeader, IonIcon} from '@ionic/angular/standalone';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from 'src/environments/environment';
 
 import { DirectionsService } from '../service/directions';
 import { Geolocation } from '@capacitor/geolocation';
+
+
 
 declare var google: any;
 
@@ -36,11 +38,13 @@ declare var google: any;
     IonCardContent,
     IonCardTitle,
     IonCardHeader,
+    IonIcon,
   ],
 })
 
 
 export class DashboardCustomerPage implements OnInit {
+  environment = environment; // ✅ expose to HTML
 
   userId: string | null = null; //maybe want to change it to number
   user: any = {};
@@ -51,7 +55,7 @@ export class DashboardCustomerPage implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private router: Router,
+    public router: Router,
     private directionsService: DirectionsService
 
   ) { }
@@ -79,44 +83,110 @@ export class DashboardCustomerPage implements OnInit {
     };
   }
 
+  // async getUserData(user_id: string, userLocation: any) {
+  //   this.http.post<any>(
+  //     `${environment.Base_URL}/dashboard.php`,
+  //     { user_id }
+  //   ).subscribe(async res => {
+
+  //     if (res.status === 'success') {
+
+  //       this.user = res.data;
+  //       this.category = res.category;
+  //       this.store = res.store;
+
+  //       // 🔑 Calculate distance PER STORE
+  //       const promises = this.store.map(async (s: any) => {
+
+  //         const storeLat = Number(s.latitude);
+  //         const storeLng = Number(s.longitude);
+
+  //         const routeData = await this.directionsService.getRoute(
+  //           userLocation,
+  //           { lat: storeLat, lng: storeLng }
+  //         );
+
+  //         return {
+  //           ...s,
+  //           distance: routeData.distance,
+  //           duration: routeData.duration
+  //         };
+  //       });
+
+  //       // 🔑 WAIT FOR ALL STORES
+  //       this.store = await Promise.all(promises);
+
+  //       // 🔑 SORT STORES BY DISTANCE (ascending)
+  //       this.store.sort((a: any, b: any) => {
+  //         // Make sure distance is a number
+  //         const distanceA = Number(a.distance) || 0;
+  //         const distanceB = Number(b.distance) || 0;
+  //         return distanceA - distanceB;
+  //       });
+
+  //       console.log('Stores with distance:', this.store);
+
+  //     } else {
+  //       alert(res.message);
+  //     }
+  //   });
+  // }
+
   async getUserData(user_id: string, userLocation: any) {
-    this.http.post<any>(
-      `${environment.Base_URL}/dashboard.php`,
-      { user_id }
-    ).subscribe(async res => {
+  this.http.post<any>(
+    `${environment.Base_URL}/dashboard.php`,
+    { user_id }
+  ).subscribe(async res => {
 
-      if (res.status === 'success') {
+    if (res.status === 'success') {
 
-        this.user = res.data;
-        this.category = res.category;
-        this.store = res.store;
+      this.user = res.data;
+      this.category = res.category;
+      const rawStores = res.store;
 
-        // 🔑 Calculate distance PER STORE
-        const promises = this.store.map(async (s: any) => {
+      // Optional: get unique stores if multiple entries exist
+      const uniqueStores = Array.from(
+        new Map(rawStores.map((s: any) => [s.store_id, s])).values()
+      );
 
-          const storeLat = Number(s.latitude);
-          const storeLng = Number(s.longitude);
+      // Calculate distance safely
+      const promises = uniqueStores.map(async (s: any) => {
+        const storeLat = Number(s.latitude);
+        const storeLng = Number(s.longitude);
 
-          const routeData = await this.directionsService.getRoute(
-            userLocation,
-            { lat: storeLat, lng: storeLng }
-          );
+        const routeData = await this.directionsService.getRoute(
+          userLocation,
+          { lat: storeLat, lng: storeLng }
+        );
 
-          return {
-            ...s,
-            distance: routeData.distance,
-            duration: routeData.duration
-          };
-        });
+        // Parse distance safely
+        let distance = 0;
+        if (routeData.distance) {
+          // Remove non-numeric characters and convert to meters if needed
+          const numeric = parseFloat(routeData.distance.toString().replace(/[^\d.]/g, ''));
+          distance = isNaN(numeric) ? 0 : numeric;
+        }
 
-        // 🔑 WAIT FOR ALL STORES
-        this.store = await Promise.all(promises);
+        return {
+          ...s,
+          distance: distance,
+          duration: routeData.duration
+        };
+      });
 
-        console.log('Stores with distance:', this.store);
+      // Wait for all distances
+      const storesWithDistance = await Promise.all(promises);
 
-      } else {
-        alert(res.message);
-      }
-    });
-  }
+      // Sort ascending by distance
+      this.store = storesWithDistance.sort((a, b) => a.distance - b.distance);
+
+      console.log('Stores sorted by distance:', this.store);
+
+    } else {
+      alert(res.message);
+    }
+  });
+}
+
+
 }

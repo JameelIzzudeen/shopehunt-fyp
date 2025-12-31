@@ -16,7 +16,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonFooter, IonTitle, IonToolbar, IonButton, IonInput, IonItem,IonCard, IonCardContent, IonCardTitle, IonCardHeader, IonCheckbox} from '@ionic/angular/standalone';
+import { IonAvatar,IonLabel, IonContent, IonHeader, IonFooter, IonTitle, IonToolbar, IonButton, IonInput, IonItem,IonCard, IonCardContent, IonCardTitle, IonCardHeader, IonCheckbox, IonIcon} from '@ionic/angular/standalone';
 import { HttpClient } from '@angular/common/http';
 
 
@@ -45,18 +45,24 @@ import { CartService } from '../service/cart';
     IonCardContent,
     IonCardTitle,
     IonCardHeader,
-    IonCheckbox
+    IonCheckbox,
+    IonIcon,
+    IonLabel,
+    IonAvatar
   ],
 })
 
 export class CartPage implements OnInit {
+
+  environment = environment; // ✅ expose to HTML
+
 
   userId : string | null = null;
   cartData: any[] = [];
 
   constructor(
     private http: HttpClient,
-    private router: Router,
+    public router: Router,
     private cartService: CartService,
 
   ) {}

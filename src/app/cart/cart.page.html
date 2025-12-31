@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">
+<!-- <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>cart</ion-title>
   </ion-toolbar>
@@ -22,7 +22,6 @@
           slot="start"
           [(ngModel)]="c.selected">
         </ion-checkbox>
-        <!-- <ion-label>Select item</ion-label> -->
       </ion-item>
 
       <ion-card-content>
@@ -45,21 +44,149 @@
       </ion-card-content>
     </ion-card>
   </div>
+  <ion-button expand="block" (click)="goToRecommendStore()">
+    recommend-store
+  </ion-button>
 </ion-content>
 
 <ion-footer>
   <ion-toolbar>
-    <!-- <ion-title>Footer Content</ion-title> -->
-      <ion-button expand="block" routerLink="/profile">
-        profile
-      </ion-button>
-      <!-- <ion-button expand="block" routerLink="/recommend-store">
-        recommend-store
-      </ion-button> -->
+    <div class="tab-bar">
 
-      <ion-button expand="block" (click)="goToRecommendStore()">
-        recommend-store
-      </ion-button>
+      <div class="tab-item"
+          [class.active]="router.url === '/dashboard-customer'"
+          routerLink="/dashboard-customer">
+        <ion-icon name="home-outline"></ion-icon>
+        <span>Home</span>
+      </div>
 
+      <div class="tab-item"
+          [class.active]="router.url === '/cart'"
+          routerLink="/cart">
+        <ion-icon name="cart-outline"></ion-icon>
+        <span>Cart</span>
+      </div>
+      <div class="tab-item"
+          [class.active]="router.url === '/profile'"
+          routerLink="/profile">
+        <ion-icon name="person-outline"></ion-icon>
+        <span>Profile</span>
+      </div>
+
+    </div>
+  </ion-toolbar>
+</ion-footer> -->
+
+
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Cart</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <div class="cart-content">
+
+    <ion-card *ngFor="let c of cartData" class="cart-card">
+
+      <div class="cart-row">
+
+        <!-- LEFT: IMAGE -->
+        <div class="cart-image">
+          <img
+            *ngIf="c.store_stock_image_path"
+            [src]="environment.Upload_URL + '/' + c.store_stock_image_path"
+            alt="{{ c.stock_name }}" />
+        </div>
+
+        <!-- RIGHT: INFO -->
+        <div class="cart-info">
+
+          <div class="cart-top">
+            <ion-checkbox
+              [(ngModel)]="c.selected">
+            </ion-checkbox>
+
+            <div class="cart-title">
+              <h2>{{ c.stock_name }}</h2>
+
+              <p *ngIf="c.min_price === c.max_price">
+                RM {{ c.min_price }}
+              </p>
+              <p *ngIf="c.min_price !== c.max_price">
+                RM {{ c.min_price }} – RM {{ c.max_price }}
+              </p>
+            </div>
+          </div>
+
+          <div class="quantity-row">
+            <span>Quantity</span>
+
+            <ion-input
+              type="number"
+              min="1"
+              [(ngModel)]="c.cart_quantity"
+              (ionBlur)="updateCartQuantity(c.cart_id, c.cart_quantity)">
+            </ion-input>
+          </div>
+
+          <ion-button
+            fill="clear"
+            color="danger"
+            size="small"
+            (click)="deleteCartItem(c.cart_id)">
+            Remove
+          </ion-button>
+
+        </div>
+
+      </div>
+
+    </ion-card>
+
+
+  </div>
+
+  <!-- Bottom Action -->
+  <ion-button
+    expand="block"
+    class="recommend-btn"
+    (click)="goToRecommendStore()">
+    Recommend Store
+  </ion-button>
+
+</ion-content>
+
+<!-- ================= FOOTER ================= -->
+<ion-footer>
+  <ion-toolbar>
+    <div class="tab-bar">
+
+      <div
+        class="tab-item"
+        [class.active]="router.url === '/dashboard-customer'"
+        routerLink="/dashboard-customer">
+        <ion-icon name="home-outline"></ion-icon>
+        <span>Home</span>
+      </div>
+
+      <div
+        class="tab-item"
+        [class.active]="router.url === '/cart'"
+        routerLink="/cart">
+        <ion-icon name="cart-outline"></ion-icon>
+        <span>Cart</span>
+      </div>
+
+      <div
+        class="tab-item"
+        [class.active]="router.url === '/profile'"
+        routerLink="/profile">
+        <ion-icon name="person-outline"></ion-icon>
+        <span>Profile</span>
+      </div>
+
+    </div>
   </ion-toolbar>
 </ion-footer>

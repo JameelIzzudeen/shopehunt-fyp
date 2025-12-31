@@ -47,7 +47,41 @@
       </ion-input>
     </ion-card-content>
   </ion-card>
-  <ion-button expand="block" (click)="toggleEdit()">
-    {{ isEditing ? 'Save' : 'Edit' }}
-  </ion-button>
+  <div class="profile-buttons">
+    <ion-button expand="block" (click)="toggleEdit()">
+      {{ isEditing ? 'Save' : 'Edit' }}
+    </ion-button>
+
+    <ion-button expand="block" class="logout-button" (click)="logout()">
+      Logout
+    </ion-button>
+  </div>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <div class="tab-bar">
+
+      <div class="tab-item"
+          [class.active]="router.url === '/dashboard-customer'"
+          routerLink="/dashboard-customer">
+        <ion-icon name="home-outline"></ion-icon>
+        <span>Home</span>
+      </div>
+
+      <div class="tab-item"
+          [class.active]="router.url === '/cart'"
+          routerLink="/cart">
+        <ion-icon name="cart-outline"></ion-icon>
+        <span>Cart</span>
+      </div>
+      <div class="tab-item"
+          [class.active]="router.url === '/profile'"
+          routerLink="/profile">
+        <ion-icon name="person-outline"></ion-icon>
+        <span>Profile</span>
+      </div>
+
+    </div>
+  </ion-toolbar>
+</ion-footer>

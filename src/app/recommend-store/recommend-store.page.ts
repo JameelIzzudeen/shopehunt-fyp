@@ -56,6 +56,8 @@ declare var google: any;
 
 export class RecommendStorePage implements OnInit {
 
+  environment = environment;
+
     userId: string | null = null; //maybe want to change it to number
     store: any[] = [];
     selectedCartItems: any[] = [];
@@ -70,12 +72,16 @@ export class RecommendStorePage implements OnInit {
   async ngOnInit() {
     this.userId = localStorage.getItem('user_id');
     this.selectedCartItems = JSON.parse(localStorage.getItem('selected_cart_items') || '[]');
-    console.log('Selected Cart Items:', this.selectedCartItems);
+    const selectedCartIds = this.selectedCartItems
+    .filter(item => item.selected)
+    .map(item => item.cart_id);
 
+    console.log('Selected Cart Items:', selectedCartIds);
+    
 
     if (this.userId) {
       const userLocation = await this.getCurrentLocation();
-      this.getRecommend(this.userId, userLocation, this.selectedCartItems);
+      this.getRecommend(this.userId, userLocation, selectedCartIds);
     }
   }
 
@@ -93,13 +99,18 @@ export class RecommendStorePage implements OnInit {
     };
   }
 
-  async getRecommend(user_id: string, userLocation: any, selectedCartItems: any[]) {
+  async getRecommend(user_id: string, userLocation: any, selectedCartIds: any[]) {
         this.http.post<any>(
       `${environment.Base_URL}/recommend-store.php`,
-      { user_id, selected_cart_items: selectedCartItems }
+      { user_id, selected_cart_items: selectedCartIds }
     ).subscribe(async res => {
       if (res.status === 'success') {
-        this.store = res.data;
+        this.store = res.recommended_stores || [];
+
+        if (!Array.isArray(this.store) || this.store.length === 0) {
+          console.warn('No recommended stores found');
+          return;
+        }
 
                 // 🔑 Calculate distance PER STORE
         const promises = this.store.map(async (s: any) => {

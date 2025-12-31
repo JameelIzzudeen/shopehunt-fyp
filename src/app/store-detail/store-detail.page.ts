@@ -16,7 +16,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonInput, IonItem,IonCard, IonCardContent, IonCardTitle, IonCardHeader} from '@ionic/angular/standalone';
+import { IonIcon, IonFooter, IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonInput, IonItem,IonCard, IonCardContent, IonCardTitle, IonCardHeader} from '@ionic/angular/standalone';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
@@ -43,11 +43,15 @@ import { NavController } from '@ionic/angular';
     IonCardContent,
     IonCardTitle,
     IonCardHeader,
+    IonFooter,
+    IonIcon,
   ],
 })
 
 
 export class StoreDetailPage implements OnInit {
+
+  environment = environment;
 
   storeId !: number;
   store: any[] = [];
@@ -58,6 +62,7 @@ export class StoreDetailPage implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    public router: Router,
     private http: HttpClient,
     private navCtrl: NavController
   ) { }

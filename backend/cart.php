@@ -20,7 +20,7 @@
         exit;
     }
 
-    $sql = "SELECT s.stock_name, ss.price, c.cart_id, c.cart_quantity, MIN(ss.price) AS min_price, MAX(ss.price) AS max_price
+    $sql = "SELECT s.stock_name, ss.price, c.cart_id, c.cart_quantity, MIN(ss.price) AS min_price, MAX(ss.price) AS max_price, ss.store_stock_image_path
             FROM cart c JOIN stock s ON c.stock_id = s.stock_id JOIN store_stock ss ON s.stock_id = ss.stock_id
             WHERE c.user_id = ? GROUP BY c.stock_id";
 

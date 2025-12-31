@@ -63,4 +63,8 @@ export const routes: Routes = [
     path: 'recommend-store',
     loadComponent: () => import('./recommend-store/recommend-store.page').then( m => m.RecommendStorePage)
   },
+  {
+    path: 'store-detail-seller/:id',
+    loadComponent: () => import('./store-detail-seller/store-detail-seller.page').then( m => m.StoreDetailSellerPage)
+  },
 ];

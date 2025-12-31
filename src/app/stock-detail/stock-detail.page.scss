@@ -1,0 +1,90 @@
+/* =====================================
+   PAGE
+===================================== */
+ion-content {
+  background: linear-gradient(
+    180deg,
+    var(--app-bg-light) 0%,
+    var(--app-bg) 45%
+  );
+  padding: 12px;
+}
+
+/* =====================================
+   CARD
+===================================== */
+.stock-detail-card {
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.1);
+}
+
+/* =====================================
+   IMAGE
+===================================== */
+.stock-image {
+  width: 100%;
+  height: 240px;
+  background: #f3f4f6;
+}
+
+.stock-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* =====================================
+   HEADER
+===================================== */
+ion-card-header {
+  background: #ffffff;
+  padding-bottom: 6px;
+}
+
+ion-card-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #111827;
+}
+
+/* =====================================
+   PRICE
+===================================== */
+.stock-price {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--ion-color-primary);
+  margin: 8px 0;
+}
+
+/* =====================================
+   DESCRIPTION
+===================================== */
+.stock-desc {
+  font-size: 0.9rem;
+  color: #374151;
+  margin-bottom: 16px;
+}
+
+/* =====================================
+   QUANTITY
+===================================== */
+.qty-wrapper {
+  margin-bottom: 12px;
+}
+
+ion-input {
+  --background: #f9fafb;
+  border-radius: 12px;
+  padding: 6px 10px;
+}
+
+/* =====================================
+   BUTTON
+===================================== */
+.add-btn {
+  border-radius: 16px;
+  font-weight: 700;
+  height: 48px;
+}

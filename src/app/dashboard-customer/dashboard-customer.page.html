@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">
+<!-- <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>dashboard-customer</ion-title>
   </ion-toolbar>
@@ -31,37 +31,196 @@
   
       <ion-card-content>
         <p><strong>Category ID:</strong> {{ c.category_id }}</p>
-        <!-- <p><strong>Description:</strong> {{ c.description }}</p> -->
       </ion-card-content>
     </ion-card>
   </div>
 
   <div class="centre-content">
     <h4>Store</h4>
-    <ion-card *ngFor="let s of store" [routerLink]="['/store-detail', s.store_id]" button>
-      <ion-card-header>
-        <ion-card-title>Welcome, {{ s.store_name }}</ion-card-title>
-      </ion-card-header>
-  
-      <ion-card-content>
-        <p><strong>Store ID:</strong> {{ s.store_id }}</p>
-        <p><strong>Seller ID:</strong> {{ s.seller_id }}</p>
-        <p><strong>Location:</strong> {{ s.latitude }}</p>
-        <p><strong>Location:</strong> {{ s.longitude }}</p>
-        <p><strong>distance:</strong> {{ s.distance }}</p>
-      </ion-card-content>
-    </ion-card>
+    <div class="store-grid">
+      <ion-card *ngFor="let s of store" [routerLink]="['/store-detail', s.store_id]" button>
+        <ion-card-header>
+          <ion-card-title>Welcome, {{ s.store_name }}</ion-card-title>
+        </ion-card-header>
+    
+        <ion-card-content>
+          <p><strong>Store ID:</strong> {{ s.store_id }}</p>
+          <img *ngIf="s.image_path"
+       [src]="environment.Upload_URL + '/' + s.image_path"
+       class="stock-img">
+          <p><strong>Seller ID:</strong> {{ s.seller_id }}</p>
+          <p><strong>Location:</strong> {{ s.latitude }}</p>
+          <p><strong>Location:</strong> {{ s.longitude }}</p>
+          <p><strong>distance:</strong> {{ s.distance }}</p>
+        </ion-card-content>
+      </ion-card>
+    </div>
   </div>
 </ion-content>
 
 <ion-footer>
   <ion-toolbar>
-    <!-- <ion-title>Footer Content</ion-title> -->
-      <ion-button expand="block" routerLink="/profile">
-        profile
-      </ion-button>
-      <ion-button expand="block" routerLink="/cart">
-        Cart
-      </ion-button>
+    <div class="tab-bar">
+
+      <div class="tab-item"
+          [class.active]="router.url === '/dashboard-customer'"
+          routerLink="/dashboard-customer">
+        <ion-icon name="home-outline"></ion-icon>
+        <span>Home</span>
+      </div>
+
+      <div class="tab-item"
+          [class.active]="router.url === '/cart'"
+          routerLink="/cart">
+        <ion-icon name="cart-outline"></ion-icon>
+        <span>Cart</span>
+      </div>
+      <div class="tab-item"
+          [class.active]="router.url === '/profile'"
+          routerLink="/profile">
+        <ion-icon name="person-outline"></ion-icon>
+        <span>Profile</span>
+      </div>
+
+    </div>
+  </ion-toolbar>
+</ion-footer> -->
+
+
+
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Home</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <!-- ================= LOCATION & SEARCH ================= -->
+  <!-- <div class="top-section">
+    <div class="location">
+      <ion-icon name="location-outline"></ion-icon>
+      <span>New York, USA</span>
+    </div>
+
+    <ion-searchbar
+      placeholder="Search food, drinks, stores..."
+      animated="true">
+    </ion-searchbar>
+  </div> -->
+
+  <!-- ================= USER CARD ================= -->
+  <ion-card *ngIf="user">
+    <ion-card-header>
+      <ion-card-title>Welcome, {{ user.username }}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <p>{{ user.email }}</p>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- ================= PROMO BANNER ================= -->
+  <ion-card class="promo-card">
+    <ion-card-content>
+      <h2>Up to 30% OFF!</h2>
+      <p>Enjoy our best offers every day</p>
+      <ion-button size="small" color="primary">Shop Now</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- ================= CATEGORY ================= -->
+  <!-- <h4>Category</h4>
+  <div class="category-scroll">
+    <ion-card
+      *ngFor="let c of category"
+      [routerLink]="['/category-detail', c.category_id]"
+      button>
+      <ion-card-header>
+        <img
+        *ngIf="c.image_path"
+        [src]="environment.Upload_URL + '/' + c.image_path"
+        class="stock-img" />
+        <ion-card-title>{{ c.category_name }}</ion-card-title>
+      </ion-card-header>
+    </ion-card>
+  </div> -->
+  <h4>Category</h4>
+
+  <div class="category-scroll">
+    <ion-card
+      *ngFor="let c of category"
+      [routerLink]="['/category-detail', c.category_id]"
+      button>
+
+      <div class="category-img-wrapper">
+        <img
+          *ngIf="c.category_image_path"
+          [src]="environment.Upload_URL + '/' + c.category_image_path"
+          alt="{{ c.category_name }}" />
+      </div>
+
+      <ion-card-content>
+        <p>{{ c.category_name }}</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+
+  <!-- ================= STORE ================= -->
+  <h4>Nearby Stores</h4>
+  <div class="store-grid">
+    <ion-card
+      *ngFor="let s of store"
+      [routerLink]="['/store-detail', s.store_id]"
+      button>
+
+      <img
+        *ngIf="s.store_image_path"
+        [src]="environment.Upload_URL + '/' + s.store_image_path"
+        class="stock-img" />
+
+      <ion-card-header>
+        <ion-card-title>{{ s.store_name }}</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p>{{ s.distance }} away</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+</ion-content>
+
+<!-- ================= FOOTER ================= -->
+<ion-footer>
+  <ion-toolbar>
+    <div class="tab-bar">
+
+      <div
+        class="tab-item"
+        [class.active]="router.url === '/dashboard-customer'"
+        routerLink="/dashboard-customer">
+        <ion-icon name="home-outline"></ion-icon>
+        <span>Home</span>
+      </div>
+
+      <div
+        class="tab-item"
+        [class.active]="router.url === '/cart'"
+        routerLink="/cart">
+        <ion-icon name="cart-outline"></ion-icon>
+        <span>Cart</span>
+      </div>
+
+      <div
+        class="tab-item"
+        [class.active]="router.url === '/profile'"
+        routerLink="/profile">
+        <ion-icon name="person-outline"></ion-icon>
+        <span>Profile</span>
+      </div>
+
+    </div>
   </ion-toolbar>
 </ion-footer>

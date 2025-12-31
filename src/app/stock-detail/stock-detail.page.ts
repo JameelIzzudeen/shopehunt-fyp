@@ -62,6 +62,8 @@ import { environment } from 'src/environments/environment';
 
 export class StockDetailPage implements OnInit {
 
+  environment = environment;
+
   stockId !: number;
   stock: any[] = [];
   max_price !: number;

@@ -1,17 +1,23 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>store-detail</ion-title>
+    <ion-title>Store Detail</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">store-detail</ion-title>
-    </ion-toolbar>
-  </ion-header>
 
- <ion-card *ngIf="store?.length">
+  <!-- STORE INFO -->
+  <ion-card *ngIf="store?.length" class="store-card">
+
+    <!-- STORE IMAGE -->
+    <div class="store-banner">
+      <img
+        *ngIf="store[0]?.store_image_path"
+        [src]="environment.Upload_URL + store[0].store_image_path"
+        alt="{{ store[0]?.store_name }}"
+      />
+    </div>
+
     <ion-card-header>
       <ion-card-title>Welcome, {{ store[0]?.store_name }}</ion-card-title>
     </ion-card-header>
@@ -21,18 +27,58 @@
       <p><strong>Seller ID:</strong> {{ store[0]?.seller_id }}</p>
       <p><strong>Location:</strong> {{ store[0]?.latitude }}, {{ store[0]?.longitude }}</p>
     </ion-card-content>
-
-    <ion-card-content *ngFor="let s of store">
-      <p><strong>Stock ID:</strong> {{ s.stock_id }}</p>
-      <p><strong>Stock Name:</strong> {{ s.stock_name }}</p>
-      <p><strong>Price:</strong> RM {{ s.price }}</p>
-      <p><strong>Quantity:</strong> {{ s.quantity }}</p>
-      <p><strong>Description:</strong> {{ s.description }}</p>
-    </ion-card-content>
   </ion-card>
 
-  <ion-button expand="block" (click)="navigateToStore()">
+  <!-- STOCK LIST -->
+  <div class="stock-list" *ngIf="store?.length">
+
+    <ion-card
+      *ngFor="let s of store"
+      class="stock-card"
+      [routerLink]="['/stock-detail', s.stock_id]"
+      button
+    >
+      <!-- STOCK IMAGE -->
+      <div class="stock-image">
+        <img
+          *ngIf="s.store_stock_image_path"
+          [src]="environment.Upload_URL + s.store_stock_image_path"
+          alt="{{ s.stock_name }}"
+        />
+      </div>
+
+      <!-- STOCK INFO -->
+      <div class="stock-info">
+        <h3>{{ s.stock_name }}</h3>
+        <p><strong>Price:</strong> RM {{ s.price }}</p>
+        <p><strong>Qty:</strong> {{ s.quantity }}</p>
+      </div>
+
+    </ion-card>
+
+  </div>
+
+  <ion-button expand="block" class="navigate-btn" (click)="navigateToStore()">
     Navigate to Store
   </ion-button>
 
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <div class="tab-bar">
+      <div class="tab-item" [class.active]="router.url === '/dashboard-customer'" routerLink="/dashboard-customer">
+        <ion-icon name="home-outline"></ion-icon>
+        <span>Home</span>
+      </div>
+      <div class="tab-item" [class.active]="router.url === '/cart'" routerLink="/cart">
+        <ion-icon name="cart-outline"></ion-icon>
+        <span>Cart</span>
+      </div>
+      <div class="tab-item" [class.active]="router.url === '/profile'" routerLink="/profile">
+        <ion-icon name="person-outline"></ion-icon>
+        <span>Profile</span>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-footer>

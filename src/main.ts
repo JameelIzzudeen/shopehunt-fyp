@@ -19,6 +19,11 @@ import { provideRouter } from '@angular/router';
 import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
 
+import { addIcons } from 'ionicons';
+import * as icons from 'ionicons/icons';
+
+addIcons(icons);
+
 import { provideHttpClient } from '@angular/common/http';
 
 bootstrapApplication(AppComponent, {

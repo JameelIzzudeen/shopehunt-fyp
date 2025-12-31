@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">
+<!-- <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>dashboard-seller</ion-title>
   </ion-toolbar>
@@ -21,7 +21,7 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-card *ngFor="let s of store" [routerLink]="['/store-detail', s.store_id]" button>
+  <ion-card *ngFor="let s of store" [routerLink]="['/store-detail-seller', s.store_id]" button>
     <ion-card-header>
       <ion-card-title>Welcome, {{ s.store_name }}</ion-card-title>
     </ion-card-header>
@@ -33,4 +33,52 @@
       <p><strong>Location:</strong> {{ s.longitude }}</p>
     </ion-card-content>
   </ion-card>
+</ion-content> -->
+
+
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Dashboard Seller</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <!-- ================= USER CARD ================= -->
+  <ion-card *ngIf="user">
+    <ion-card-header>
+      <ion-card-title>Welcome, {{ user.username }}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      <p><strong>User ID:</strong> {{ user.user_id }}</p>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- ================= STORES ================= -->
+  <h4>Your Stores</h4>
+  <div class="store-grid">
+    <ion-card
+      *ngFor="let s of store"
+      [routerLink]="['/store-detail-seller', s.store_id]"
+      button>
+      
+      <img
+        *ngIf="s.store_image_path"
+        [src]="environment.Upload_URL + '/' + s.store_image_path"
+        class="store-img" />
+
+      <ion-card-header>
+        <ion-card-title>{{ s.store_name }}</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p><strong>Store ID:</strong> {{ s.store_id }}</p>
+        <p><strong>Seller ID:</strong> {{ s.seller_id }}</p>
+        <p><strong>Location:</strong> {{ s.latitude }}, {{ s.longitude }}</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
 </ion-content>

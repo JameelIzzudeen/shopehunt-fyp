@@ -20,7 +20,7 @@
         exit;
     }
 
-    $sql = "SELECT * FROM category cat, stock stk WHERE cat.category_id=$category_id AND cat.category_id=stk.category_id";
+    $sql = "SELECT * FROM category cat, stock stk, store_stock ss WHERE cat.category_id=$category_id AND cat.category_id=stk.category_id AND stk.stock_id=ss.stock_id GROUP BY stk.stock_id";
     $result = $conn -> query($sql);
 
     $category_data = [];

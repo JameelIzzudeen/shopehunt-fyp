@@ -20,7 +20,7 @@
         exit;
     }
 
-    $sql = "SELECT * FROM store str, store_stock ss, stock stk WHERE str.store_id=$store_id AND str.store_id=ss.store_id AND ss.stock_id=stk.stock_id";
+    $sql = "SELECT * FROM store str, store_stock ss, stock stk, category cat WHERE str.store_id=$store_id AND str.store_id=ss.store_id AND ss.stock_id=stk.stock_id AND stk.category_id=cat.category_id";
     $result = $conn -> query($sql);
 
     $store_data = [];

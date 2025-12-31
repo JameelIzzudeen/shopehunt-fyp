@@ -55,6 +55,8 @@ import { environment } from 'src/environments/environment';
 
 export class DashboardSellerPage implements OnInit {
 
+  environment = environment;
+
   userId: string | null = null; //maybe want to change it to number
   user: any = {};
   store: any[] = [];

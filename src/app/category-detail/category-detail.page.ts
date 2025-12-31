@@ -51,6 +51,7 @@ import { environment } from 'src/environments/environment';
 
 
 export class CategoryDetailPage implements OnInit {
+  environment = environment; // ✅ expose to HTML
 
   categoryId !: number;
   category: any[] = [];

@@ -16,7 +16,7 @@ import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonFooter, IonTitle, IonToolbar, IonButton, IonInput, IonItem,IonCard, IonCardContent, IonCardTitle, IonCardHeader} from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonFooter, IonTitle, IonToolbar, IonButton, IonInput, IonItem,IonCard, IonCardContent, IonCardTitle, IonCardHeader,IonIcon} from '@ionic/angular/standalone';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from 'src/environments/environment';
@@ -45,6 +45,7 @@ import { environment } from 'src/environments/environment';
     IonCardContent,
     IonCardTitle,
     IonCardHeader,
+    IonIcon
   ],
 })
 
@@ -58,7 +59,7 @@ export class ProfilePage implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private router: Router,
+    public router: Router,
   ) { }
 
   ngOnInit() {
@@ -111,6 +112,16 @@ export class ProfilePage implements OnInit {
       }
 
     this.isEditing = !this.isEditing;
+  }
+
+  logout() {
+    // Clear user session/localStorage
+    localStorage.removeItem('user_data');
+    localStorage.removeItem('user_id');
+    localStorage.removeItem('selected_cart_items');
+
+    // Navigate to login page
+    this.router.navigate(['/login']);
   }
 
 }

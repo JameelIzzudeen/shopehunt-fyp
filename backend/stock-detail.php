@@ -24,6 +24,7 @@
     stk.stock_id,
     stk.stock_name,
     ss.description,
+    ss.store_stock_image_path,
     MIN(ss.price) AS min_price,
     MAX(ss.price) AS max_price
 FROM stock stk

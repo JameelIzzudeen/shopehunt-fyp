@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">
+<!-- <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>category-detail</ion-title>
   </ion-toolbar>
@@ -17,12 +17,59 @@
       <ion-card-header>
         <ion-card-title>Stock Name: {{ c.stock_name }}</ion-card-title>
       </ion-card-header>
+      <div class="category-img-wrapper">
+        <img
+          *ngIf="c.store_stock_image_path"
+          [src]="environment.Upload_URL + '/' + c.store_stock_image_path"
+          alt="{{ c.stock_name }}" />
+      </div>
   
       <ion-card-content>
         <p><strong>Stock ID:</strong> {{ c.stock_id }}</p>
-        <!-- <p><strong>Description:</strong> {{ c.description }}</p> -->
       </ion-card-content>
     </ion-card>
   </div>
 
+</ion-content> -->
+
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Category Detail</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <div class="category-content">
+    <!-- Category Title -->
+    <h4>{{ category[0]?.category_name }}</h4>
+
+    <!-- Grid of Stocks -->
+    <div class="category-grid">
+      <ion-card *ngFor="let c of category" [routerLink]="['/stock-detail', c.stock_id]" button class="category-card">
+        
+        <!-- Stock Image -->
+        <div class="category-img-wrapper">
+          <img
+            *ngIf="c.store_stock_image_path"
+            [src]="environment.Upload_URL + '/' + c.store_stock_image_path"
+            alt="{{ c.stock_name }}" />
+        </div>
+
+        <!-- Stock Info -->
+        <ion-card-header>
+          <ion-card-title>{{ c.stock_name }}</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+          <p><strong>Stock ID:</strong> {{ c.stock_id }}</p>
+          <!-- Optional Description -->
+          <!-- <p>{{ c.description }}</p> -->
+        </ion-card-content>
+
+      </ion-card>
+    </div>
+  </div>
+
 </ion-content>
+

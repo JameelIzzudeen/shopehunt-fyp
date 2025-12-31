@@ -1,0 +1,235 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>store-detail-seller</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">store-detail</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+ <ion-card *ngIf="store?.length">
+    <ion-card-header>
+      <ion-card-title>Welcome, {{ store[0]?.store_name }}
+        <ion-input
+          type="string"
+          [(ngModel)]="store[0].store_name"
+          [readonly]="editingStoreId !== store[0].store_id">
+        </ion-input>
+      </ion-card-title>
+    </ion-card-header>
+
+
+
+    <!-- STORE IMAGE -->
+    <div class="store-image">
+      <ion-img
+        *ngIf="store[0]?.store_image_path"
+        [src]="environment.Upload_URL + '/' + store[0].store_image_path">
+      </ion-img>
+    </div>
+
+
+
+
+    <ion-card-content>
+      <p><strong>Store ID:</strong> {{ store[0]?.store_id }}</p>
+      <p><strong>Seller ID:</strong> {{ store[0]?.seller_id }}</p>
+      <p><strong>Location:</strong> {{ store[0]?.latitude }}, {{ store[0]?.longitude }}
+        <ion-input
+          type="decimal"
+          [(ngModel)]="store[0].latitude"
+          [readonly]="editingStoreId !== store[0].store_id">
+        </ion-input>
+        <ion-input
+          type="decimal"
+          [(ngModel)]="store[0].longitude"
+          [readonly]="editingStoreId !== store[0].store_id">
+        </ion-input>
+      </p>
+
+      <ion-item *ngIf="editingStoreId === store[0]?.store_id">
+        <input
+          type="file"
+          accept="image/*"
+          (change)="onImageSelected($event)">
+      </ion-item>
+
+
+
+      <ion-button expand="block" (click)="toggleStoreEdit(store[0])">
+        {{ editingStoreId === store[0].store_id ? 'Save' : 'Edit' }}
+      </ion-button>
+    </ion-card-content>
+    
+
+    <ion-card-content *ngFor="let s of store">
+      <!-- STOCK IMAGE -->
+      <div class="stock-image">
+        <ion-img
+          *ngIf="s.store_stock_image_path"
+          [src]="environment.Upload_URL + s.store_stock_image_path"
+          alt="{{ s.stock_name }}"
+        />
+      </div>
+      <p><strong>Stock ID:</strong> {{ s.stock_id }}</p>
+      <p><strong>Stock Name:</strong> {{ s.stock_name }}</p>
+
+      <ion-input
+        [value]="s.stock_name"
+        (ionInput)="filterStocks($event)"
+        [readonly]="editingStockId !== s.stock_id"
+        placeholder="Search stock">
+      </ion-input>
+
+      <ion-list *ngIf="filteredStocks.length && editingStockId === s.stock_id">
+        <ion-item
+          button
+          *ngFor="let stock of filteredStocks"
+          (click)="selectStock(stock, s)">
+          {{ stock.stock_name }}
+        </ion-item>
+      </ion-list>
+      
+      <p><strong>Category:</strong>{{ s.category_name }}</p>
+      <ion-input
+        type="string"
+        [(ngModel)]="s.category_name"
+        [readonly]="editingStockId !== s.stock_id">
+      </ion-input>
+
+
+
+      <p><strong>Price:</strong> RM {{ s.price }}</p>
+      <ion-input
+        type="number"
+        [(ngModel)]="s.price"
+        [readonly]="editingStockId !== s.stock_id">
+      </ion-input>
+      <p><strong>Quantity:</strong> {{ s.quantity }}</p>
+      <ion-input
+        type="number"
+        [(ngModel)]="s.quantity"
+        [readonly]="editingStockId !== s.stock_id">
+      </ion-input>
+      <p><strong>Description:</strong> {{ s.description }}</p>
+      <ion-input
+        type="string"
+        [(ngModel)]="s.description"
+        [readonly]="editingStockId !== s.stock_id">
+      </ion-input>
+
+      <ion-item *ngIf="editingStockId === s.stock_id">
+        <input
+          type="file"
+          accept="image/*"
+          (change)="onImageSelected($event)">
+      </ion-item>
+
+      <ion-button expand="block" (click)="toggleEdit(s)">
+        {{ editingStockId === s.stock_id ? 'Save' : 'Edit' }}
+      </ion-button>
+    </ion-card-content>
+
+    <ion-button expand="block" color="success" (click)="showAddStock = !showAddStock">
+      ➕ Add New Stock
+    </ion-button>    
+    <ion-card *ngIf="showAddStock">
+      <ion-card-header>
+        <ion-card-title>Add New Stock</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+
+              <!-- STOCK IMAGE -->
+      <!-- <div class="stock-image">
+        <ion-img
+          *ngIf="s.store_stock_image_path"
+          [src]="environment.Upload_URL + s.store_stock_image_path"
+          alt="{{ s.stock_name }}"
+        />
+      </div> -->
+
+        <!-- Stock search -->
+        <ion-input
+          placeholder="Search stock name"
+          (ionInput)="filterStocks($event)"
+          [(ngModel)]="newStock.stock_name">
+        </ion-input>
+
+        <ion-list *ngIf="filteredStocks.length">
+          <ion-item
+            button
+            *ngFor="let stock of filteredStocks"
+            (click)="selectNewStock(stock)">
+            {{ stock.stock_name }}
+          </ion-item>
+        </ion-list>
+
+        <p *ngIf="newStock.stock_name">
+          Selected: <strong>{{ newStock.stock_name }}</strong>
+        </p>
+
+        <!-- <ion-input
+          type="string"
+          placeholder="Category"
+          [(ngModel)]="newStock.category_name">
+        </ion-input> -->
+
+        <ion-input
+          type="number"
+          placeholder="Category ID"
+          [(ngModel)]="newStock.category_id">
+        </ion-input>
+
+        <ion-input
+          placeholder="Search category name"
+          (ionInput)="filterCategories($event)">
+        </ion-input>
+
+        <ion-list *ngIf="filteredCategories.length">
+          <ion-item
+            button
+            *ngFor="let category of filteredCategories"
+            (click)="selectNewCategory(category)">
+            {{ category.category_name }}
+          </ion-item>
+        </ion-list>
+
+        <p *ngIf="newStock.category_name">
+          Selected: <strong>{{ newStock.category_name }}</strong>
+        </p>
+
+        <ion-input
+          type="number"
+          placeholder="Price"
+          [(ngModel)]="newStock.price">
+        </ion-input>
+
+        <ion-input
+          type="number"
+          placeholder="Quantity"
+          [(ngModel)]="newStock.quantity">
+        </ion-input>
+
+        <ion-input
+          placeholder="Description"
+          [(ngModel)]="newStock.description">
+        </ion-input>
+
+        <ion-button expand="block" color="primary" (click)="addStock()">
+          Save Stock
+        </ion-button>
+
+      </ion-card-content>
+    </ion-card>
+  </ion-card>
+
+  <ion-button expand="block" (click)="navigateToStore()">
+    Navigate to Store
+  </ion-button>
+
+</ion-content>
