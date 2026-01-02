@@ -61,27 +61,19 @@
 <ion-footer>
   <ion-toolbar>
     <div class="tab-bar">
-
-      <div class="tab-item"
-          [class.active]="router.url === '/dashboard-customer'"
-          routerLink="/dashboard-customer">
+      <div class="tab-item" [class.active]="router.url === '/dashboard-customer'" routerLink="/dashboard-customer">
         <ion-icon name="home-outline"></ion-icon>
         <span>Home</span>
       </div>
-
-      <div class="tab-item"
-          [class.active]="router.url === '/cart'"
-          routerLink="/cart">
+      <div class="tab-item" [class.active]="router.url === '/cart'" routerLink="/cart">
         <ion-icon name="cart-outline"></ion-icon>
         <span>Cart</span>
       </div>
-      <div class="tab-item"
-          [class.active]="router.url === '/profile'"
-          routerLink="/profile">
+      <div class="tab-item" [class.active]="router.url === '/profile'" routerLink="/profile">
         <ion-icon name="person-outline"></ion-icon>
         <span>Profile</span>
       </div>
-
     </div>
   </ion-toolbar>
 </ion-footer>
+

@@ -86,21 +86,45 @@ ion-button {
 /* =====================================
    FOOTER TAB BAR
 ===================================== */
+// ion-footer {
+//   background: #ffffff;
+//   border-top: 1px solid #e5e7eb;
+// }
+
+// .tab-bar {
+//   display: flex;
+//   justify-content: space-around;
+//   padding: 6px 0 env(safe-area-inset-bottom);
+// }
+
+// .tab-item {
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   font-size: 0.7rem;
+//   color: #9ca3af;
+// }
+
+// .tab-item ion-icon {
+//   font-size: 1.4rem;
+// }
+
+// .tab-item.active {
+//   color: var(--ion-color-primary);
+//   font-weight: 600;
+// }
+
 ion-footer {
-  background: #ffffff;
   border-top: 1px solid #e5e7eb;
 }
 
 .tab-bar {
   display: flex;
   justify-content: space-around;
-  padding: 6px 0 env(safe-area-inset-bottom);
 }
 
 .tab-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  text-align: center;
   font-size: 0.7rem;
   color: #9ca3af;
 }
@@ -113,3 +137,4 @@ ion-footer {
   color: var(--ion-color-primary);
   font-weight: 600;
 }
+

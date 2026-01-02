@@ -11,6 +11,7 @@ import { environment } from 'src/environments/environment';
 import { DirectionsService } from '../service/directions';
 import { Geolocation } from '@capacitor/geolocation';
 
+import { GoogleMapsLoaderService } from '../service/google-maps-loader';
 
 
 declare var google: any;
@@ -56,14 +57,15 @@ export class DashboardCustomerPage implements OnInit {
   constructor(
     private http: HttpClient,
     public router: Router,
-    private directionsService: DirectionsService
-
+    private directionsService: DirectionsService,
+    private mapsLoader: GoogleMapsLoaderService,
   ) { }
 
   async ngOnInit() {
     this.userId = localStorage.getItem('user_id');
 
     if (this.userId) {
+      await this.mapsLoader.load();
       const userLocation = await this.getCurrentLocation();
       this.getUserData(this.userId, userLocation);
     }
