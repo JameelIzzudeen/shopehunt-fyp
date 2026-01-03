@@ -24,7 +24,7 @@ import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonInput, IonItem,IonCard, IonCardContent, IonCardTitle, IonCardHeader} from '@ionic/angular/standalone';
+import { IonFooter, IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonInput, IonItem,IonCard, IonCardContent, IonCardTitle, IonCardHeader, IonIcon} from '@ionic/angular/standalone';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from 'src/environments/environment';
@@ -50,6 +50,8 @@ import { environment } from 'src/environments/environment';
     IonCardContent,
     IonCardTitle,
     IonCardHeader,
+    IonFooter,
+    IonIcon
   ],
 })
 
@@ -63,7 +65,7 @@ export class DashboardSellerPage implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private router: Router
+    public router: Router
   ) { }
 
   ngOnInit() {
@@ -74,7 +76,7 @@ export class DashboardSellerPage implements OnInit {
     }
   }
 
-   getUserData(user_id: string){
+  getUserData(user_id: string){
     this.http.post<any>(
       `${environment.Base_URL}/seller.php`,
       {
@@ -92,4 +94,5 @@ export class DashboardSellerPage implements OnInit {
       }
     })
   }
+
 }

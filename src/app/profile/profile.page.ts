@@ -1,16 +1,3 @@
-// import { Component, OnInit } from '@angular/core';
-// import { CommonModule } from '@angular/common';
-// import { FormsModule } from '@angular/forms';
-// import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
-
-// @Component({
-//   selector: 'app-profile',
-//   templateUrl: './profile.page.html',
-//   styleUrls: ['./profile.page.scss'],
-//   standalone: true,
-//   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
-// })
-
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
@@ -56,6 +43,7 @@ export class ProfilePage implements OnInit {
   userId : string | null = null;
   userData: any = {};
   isEditing: boolean = false;
+  role : string | null = null;
 
   constructor(
     private http: HttpClient,
@@ -64,6 +52,8 @@ export class ProfilePage implements OnInit {
 
   ngOnInit() {
     this.userId = localStorage.getItem('user_id');
+    this.role = localStorage.getItem('role');
+
 
     if (this.userId) {
       this.getUserData();
@@ -116,12 +106,20 @@ export class ProfilePage implements OnInit {
 
   logout() {
     // Clear user session/localStorage
-    localStorage.removeItem('user_data');
-    localStorage.removeItem('user_id');
-    localStorage.removeItem('selected_cart_items');
+    localStorage.clear();
 
     // Navigate to login page
-    this.router.navigate(['/login']);
+    this.router.navigate(['/home']);
   }
+
+  goHome() {
+
+    if (this.role === 'seller') {
+      this.router.navigate(['/dashboard-seller']);
+    } else {
+      this.router.navigate(['/dashboard-customer']);
+    }
+  }
+
 
 }

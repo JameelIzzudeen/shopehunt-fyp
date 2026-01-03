@@ -1,39 +1,8 @@
-<!-- <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>category-detail</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">dashboard-customer</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div class="content">
-    <h4>{{ category[0]?.category_name }}</h4>
-    <ion-card *ngFor="let c of category" [routerLink]="['/stock-detail', c.stock_id]" button>
-      <ion-card-header>
-        <ion-card-title>Stock Name: {{ c.stock_name }}</ion-card-title>
-      </ion-card-header>
-      <div class="category-img-wrapper">
-        <img
-          *ngIf="c.store_stock_image_path"
-          [src]="environment.Upload_URL + '/' + c.store_stock_image_path"
-          alt="{{ c.stock_name }}" />
-      </div>
-  
-      <ion-card-content>
-        <p><strong>Stock ID:</strong> {{ c.stock_id }}</p>
-      </ion-card-content>
-    </ion-card>
-  </div>
-
-</ion-content> -->
-
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/dashboard-seller"></ion-back-button>
+    </ion-buttons>
     <ion-title>Category Detail</ion-title>
   </ion-toolbar>
 </ion-header>

@@ -1,37 +1,9 @@
-// import { Component, OnInit } from '@angular/core';
-// import { CommonModule } from '@angular/common';
-// import { FormsModule } from '@angular/forms';
-// // import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
-
-// import { RouterModule } from '@angular/router';
-// // import { IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular/standalone';
-// import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonInput, IonItem } from '@ionic/angular/standalone';
-
-
-// @Component({
-//   selector: 'app-register',
-//   templateUrl: './register.page.html',
-//   styleUrls: ['./register.page.scss'],
-//   standalone: true,
-//   // imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
-//   imports: [
-//     RouterModule,
-//     IonHeader,
-//     IonToolbar,
-//     IonTitle,
-//     IonContent,
-//     IonButton,
-//     IonInput,
-//     IonItem
-//   ],
-// })
-
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonInput, IonItem } from '@ionic/angular/standalone';
+import { IonBackButton, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonInput, IonItem } from '@ionic/angular/standalone';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from 'src/environments/environment';
@@ -53,6 +25,8 @@ import { environment } from 'src/environments/environment';
     IonInput,
     IonItem,
     FormsModule, 
+    IonBackButton,
+    IonButtons,
   ],
 })
 

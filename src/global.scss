@@ -34,38 +34,9 @@
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import '@ionic/angular/css/palettes/dark.system.css';
+// @import '@ionic/angular/css/palettes/dark.system.css';
 
 
-// .login-box {
-  
-//   width: 350px; 
-//   max-width: 90%;      /* shrink if screen is smaller */
-//   margin: auto;
-//   padding: 20px;
-//   background: blueviolet;
-//   /* background-color: aqua; */
-//   border-radius: 8px;
-//   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-//   position: relative;
-//   top: 50%;
-//   transform: translateY(-50%);
-  
-// }
-
-// ion-input, ion-button {
-//   width: 90%;   
-//   /* margin: 10px 0; */
-//   padding: 10px 0;
-//   /* border-spacing:24px; */
-//   margin: auto;
-//   display: block;
-//   --border-radius: 100px;
-  
-//   /* height: 10%; */
-//   font-size: 16px;
-// }
-//////////////////
 .button{
   /* height: 50px; */
   --padding-top: 12px;
@@ -79,28 +50,6 @@ ion-item.item-button {
   --background: transparent; 
   --inner-border-width: 0;
 }
-
-
-// global.scss (optional enhancements)
-// body {
-//   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-// }
-
-// // Better button feedback
-// [button] {
-//   cursor: pointer;
-//   user-select: none;
-// }
-
-// // Smooth transitions
-// ion-card {
-//   transition: all 0.2s ease;
-// }
-
-// // Better touch targets on mobile
-// ion-card[button] {
-//   min-height: 44px;
-// }
 
 /* =====================================
    FOOTER TAB BAR
@@ -128,3 +77,4 @@ ion-footer {
   color: var(--ion-color-primary);
   font-weight: 600;
 }
+

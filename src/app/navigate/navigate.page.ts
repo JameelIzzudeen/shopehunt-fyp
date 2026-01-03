@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 // import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonInput, IonItem,IonCard, IonCardContent, IonCardTitle, IonCardHeader} from '@ionic/angular/standalone';
+import { IonFooter, IonBackButton, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonInput, IonItem,IonCard, IonCardContent, IonCardTitle, IonCardHeader} from '@ionic/angular/standalone';
 
 import { DirectionsService } from '../service/directions';
 
@@ -21,6 +21,9 @@ declare var google: any;
   standalone: true,
   // imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
   imports: [
+    IonFooter,
+    IonButtons,
+    IonBackButton,
     CommonModule,
     // RouterModule,
     IonHeader,
@@ -76,60 +79,72 @@ export class NavigatePage implements OnInit {
     };
   }
 
+  // loadMap(userLocation: any) {
+  //   const map = new google.maps.Map(document.getElementById('map'), {
+  //     zoom: 15,
+  //     center: userLocation
+  //   });
+
+  //   const directionsService = new google.maps.DirectionsService();
+  //   const directionsRenderer = new google.maps.DirectionsRenderer();
+  //   directionsRenderer.setMap(map);
+    
+  //   this.directionsService
+  //   .getRoute(
+  //     userLocation,
+  //     { lat: this.storeLat, lng: this.storeLng }
+  //   )
+  //   .then(data => {
+
+  //     const directionsRenderer = new google.maps.DirectionsRenderer({
+  //       suppressMarkers: true
+  //     });
+
+  //     directionsRenderer.setMap(map);
+  //     directionsRenderer.setDirections(data.result);
+
+  //     this.distance = data.distance;
+  //     this.duration = data.duration;
+  //   })
+  //   .catch(err => {
+  //     console.error('Directions error:', err);
+  //   });
+  // }
+
   loadMap(userLocation: any) {
-    const map = new google.maps.Map(document.getElementById('map'), {
+
+  const map = new google.maps.Map(
+    document.getElementById('map'),
+    {
       zoom: 15,
       center: userLocation
-    });
+    }
+  );
 
-    const directionsService = new google.maps.DirectionsService();
-    const directionsRenderer = new google.maps.DirectionsRenderer();
-    directionsRenderer.setMap(map);
+  /* 📍 YOU ARE HERE */
+  new google.maps.Marker({
+    position: userLocation,
+    map,
+    title: 'You are here',
+    icon: {
+      path: google.maps.SymbolPath.CIRCLE,
+      scale: 8,
+      fillColor: '#1e90ff',
+      fillOpacity: 1,
+      strokeColor: '#ffffff',
+      strokeWeight: 2
+    }
+  });
 
-    // directionsService.route(
-    //   {
-    //     origin: userLocation,
-    //     destination: {
-    //       lat: this.storeLat,
-    //       lng: this.storeLng
-    //     },
-    //     travelMode: 'DRIVING'
-    //   },
-    //   (result: any, status: any) => {
-    //     if (status === 'OK') {
-    //       directionsRenderer.setDirections(result);
-    //     }
-    //   }
-    // );
+// DESTINATION
+new google.maps.Marker({
+  position: { lat: this.storeLat, lng: this.storeLng },
+  map,
+  title: 'Destination'
+  });
 
-    // directionsService.route(
-    //   {
-    //     origin: userLocation,
-    //     destination: {
-    //       lat: this.storeLat,
-    //       lng: this.storeLng
-    //     },
-    //     travelMode: google.maps.TravelMode.DRIVING
-    //   },
-    //   (result: any, status: any) => {
-    //     if (status === 'OK') {
-    //       directionsRenderer.setDirections(result);
-
-    //       // 🔑 GET DISTANCE & DURATION
-    //       const route = result.routes[0].legs[0];
-    //       const distance = route.distance.text; // e.g. "4.2 km"
-    //       const duration = route.duration.text; // e.g. "9 mins"
-
-    //       console.log('Distance:', distance);
-    //       console.log('Duration:', duration);
-
-    //       // Optional: store for UI
-    //       this.distance = distance;
-    //       this.duration = duration;
-    //     }
-    //   }
-    // );
-    this.directionsService
+  /* 🧭 ROUTE (optional but helpful) */
+  this.directionsService
     .getRoute(
       userLocation,
       { lat: this.storeLat, lng: this.storeLng }
@@ -145,65 +160,8 @@ export class NavigatePage implements OnInit {
 
       this.distance = data.distance;
       this.duration = data.duration;
-    })
-    .catch(err => {
-      console.error('Directions error:', err);
     });
-  }
-
-  // loadMap(userLocation: { lat: number; lng: number }) {
-
-  //   // 1. Create the map
-  //   const map = new google.maps.Map(
-  //     document.getElementById('map'),
-  //     {
-  //       center: userLocation,
-  //       zoom: 15
-  //     }
-  //   );
-
-  //   // 2. USER LOCATION MARKER ✅
-  //   new google.maps.Marker({
-  //     position: userLocation,
-  //     map: map,
-  //     title: 'You are here'
-  //   });
-
-  //   // 3. STORE LOCATION MARKER (Optional but recommended)
-  //   new google.maps.Marker({
-  //     position: {
-  //       lat: this.storeLat,
-  //       lng: this.storeLng
-  //     },
-  //     map: map,
-  //     title: 'Store Location'
-  //   });
-
-  //   // 4. Directions
-  //   const directionsService = new google.maps.DirectionsService();
-  //   const directionsRenderer = new google.maps.DirectionsRenderer({
-  //     suppressMarkers: true // we use our own markers
-  //   });
-
-  //   directionsRenderer.setMap(map);
-
-  //   directionsService.route(
-  //     {
-  //       origin: userLocation,
-  //       destination: {
-  //         lat: this.storeLat,
-  //         lng: this.storeLng
-  //       },
-  //       travelMode: google.maps.TravelMode.DRIVING
-  //     },
-  //     (result: any, status: any) => {
-  //       if (status === 'OK') {
-  //         directionsRenderer.setDirections(result);
-  //       }
-  //     }
-  //   );
-  // }
-
+}
 
 }
 

@@ -1,7 +1,11 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>navigate</ion-title>
+    <ion-title>Navigate</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button  defaultHref="/home"></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
+  
 </ion-header>
 
 <ion-content [fullscreen]="true">
@@ -12,10 +16,16 @@
   </ion-header>
   <div id="map"></div>
   <ion-card>
-  <ion-card-content>
-    <p><strong>Distance:</strong> {{ distance }}</p>
-    <p><strong>Estimated Time:</strong> {{ duration }}</p>
-  </ion-card-content>
+
 </ion-card>
 
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-card-content>
+      <p><strong>Distance:</strong> {{ distance }}</p>
+      <p><strong>Estimated Time:</strong> {{ duration }}</p>
+    </ion-card-content>
+  </ion-toolbar>
+</ion-footer>

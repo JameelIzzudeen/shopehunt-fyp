@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>profile</ion-title>
+    <ion-title>Profile</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -61,11 +61,12 @@
 <ion-footer>
   <ion-toolbar>
     <div class="tab-bar">
-      <div class="tab-item" [class.active]="router.url === '/dashboard-customer'" routerLink="/dashboard-customer">
+      <div class="tab-item" (click)="goHome()">
         <ion-icon name="home-outline"></ion-icon>
         <span>Home</span>
       </div>
-      <div class="tab-item" [class.active]="router.url === '/cart'" routerLink="/cart">
+
+      <div class="tab-item" [class.active]="router.url === '/cart'" routerLink="/cart" *ngIf = "role === 'customer'">
         <ion-icon name="cart-outline"></ion-icon>
         <span>Cart</span>
       </div>

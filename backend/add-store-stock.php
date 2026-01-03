@@ -65,7 +65,8 @@
         if ($stmt->affected_rows > 0) {
             echo json_encode([
                 "status" => "success",
-                "message" => "Stock added to store successfully"
+                "message" => "Stock added to store successfully",
+                "stock_id" => $stock_id
             ]);
         } else {
             echo json_encode([

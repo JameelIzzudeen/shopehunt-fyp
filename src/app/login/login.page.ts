@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonInput, IonItem } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonButton, IonInput, IonItem, IonBackButton } from '@ionic/angular/standalone';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from 'src/environments/environment';
@@ -22,9 +22,11 @@ import { environment } from 'src/environments/environment';
     IonTitle,
     IonContent,
     IonButton,
+    IonButtons,
     IonInput,
     IonItem,
     FormsModule, 
+    IonBackButton
   ],
 })
 // export class LoginPage implements OnInit {
@@ -34,35 +36,27 @@ export class LoginPage {
     username: '',
     password: ''
   }
+  userId : string | null = null;
+  role : string | null = null;
 
   constructor(
     private http: HttpClient,
     private router: Router
   ) {}
 
-  // ngOnInit() {
-  // }
+  ngOnInit() {
+    this.userId = localStorage.getItem('user_id');
+    this.role = localStorage.getItem('role');
 
-  // login(){
-  //   this.http.post<any>(
-  //     'http://100.117.156.69/backend/login.php',
-  //     this.loginData
-  //   ).subscribe(res => {
+    if (this.userId && this.role) {
+      if (this.role === 'customer') {
+        this.router.navigate(['/dashboard-customer']);
+      } else if (this.role === 'seller') {
+        this.router.navigate(['/dashboard-seller']);
+      }
+    }
+  }
 
-  //     if (res.status == 'success'){
-  //       localStorage.setItem('user_id', res.user_id);
-  //       localStorage.setItem('role', res.role);
-
-  //       if (res.role === 'customer') {
-  //         this.router.navigate(['/dashboard-customer'])
-  //       }
-  //     }
-  //     else{
-  //       alert(res.message);
-  //     }
-
-  //   })
-  // }
 
   login() {
     console.log('LOGIN DATA:', this.loginData);

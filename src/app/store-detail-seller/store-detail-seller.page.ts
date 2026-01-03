@@ -16,7 +16,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonImg, IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonInput, IonItem,IonCard, IonCardContent, IonCardTitle, IonCardHeader, IonList, IonModal, IonButtons, IonLabel} from '@ionic/angular/standalone';
+import { IonBackButton, IonImg, IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonInput, IonItem,IonCard, IonCardContent, IonCardTitle, IonCardHeader, IonList, IonModal, IonButtons, IonLabel} from '@ionic/angular/standalone';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
@@ -48,6 +48,7 @@ import { NavController } from '@ionic/angular';
     IonCardContent,
     IonCardTitle,
     IonCardHeader,
+    IonBackButton,
   ],
 })
 
@@ -84,7 +85,10 @@ export class StoreDetailSellerPage implements OnInit {
     description: ''
   };
 
-  selectedImage!: File;
+  // selectedImage!: File;
+  selectedStoreImage!: File;
+  selectedStockImage!: File;
+
 
 
   constructor(
@@ -152,18 +156,26 @@ export class StoreDetailSellerPage implements OnInit {
   }
 
   toggleEdit(stock: any) {
+    if (this.editingStockId && this.editingStockId !== stock.stock_id) {
+      alert('Please save current stock before editing another.');
+      return;
+    }
+
     if (this.editingStockId === stock.stock_id) {
       // 🔹 SAVE logic here (call backend if needed)
-      this.uploadStockImage(stock.stock_id, this.storeId);
-      this.editingStockId = null;
+      // this.uploadStockImage(stock.stock_id, this.storeId);
+      
+      
+      // this.editingStockId = null;
       console.log('Saving data:', stock);
       this.http.post<any>(
         `${environment.Base_URL}/update-store-detail-seller.php`,
         {
           user_id: this.userId,
+          store_id: stock.store_id,
           stock_id: stock.stock_id,
           stock_name: stock.stock_name,
-          category_name: stock.category_name,
+          category_id: stock.category_id,
           price: stock.price,
           quantity: stock.quantity,
           description: stock.description,
@@ -176,6 +188,11 @@ export class StoreDetailSellerPage implements OnInit {
       ).subscribe( res => {
         console.log(res);
         if (res.status === 'success') {
+          const finalStockId = res.new_stock_id ?? stock.stock_id;
+
+          // ✅ NOW upload image
+          console.log("final stock id", finalStockId)
+          this.uploadStockImage(finalStockId, this.storeId);
           alert('Profile updated successfully.');
           this.editingStockId = null;
         }
@@ -235,7 +252,7 @@ export class StoreDetailSellerPage implements OnInit {
   }
 
   selectStock(stock: any, storeStock: any) {
-    storeStock.stock_id = stock.stock_id;
+    // storeStock.stock_id = stock.stock_id;
     storeStock.stock_name = stock.stock_name;
     this.filteredStocks = [];
   }
@@ -262,6 +279,11 @@ export class StoreDetailSellerPage implements OnInit {
       category.category_name.toLowerCase().includes(val)
     );
   }
+    selectCategory(category: any, storeStock: any) {
+    // storeStock.stock_id = stock.stock_id;
+    storeStock.category_name = category.category_name;
+    this.filteredCategories = [];
+  }
 
   addStock() {
     console.log('debug msg:', this.newStock.category_id, this.newStock.category_name);
@@ -287,6 +309,7 @@ export class StoreDetailSellerPage implements OnInit {
     ).subscribe(res => {
       if (res.status === 'success') {
         alert('Stock added successfully');
+        this.uploadStockImage(res.stock_id, this.storeId);
 
         this.showAddStock = false;
         this.newStock = {
@@ -306,15 +329,23 @@ export class StoreDetailSellerPage implements OnInit {
     });
   }
 
-  onImageSelected(event: any) {
-    this.selectedImage = event.target.files[0];
+  // onImageSelected(event: any) {
+  //   this.selectedImage = event.target.files[0];
+  // }
+
+  onStoreImageSelected(event: any) {
+    this.selectedStoreImage = event.target.files[0];
+  }
+
+  onStockImageSelected(event: any) {
+    this.selectedStockImage = event.target.files[0];
   }
 
   uploadStoreImage(storeId: number) {
-    if (!this.selectedImage) return;
+    if (!this.selectedStoreImage) return;
 
     const formData = new FormData();
-    formData.append('image', this.selectedImage);
+    formData.append('image', this.selectedStoreImage);
     formData.append('store_id', storeId.toString());
 
     this.http.post(
@@ -332,10 +363,10 @@ export class StoreDetailSellerPage implements OnInit {
 
 
   uploadStockImage(stockId: number, storeId: number) {
-    if (!this.selectedImage) return;
+    if (!this.selectedStockImage) return;
 
     const formData = new FormData();
-    formData.append('image', this.selectedImage);
+    formData.append('image', this.selectedStockImage);
     formData.append('store_id', storeId.toString());
     formData.append('stock_id', stockId.toString());
 
@@ -348,5 +379,27 @@ export class StoreDetailSellerPage implements OnInit {
       }
     });
   }
+
+  deleteStock(stockId: number) {
+    if (!confirm('Are you sure you want to delete this stock?')) {
+      return;
+    }
+
+    this.http.post<any>(
+      `${environment.Base_URL}/delete-store-stock.php`,
+      {
+        stock_id: stockId,
+        store_id: this.storeId
+      }
+    ).subscribe(res => {
+      if (res.status === 'success') {
+        alert('Stock deleted successfully');
+        this.getStoreDetail(); // 🔄 refresh list
+      } else {
+        alert(res.message);
+      }
+    });
+  }
+
 
 }

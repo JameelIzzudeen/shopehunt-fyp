@@ -12,7 +12,7 @@ providing real-time store stock availability and GPS navigation.
 
 ## 🛠 Tech Stack
 - Ionic + Angular
-- Firebase / MySQL (if used)
+- MySQL
 - Google Maps API
 
 ## 📍 Problem Statement
@@ -21,6 +21,18 @@ essential items due to lack of centralized stock information.
 
 ## Database Setup
 Import `backend/database/shopehunt.sql` using phpMyAdmin.
+
+## Environment Setup
+This project uses environment-based configuration.
+Before running the application, update the API base URLs according to your local setup.
+
+1. Copy the example environment file:
+   cp src/environments/environment.example.ts src/environments/environment.ts
+
+2. Replace http://localhost/your-api with the URL where your backend API is
+   hosted.
+
+3. Replace `YOUR_GOOGLE_MAPS_API_KEY` with your own key.
 
 ## How to Run
 
@@ -31,9 +43,18 @@ Import `backend/database/shopehunt.sql` using phpMyAdmin.
 5.  Install dependencies:
     ```bash
     npm install
-6.  Then run:
+6.  Run (for Web View):
     ```bash
     ionic serve
+    ```
+    This will start a local development server.
+
+    or run (for Android):
+    ```bash
+    ionic build
+    npx cap copy android
+    npx cap open android
+
 
 ## 👤 Author
 **Jameel** – Computer Science (FYP)

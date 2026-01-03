@@ -12,8 +12,9 @@
 
     $user_id = $data['user_id'] ?? null;
 
-    $stock_id = $data['stock_id'] ?? null;
+    $master_stock_id = $data['stock_id'] ?? null;
     $stock_name = $data['stock_name'] ?? null;
+    $category_id = $data['category_id'];
     $price = $data['price'] ?? null;
     $quantity = $data['quantity'] ?? null;
     $description = $data['description'] ?? null;
@@ -31,25 +32,120 @@
         exit;
     }
 
-    if ($stock_id) {
+    if ($master_stock_id) {
         # code...
-        $sql = "SELECT stock_id FROM stock WHERE stock_name = ? AND stock_id != ?";
+        $sql = "SELECT stock_id FROM stock WHERE stock_name = ? AND category_id = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("si", $stock_name, $stock_id);
+        $stmt->bind_param("si", $stock_name, $category_id);
         $stmt->execute();
         $result = $stmt->get_result();
 
-        if ($result->num_rows < 1) {
-            $sql = "INSERT INTO stock (stock_name, category_id) VALUES (?, ?)";
+        if ($result->num_rows != 0) {
+            $row = $result->fetch_assoc();
+            $stock_id = $row['stock_id'];
+
+            $sql = "UPDATE store_stock SET price = ?, quantity = ?, description = ? WHERE stock_id = ? AND store_id = ?";
             $stmt = $conn->prepare($sql);
-            $category_id = 1; // Default category ID
-            $stmt->bind_param("si", $stock_name, $category_id);
-            $stmt->execute();
-            $stock_id = $conn->insert_id;
+            $stmt->bind_param("disii", $price, $quantity, $description, $master_stock_id, $store_id);
+        } else{
+            $conn->begin_transaction();
+
+            try {
+                /* 1️⃣ Get or create master stock */
+                $sql = "SELECT stock_id FROM stock WHERE stock_name = ? AND category_id = ?";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("si", $stock_name, $category_id);
+                $stmt->execute();
+                $result = $stmt->get_result();
+
+                if ($result->num_rows === 1) {
+                    $row = $result->fetch_assoc();
+                    $new_stock_id = $row['stock_id'];
+                } else {
+                    $sql = "INSERT INTO stock (stock_name, category_id) VALUES (?, ?)";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bind_param("si", $stock_name, $category_id);
+                    if (!$stmt->execute()) {
+                        throw new Exception("Failed to insert stock");
+                    }
+                    $new_stock_id = $conn->insert_id;
+                }
+
+                /* 2️⃣ Get old store_stock data */
+                $sql = "SELECT store_stock_image_path 
+                        FROM store_stock 
+                        WHERE store_id = ? AND stock_id = ?";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("ii", $store_id, $master_stock_id);
+                $stmt->execute();
+                $result = $stmt->get_result();
+
+                if ($result->num_rows !== 1) {
+                    throw new Exception("Original store stock not found");
+                }
+
+                $row = $result->fetch_assoc();
+
+                /* 3️⃣ Insert new store_stock */
+                $sql = "INSERT INTO store_stock 
+                        (store_id, stock_id, price, quantity, description, store_stock_image_path)
+                        VALUES (?, ?, ?, ?, ?, ?)";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param(
+                    "iidiss",
+                    $store_id,
+                    $new_stock_id,
+                    $price,
+                    $quantity,
+                    $description,
+                    $row['store_stock_image_path']
+                );
+                if (!$stmt->execute()) {
+                    throw new Exception("Failed to insert new store_stock");
+                }
+
+                /* 4️⃣ MOVE feedback (KEY STEP 🔥) */
+                $sql = "UPDATE feedback
+                        SET stock_id = ?
+                        WHERE store_id = ? AND stock_id = ?";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("iii", $new_stock_id, $store_id, $master_stock_id);
+                if (!$stmt->execute()) {
+                    throw new Exception("Failed to update feedback");
+                }
+
+                /* 5️⃣ Delete old store_stock */
+                $sql = "DELETE FROM store_stock WHERE store_id = ? AND stock_id = ?";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("ii", $store_id, $master_stock_id);
+                if (!$stmt->execute()) {
+                    throw new Exception("Failed to delete old store_stock");
+                }
+
+                /* ✅ Commit */
+                $conn->commit();
+
+                echo json_encode([
+                    "status" => "success",
+                    "message" => "Stock updated successfully",
+                    "new_stock_id" => $new_stock_id
+                ]);
+                exit;
+
+            } catch (Exception $e) {
+                $conn->rollback();
+                echo json_encode([
+                    "status" => "error",
+                    "message" => $e->getMessage()
+                ]);
+                exit;
+            }
+
+
+
+
         }
-        $sql = "UPDATE store_stock SET price = ?, quantity = ?, description = ? WHERE stock_id = ? AND store_id = (SELECT store_id FROM seller s, store st WHERE s.user_id = ? AND s.seller_id = st.seller_id)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("disii", $price, $quantity, $description, $stock_id, $user_id);
+        
     
     
         if ($stmt->execute()) {
@@ -69,7 +165,7 @@
     } else if ($store_id) {
         $sql = "UPDATE store SET store_name = ?, latitude = ?, longitude = ? WHERE store_id = ? AND seller_id = (SELECT seller_id FROM seller WHERE user_id = ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssddi", $store_name, $latitude, $longitude, $store_id, $user_id);
+        $stmt->bind_param("sddii", $store_name, $latitude, $longitude, $store_id, $user_id);
 
         if ($stmt->execute()) {
             echo json_encode([

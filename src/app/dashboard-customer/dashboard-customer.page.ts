@@ -85,55 +85,6 @@ export class DashboardCustomerPage implements OnInit {
     };
   }
 
-  // async getUserData(user_id: string, userLocation: any) {
-  //   this.http.post<any>(
-  //     `${environment.Base_URL}/dashboard.php`,
-  //     { user_id }
-  //   ).subscribe(async res => {
-
-  //     if (res.status === 'success') {
-
-  //       this.user = res.data;
-  //       this.category = res.category;
-  //       this.store = res.store;
-
-  //       // 🔑 Calculate distance PER STORE
-  //       const promises = this.store.map(async (s: any) => {
-
-  //         const storeLat = Number(s.latitude);
-  //         const storeLng = Number(s.longitude);
-
-  //         const routeData = await this.directionsService.getRoute(
-  //           userLocation,
-  //           { lat: storeLat, lng: storeLng }
-  //         );
-
-  //         return {
-  //           ...s,
-  //           distance: routeData.distance,
-  //           duration: routeData.duration
-  //         };
-  //       });
-
-  //       // 🔑 WAIT FOR ALL STORES
-  //       this.store = await Promise.all(promises);
-
-  //       // 🔑 SORT STORES BY DISTANCE (ascending)
-  //       this.store.sort((a: any, b: any) => {
-  //         // Make sure distance is a number
-  //         const distanceA = Number(a.distance) || 0;
-  //         const distanceB = Number(b.distance) || 0;
-  //         return distanceA - distanceB;
-  //       });
-
-  //       console.log('Stores with distance:', this.store);
-
-  //     } else {
-  //       alert(res.message);
-  //     }
-  //   });
-  // }
-
   async getUserData(user_id: string, userLocation: any) {
   this.http.post<any>(
     `${environment.Base_URL}/dashboard.php`,
