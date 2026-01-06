@@ -55,13 +55,6 @@ export class RecommendStorePage implements OnInit {
     public router = inject(Router);
     private directionsService = inject(DirectionsService);
 
-
-  // constructor(
-  //   private http: HttpClient,
-  //   private router: Router,
-  //   private directionsService: DirectionsService
-  // ) { }
-
   async ngOnInit() {
     this.userId = localStorage.getItem('user_id');
     this.selectedCartItems = JSON.parse(localStorage.getItem('selected_cart_items') || '[]');
@@ -95,7 +88,7 @@ export class RecommendStorePage implements OnInit {
   async getRecommend(user_id: string, userLocation: any, selectedCartIds: any[]) {
         this.http.post<any>(
       `${environment.Base_URL}/recommend-store.php`,
-      { user_id, selected_cart_items: selectedCartIds }
+      { user_id, selected_cart_items: selectedCartIds, user_lat: userLocation.lat, user_lng: userLocation.lng }
     ).subscribe(async res => {
       if (res.status === 'success') {
         this.store = res.recommended_stores || [];
@@ -105,7 +98,7 @@ export class RecommendStorePage implements OnInit {
           return;
         }
 
-                // 🔑 Calculate distance PER STORE
+        // 🔑 Calculate distance PER STORE
         const promises = this.store.map(async (s: any) => {
 
           const storeLat = Number(s.latitude);
