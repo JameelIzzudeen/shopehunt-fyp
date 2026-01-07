@@ -1,30 +1,49 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" class="login-header">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button  defaultHref="/home"></ion-back-button>
+      <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
-    <ion-title>Login</ion-title>
   </ion-toolbar>
 </ion-header>
 
+<ion-content [fullscreen]="true" class="login-content">
+  <div class="login-wrapper">
 
-<ion-content [fullscreen]="true">
-  <div class="center-wrapper">
+    <!-- App Logo / Title -->
+    <div class="app-brand">
+      <h1>ShopeHunt</h1>
+      <p>Find smart. Shop smarter.</p>
+    </div>
 
-    <div class="login-box">
+    <!-- Login Card -->
+    <div class="login-card">
+      <h2>hello!</h2>
 
       <form (ngSubmit)="login()">
-        
-        <ion-item>
-          <ion-input name="username" placeholder="Username" [(ngModel)]="loginData.username"></ion-input>
+
+        <ion-item lines="none">
+          <ion-input
+            name="username"
+            placeholder="Username"
+            [(ngModel)]="loginData.username">
+          </ion-input>
         </ion-item>
-        <ion-item>
-          <ion-input name="password" type="password" placeholder="Password" [(ngModel)]="loginData.password"></ion-input>
+
+        <ion-item lines="none">
+          <ion-input
+            name="password"
+            type="password"
+            placeholder="Password"
+            [(ngModel)]="loginData.password">
+          </ion-input>
         </ion-item>
-        <ion-item class="item-button">
-          <ion-button class="button" type="submit">Sign In</ion-button>
-        </ion-item>
+
+        <ion-button expand="block" type="submit" class="login-btn">
+          Sign In
+        </ion-button>
+
       </form>
     </div>
+
   </div>
 </ion-content>

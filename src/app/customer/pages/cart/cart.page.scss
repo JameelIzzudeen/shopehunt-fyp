@@ -1,46 +1,54 @@
-/* =====================================
-   PAGE BACKGROUND
-===================================== */
+/* ===============================
+   HEADER
+================================ */
 
-ion-content {
-  --padding-bottom: 90px;
-  background: linear-gradient(
-    180deg,
-    var(--app-bg-light) 0%,
-    var(--app-bg) 45%
-  );
+.cart-header ion-toolbar {
+  --background: #ffffff;
 }
 
-/* =====================================
-   CART CONTAINER
-===================================== */
+.cart-header ion-title {
+  font-weight: 700;
+  color: #16a34a;
+}
+
+/* ===============================
+   PAGE
+================================ */
+
+ion-content {
+  --padding-bottom: 140px;
+  background: #f8fafc;
+}
+
+/* ===============================
+   CART CONTENT
+================================ */
 
 .cart-content {
   padding: 12px;
 }
 
-/* =====================================
+/* ===============================
    CART CARD
-===================================== */
+================================ */
 
 .cart-card {
   border-radius: 18px;
   margin-bottom: 14px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
-/* =====================================
-   CART ROW LAYOUT
-===================================== */
+/* ===============================
+   ROW LAYOUT
+================================ */
 
 .cart-row {
   display: flex;
   gap: 12px;
 }
 
-/* =====================================
-   IMAGE SECTION (LEFT)
-===================================== */
+/* ===============================
+   IMAGE
+================================ */
 
 .cart-image {
   width: 40%;
@@ -57,20 +65,19 @@ ion-content {
   object-fit: cover;
 }
 
-/* =====================================
-   INFO SECTION (RIGHT)
-===================================== */
+/* ===============================
+   INFO
+================================ */
 
 .cart-info {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 
-/* =====================================
+/* ===============================
    TOP ROW
-===================================== */
+================================ */
 
 .cart-top {
   display: flex;
@@ -78,72 +85,83 @@ ion-content {
   gap: 8px;
 }
 
-.cart-title h2 {
-  font-size: 0.95rem;
-  font-weight: 700;
-  margin: 0;
-  color: #111827;
+.cart-title {
+  flex: 1;
+
+  h2 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  p {
+    font-size: 14px;
+    color: #16a34a;
+    font-weight: 600;
+  }
 }
 
-.cart-title p {
-  font-size: 0.85rem;
-  color: var(--ion-color-primary);
-  margin-top: 4px;
-}
-
-/* =====================================
-   QUANTITY ROW (REUSE)
-===================================== */
+/* ===============================
+   QUANTITY
+================================ */
 
 .quantity-row {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+
+  span {
+    font-size: 13px;
+    color: #64748b;
+  }
+
+  ion-input {
+    width: 70px;
+    text-align: center;
+    --background: #f1f5f9;
+    --border-radius: 10px;
+  }
 }
 
-.quantity-row ion-input {
-  width: 70px;
-}
-
-/* =====================================
+/* ===============================
    REMOVE BUTTON
-===================================== */
+================================ */
 
 ion-button[color="danger"] {
   align-self: flex-start;
-  padding-left: 0;
+  margin-top: 6px;
 }
 
+/* ===============================
+   BOTTOM ACTION
+================================ */
 
-/* =====================================
-   FOOTER TAB BAR (REUSE STYLE)
-===================================== */
+.recommend-btn {
+  position: fixed;
+  bottom: 72px;
+  left: 16px;
+  right: 16px;
+  height: 52px;
 
-// ion-footer {
-//   background: #ffffff;
-//   border-top: 1px solid #e5e7eb;
+  font-weight: 600;
+  --border-radius: 18px;
 
-// }
+  --background: linear-gradient(
+    135deg,
+    #16a34a,
+    #22c55e
+  );
 
-// .tab-bar {
-//   display: flex;
-//   justify-content: space-around;
-//   padding: 6px 0 env(safe-area-inset-bottom);
-// }
+  box-shadow: 0 14px 30px rgba(34, 197, 94, 0.45);
+}
 
-// .tab-item {
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   font-size: 0.7rem;
-//   color: #9ca3af;
-// }
+/* ===============================
+   CHECKBOX TWEAK
+================================ */
 
-// .tab-item ion-icon {
-//   font-size: 1.4rem;
-// }
-
-// .tab-item.active {
-//   color: var(--ion-color-primary);
-//   font-weight: 600;
-// }
+ion-checkbox {
+  --size: 18px;
+  --checkbox-background-checked: #16a34a;
+  --checkmark-color: #fff;
+}

@@ -1,55 +1,73 @@
-// .login-box {
-//   width: 350px;
-//   max-width: 90%;
-//   margin: auto;
-//   margin-top: 40%;
-//   background: blue;
-// }
+/* ===============================
+   LANDING BACKGROUND
+================================ */
 
-// .login-box ion-button {
-//   --border-radius: 100px;
-// }
-
-/* Force ion-content to full height */
-ion-content {
-  --background: linear-gradient(135deg, #3880ff, #4dd0e1);
+.landing-content {
+  --background: linear-gradient(
+    160deg,
+    #16a34a 0%,
+    #22c55e 45%,
+    #0f172a 100%
+  );
 }
 
-/* Flex centering container */
+/* ===============================
+   CENTER WRAPPER
+================================ */
+
 .center-wrapper {
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 24px;
 }
 
-/* Card */
+/* ===============================
+   CONTENT BOX
+================================ */
+
 .login-box {
-  background: #ffffff;
-  padding: 30px 25px;
-  border-radius: 16px;
-  width: 90%;
-  max-width: 350px;
+  width: 100%;
   text-align: center;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  color: #ffffff;
+  max-width: 420px;
 }
 
-/* Text */
+/* ===============================
+   TEXT STYLING
+================================ */
+
 .login-box h2 {
-  margin-bottom: 8px;
-  font-size: 22px;
-  font-weight: 600;
-  color: #666;
+  font-size: 42px;
+  font-weight: 800;
+  letter-spacing: 1px;
 }
 
 .login-box p {
-  margin-bottom: 24px;
-  font-size: 14px;
-  color: #666;
+  margin: 12px 0 36px;
+  font-size: 16px;
+  opacity: 0.9;
 }
 
-/* Buttons */
-ion-button {
-  --border-radius: 10px;
-  margin-bottom: 12px;
+/* ===============================
+   BUTTONS
+================================ */
+
+.primary-btn {
+  height: 52px;
+  font-size: 16px;
+  font-weight: 600;
+  --border-radius: 18px;
+
+  --background: #ffffff;
+  --color: #16a34a;
+
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+}
+
+.secondary-btn {
+  margin-top: 12px;
+  font-size: 14px;
+  color: #e5ffe9;
 }

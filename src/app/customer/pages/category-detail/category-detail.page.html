@@ -1,44 +1,43 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" class="category-header">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/dashboard-seller"></ion-back-button>
+      <ion-back-button defaultHref="/dashboard-customer"></ion-back-button>
     </ion-buttons>
-    <ion-title>Category Detail</ion-title>
+    <ion-title>Category</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="category-content">
 
-  <div class="category-content">
-    <!-- Category Title -->
-    <h4>{{ category[0]?.category_name }}</h4>
+  <!-- CATEGORY TITLE -->
+  <div class="category-title">
+    <h2>{{ category[0]?.category_name }}</h2>
+    <p>Browse available items</p>
+  </div>
 
-    <!-- Grid of Stocks -->
-    <div class="category-grid">
-      <ion-card *ngFor="let c of category" [routerLink]="['/stock-detail', c.stock_id]" button class="category-card">
-        
-        <!-- Stock Image -->
-        <div class="category-img-wrapper">
-          <img
-            *ngIf="c.store_stock_image_path"
-            [src]="environment.Upload_URL + '/' + c.store_stock_image_path"
-            alt="{{ c.stock_name }}" />
-        </div>
+  <!-- GRID -->
+  <div class="category-grid">
 
-        <!-- Stock Info -->
-        <ion-card-header>
-          <ion-card-title>{{ c.stock_name }}</ion-card-title>
-        </ion-card-header>
+    <ion-card
+      *ngFor="let c of category"
+      class="category-card"
+      [routerLink]="['/stock-detail', c.stock_id]"
+      button>
 
-        <ion-card-content>
-          <p><strong>Stock ID:</strong> {{ c.stock_id }}</p>
-          <!-- Optional Description -->
-          <!-- <p>{{ c.description }}</p> -->
-        </ion-card-content>
+      <img
+        *ngIf="c.store_stock_image_path"
+        [src]="environment.Upload_URL + '/' + c.store_stock_image_path"
+        class="category-img"
+        alt="{{ c.stock_name }}" />
 
-      </ion-card>
-    </div>
+      <ion-card-content>
+        <h3>{{ c.stock_name }}</h3>
+      </ion-card-content>
+
+    </ion-card>
+
   </div>
 
 </ion-content>
+
 

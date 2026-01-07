@@ -1,61 +1,74 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" class="profile-header">
   <ion-toolbar>
     <ion-title>Profile</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">profile</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="profile-content">
 
-  <ion-card *ngIf="userData">
-    <ion-card-header>
-      <ion-card-title>User Profile: {{ userData.username }}</ion-card-title>
-    </ion-card-header>
-
+  <!-- PROFILE HEADER -->
+  <ion-card *ngIf="userData" class="profile-card">
     <ion-card-content>
-      <p><strong>User ID:</strong> {{ userData.user_id }}</p>
 
+      <div class="avatar">
+        <ion-icon name="person-circle-outline"></ion-icon>
+      </div>
 
+      <h2>{{ userData.first_name }} {{ userData.last_name }}</h2>
+      <p class="user-id">@{{ userData.username }}</p>
+      <!-- <p class="user-id">User ID: {{ userData.user_id }}</p> -->
 
-      <p><strong>Email:</strong> {{ userData.email }}</p>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- PROFILE FORM -->
+  <ion-card *ngIf="userData" class="profile-form">
+
+    <ion-item>
+      <ion-label position="stacked">Email</ion-label>
       <ion-input
-        type="string"
         [(ngModel)]="userData.email"
         [readonly]="!isEditing">
       </ion-input>
-      <p><strong>First Name:</strong> {{ userData.first_name }}</p>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">First Name</ion-label>
       <ion-input
-        type="string"
         [(ngModel)]="userData.first_name"
         [readonly]="!isEditing">
       </ion-input>
-      <p><strong>Last Name:</strong> {{ userData.last_name }}</p>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Last Name</ion-label>
       <ion-input
-        type="string"
         [(ngModel)]="userData.last_name"
         [readonly]="!isEditing">
       </ion-input>
-      <p><strong>Phone Number:</strong> {{ userData.phone }}</p>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Phone Number</ion-label>
       <ion-input
-        type="string"
         [(ngModel)]="userData.phone"
         [readonly]="!isEditing">
       </ion-input>
-    </ion-card-content>
+    </ion-item>
+
   </ion-card>
+
+  <!-- ACTIONS -->
   <div class="profile-buttons">
     <ion-button expand="block" (click)="toggleEdit()">
-      {{ isEditing ? 'Save' : 'Edit' }}
+      {{ isEditing ? 'Save Changes' : 'Edit Profile' }}
     </ion-button>
 
-    <ion-button expand="block" class="logout-button" (click)="logout()">
+    <ion-button expand="block" fill="outline" color="danger" (click)="logout()">
       Logout
     </ion-button>
   </div>
+
 </ion-content>
 
 <ion-footer>
@@ -77,4 +90,3 @@
     </div>
   </ion-toolbar>
 </ion-footer>
-

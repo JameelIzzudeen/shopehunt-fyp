@@ -1,56 +1,69 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" class="recommend-header">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Recommend Store</ion-title>
+    <ion-title>Recommended Stores</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="recommend-content">
 
-  <div class="centre-content">
-    <h4>Recommended Stores</h4>
+  <h4 class="section-title">Best Stores Near You</h4>
 
-    <div class="store-list">
-      <ion-card
-        *ngFor="let s of store"
-        class="store-card"
-        [routerLink]="['/store-detail', s.store_id]"
-        button
-      >
-      
-        <!-- STORE IMAGE -->
-        <div class="store-image">
-          <img
-            *ngIf="s.store_image_path"
-            [src]="environment.Upload_URL + '/' + s.store_image_path"
-            alt="{{ s.store_name }}"
-          />
+  <div class="store-list">
+
+    <ion-card
+      *ngFor="let s of store"
+      class="recommend-card"
+      [routerLink]="['/store-detail', s.store_id]"
+      button
+    >
+
+      <!-- IMAGE -->
+      <div class="store-thumb">
+        <img
+          *ngIf="s.store_image_path"
+          [src]="environment.Upload_URL + '/' + s.store_image_path"
+          alt="{{ s.store_name }}"
+        />
+      </div>
+
+      <ion-card-content>
+
+        <div class="store-header">
+          <h2>{{ s.store_name }}</h2>
+          <span class="distance">
+            {{ s.distance }} km
+          </span>
         </div>
 
-        <ion-card-header>
-          <ion-card-title>{{ s.store_name }}</ion-card-title>
-        </ion-card-header>
+        <!-- MATCHED ITEMS -->
+        <div
+          class="matched"
+          *ngIf="s.matched_items?.length">
 
-        <ion-card-content>
-          <p><strong>Store ID:</strong> {{ s.store_id }}</p>
-          <p><strong>Distance:</strong> {{ s.distance }}</p>
-          <!-- <p><strong>Matched Items:</strong> {{ s.matched_items }}</p> -->
-          <p><strong>Matched Items:</strong></p>
-          <ul  *ngIf="s.matched_items?.length">
+          <p class="label">Matched Items</p>
+
+          <ul>
             <li *ngFor="let item of s.matched_items">
-              {{ item.stock_name }} (Cart ID: {{ item.cart_id }})
+              {{ item.stock_name }}
             </li>
           </ul>
 
-          <p *ngIf="s.missing_stock_id">
-            <strong>Missing Stock ID:</strong> {{ s.missing_stock_id }}
-          </p>
-        </ion-card-content>
+        </div>
 
-      </ion-card>
-    </div>
+        <!-- MISSING -->
+        <p
+          class="missing"
+          *ngIf="s.missing_stock_id">
+          Missing item ID: {{ s.missing_stock_id }}
+        </p>
+
+      </ion-card-content>
+
+    </ion-card>
+
   </div>
 
 </ion-content>

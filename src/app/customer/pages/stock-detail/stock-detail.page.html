@@ -1,69 +1,63 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" class="stock-header">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/dashboard-seller"></ion-back-button>
+      <ion-back-button defaultHref="/dashboard-customer"></ion-back-button>
     </ion-buttons>
-    <ion-title>Stock Detail</ion-title>
+    <ion-title>Item</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
 
-  <div class="content">
+<ion-content [fullscreen]="true" class="stock-content">
 
-    <ion-card *ngIf="stock?.length" class="stock-detail-card">
+  <ion-card *ngIf="stock?.length" class="stock-detail-card">
 
-      <!-- STOCK IMAGE -->
-      <div class="stock-image">
-        <img
-          *ngIf="stock[0]?.store_stock_image_path"
-          [src]="environment.Upload_URL + stock[0].store_stock_image_path"
-          alt="{{ stock[0]?.stock_name }}"
-        />
+    <!-- IMAGE -->
+    <div class="stock-hero">
+      <img
+        *ngIf="stock[0]?.store_stock_image_path"
+        [src]="environment.Upload_URL + stock[0].store_stock_image_path"
+        alt="{{ stock[0]?.stock_name }}"
+      />
+    </div>
+
+    <ion-card-content>
+
+      <h1 class="stock-name">{{ stock[0]?.stock_name }}</h1>
+
+      <p class="stock-price"
+        *ngIf="stock[0]?.min_price === stock[0]?.max_price">
+        RM {{ stock[0]?.min_price }}
+      </p>
+
+      <p class="stock-price"
+        *ngIf="stock[0]?.min_price !== stock[0]?.max_price">
+        RM {{ stock[0]?.min_price }} – RM {{ stock[0]?.max_price }}
+      </p>
+
+      <p class="stock-desc">
+        {{ stock[0]?.description }}
+      </p>
+
+      <!-- QUANTITY -->
+      <div class="qty-row">
+        <span>Quantity</span>
+        <ion-input
+          type="number"
+          min="1"
+          [(ngModel)]="quantity">
+        </ion-input>
       </div>
 
-      <ion-card-header>
-        <ion-card-title>{{ stock[0]?.stock_name }}</ion-card-title>
-      </ion-card-header>
+      <ion-button
+        expand="block"
+        class="add-btn"
+        (click)="addToCart(stock[0]?.stock_id, quantity)">
+        Add to Cart
+      </ion-button>
 
-      <ion-card-content>
+    </ion-card-content>
 
-        <p class="stock-price"
-          *ngIf="stock[0]?.min_price === stock[0]?.max_price">
-          RM {{ stock[0]?.min_price }}
-        </p>
-
-        <p class="stock-price"
-          *ngIf="stock[0]?.min_price !== stock[0]?.max_price">
-          RM {{ stock[0]?.min_price }} – RM {{ stock[0]?.max_price }}
-        </p>
-
-        <p class="stock-desc">
-          {{ stock[0]?.description }}
-        </p>
-
-        <!-- QUANTITY -->
-        <div class="qty-wrapper">
-          <ion-item lines="none">
-            <ion-input
-              type="number"
-              min="1"
-              placeholder="Quantity"
-              [(ngModel)]="quantity">
-            </ion-input>
-          </ion-item>
-        </div>
-
-        <ion-button
-          expand="block"
-          class="add-btn"
-          (click)="addToCart(stock[0]?.stock_id, quantity)">
-          Add to Cart
-        </ion-button>
-
-      </ion-card-content>
-    </ion-card>
-
-  </div>
+  </ion-card>
 
 </ion-content>

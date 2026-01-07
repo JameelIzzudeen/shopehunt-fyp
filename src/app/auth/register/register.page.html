@@ -1,50 +1,91 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" class="register-header">
   <ion-toolbar>
-    <ion-title>Register</ion-title>
     <ion-buttons slot="start">
-      <ion-back-button  defaultHref="/home"></ion-back-button>
+      <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
+    <!-- <ion-title>Register</ion-title> -->
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">register</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="register-content">
+  <div class="register-wrapper">
 
-  <div class="center-wrapper">
-    <div class="login-box">
+    <div class="brand">
+      <h1>ShopeHunt</h1>
+    </div>
+
+    <div class="register-card">
+      <h2>Create Account</h2>
+
       <form (ngSubmit)="register()">
-        <ion-item>
-          <ion-input name="username" placeholder="Username" [(ngModel)]="registerData.username"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-input name="fname" placeholder="First Name" [(ngModel)]="registerData.fname"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-input name="lname" placeholder="Last Name" [(ngModel)]="registerData.lname"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-input name="email" type="email" placeholder="Email" [(ngModel)]="registerData.email"></ion-input>
-        </ion-item>
-        <ion-item>
-            <!-- <ion-label position="floating">Phone</ion-label> -->
-            <ion-input pattern="^[0-9]{9,10}$" name="phone" type="tel" placeholder="Phone" [(ngModel)]="registerData.phone"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-input name="password" type="password" placeholder="Password" [(ngModel)]="registerData.password"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-input name="confirm_password" type="password" placeholder="Confirm Password" [(ngModel)]="registerData.confirm_password"></ion-input>
-        </ion-item>
-        <ion-item class="item-button">
-          <ion-button class="button" type="submit">Register</ion-button>
+
+        <ion-item lines="none">
+          <ion-input
+            placeholder="Username"
+            [(ngModel)]="registerData.username"
+            name="username">
+          </ion-input>
         </ion-item>
 
-    </form>
+        <ion-item lines="none">
+          <ion-input
+            placeholder="First Name"
+            [(ngModel)]="registerData.fname"
+            name="fname">
+          </ion-input>
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-input
+            placeholder="Last Name"
+            [(ngModel)]="registerData.lname"
+            name="lname">
+          </ion-input>
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-input
+            type="email"
+            placeholder="Email"
+            [(ngModel)]="registerData.email"
+            name="email">
+          </ion-input>
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-input
+            type="tel"
+            placeholder="Phone"
+            pattern="^[0-9]{9,10}$"
+            [(ngModel)]="registerData.phone"
+            name="phone">
+          </ion-input>
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-input
+            type="password"
+            placeholder="Password"
+            [(ngModel)]="registerData.password"
+            name="password">
+          </ion-input>
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-input
+            type="password"
+            placeholder="Confirm Password"
+            [(ngModel)]="registerData.confirm_password"
+            name="confirm_password">
+          </ion-input>
+        </ion-item>
+
+        <ion-button expand="block" type="submit" class="register-btn">
+          Register
+        </ion-button>
+
+      </form>
+    </div>
+
   </div>
-</div>
-
 </ion-content>

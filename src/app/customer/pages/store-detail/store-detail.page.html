@@ -1,71 +1,69 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" class="store-header">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/dashboard-seller"></ion-back-button>
+      <ion-back-button defaultHref="/dashboard-customer"></ion-back-button>
     </ion-buttons>
-    <ion-title>Store Detail</ion-title>
+    <ion-title>Store</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="store-content">
 
-  <!-- STORE INFO -->
-  <ion-card *ngIf="store?.length" class="store-card">
+  <!-- STORE HERO -->
+  <div class="store-hero" *ngIf="store?.length">
+    <img
+      *ngIf="store[0]?.store_image_path"
+      [src]="environment.Upload_URL + store[0].store_image_path"
+      alt="{{ store[0]?.store_name }}"
+    />
 
-    <!-- STORE IMAGE -->
-    <div class="store-banner">
-      <img
-        *ngIf="store[0]?.store_image_path"
-        [src]="environment.Upload_URL + store[0].store_image_path"
-        alt="{{ store[0]?.store_name }}"
-      />
+    <div class="store-overlay">
+      <h1>{{ store[0]?.store_name }}</h1>
+      <p>Location: {{ store[0]?.latitude }}, {{ store[0]?.longitude }}</p>
     </div>
+  </div>
 
-    <ion-card-header>
-      <ion-card-title>Welcome, {{ store[0]?.store_name }}</ion-card-title>
-    </ion-card-header>
-
+  <!-- STORE INFO CARD -->
+  <!-- <ion-card *ngIf="store?.length" class="store-info-card">
     <ion-card-content>
       <p><strong>Store ID:</strong> {{ store[0]?.store_id }}</p>
       <p><strong>Seller ID:</strong> {{ store[0]?.seller_id }}</p>
-      <p><strong>Location:</strong> {{ store[0]?.latitude }}, {{ store[0]?.longitude }}</p>
     </ion-card-content>
-  </ion-card>
+  </ion-card> -->
 
-  <!-- STOCK LIST -->
+  <h4 class="section-title">Available Items</h4>
+
   <div class="stock-list" *ngIf="store?.length">
 
     <ion-card
       *ngFor="let s of store"
       class="stock-card"
       [routerLink]="['/stock-detail', s.stock_id]"
-      button
-    >
-      <!-- STOCK IMAGE -->
-      <div class="stock-image">
-        <img
-          *ngIf="s.store_stock_image_path"
-          [src]="environment.Upload_URL + s.store_stock_image_path"
-          alt="{{ s.stock_name }}"
-        />
-      </div>
+      button>
 
-      <!-- STOCK INFO -->
-      <div class="stock-info">
+      <img
+        *ngIf="s.store_stock_image_path"
+        [src]="environment.Upload_URL + s.store_stock_image_path"
+        class="stock-img"
+      />
+
+      <ion-card-content>
         <h3>{{ s.stock_name }}</h3>
-        <p><strong>Price:</strong> RM {{ s.price }}</p>
-        <p><strong>Qty:</strong> {{ s.quantity }}</p>
-      </div>
+        <p class="price">RM {{ s.price }}</p>
+        <p class="qty">Qty: {{ s.quantity }}</p>
+      </ion-card-content>
 
     </ion-card>
 
   </div>
 
+  <!-- NAVIGATION CTA -->
   <ion-button expand="block" class="navigate-btn" (click)="navigateToStore()">
     Navigate to Store
   </ion-button>
 
 </ion-content>
+
 
 <ion-footer>
   <ion-toolbar>

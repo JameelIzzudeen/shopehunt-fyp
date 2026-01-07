@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonFooter, IonTitle, IonToolbar, IonButton, IonInput, IonItem,IonCard, IonCardContent, IonCardTitle, IonCardHeader,IonIcon} from '@ionic/angular/standalone';
+import { IonLabel, IonContent, IonHeader, IonFooter, IonTitle, IonToolbar, IonButton, IonInput, IonItem,IonCard, IonCardContent, IonCardTitle, IonCardHeader,IonIcon} from '@ionic/angular/standalone';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from 'src/environments/environment';
@@ -17,6 +17,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./profile.page.scss'],
   standalone: true,
   imports: [
+    IonLabel,
     CommonModule,
     RouterModule,
     IonHeader,

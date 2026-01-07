@@ -1,6 +1,6 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" class="dashboard-header">
   <ion-toolbar>
-    <ion-title>Home</ion-title>
+    <ion-title>ShopeHunt</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -19,28 +19,18 @@
     </ion-searchbar>
   </div> -->
 
-  <!-- ================= USER CARD ================= -->
-  <ion-card *ngIf="user">
-    <ion-card-header>
-      <ion-card-title>Welcome, {{ user.username }}</ion-card-title>
-    </ion-card-header>
-
-    <ion-card-content>
-      <p>{{ user.email }}</p>
-    </ion-card-content>
-  </ion-card>
-
   <!-- ================= PROMO BANNER ================= -->
-  <ion-card class="promo-card">
-    <ion-card-content>
-      <h2>Up to 30% OFF!</h2>
-      <p>Enjoy our best offers every day</p>
-      <ion-button size="small" color="primary">Shop Now</ion-button>
-    </ion-card-content>
-  </ion-card>
+<ion-card class="promo-card">
+  <ion-card-content>
+    <h2>Up to 30% OFF!</h2>
+    <p>Enjoy our best offers every day</p>
+    <ion-button size="small">Shop Now</ion-button>
+  </ion-card-content>
+</ion-card>
 
   <!-- ================= CATEGORY ================= -->
-  <h4>Category</h4>
+<h4 class="section-title">Category</h4>
+
 
   <div class="category-scroll">
     <ion-card
@@ -63,7 +53,8 @@
 
 
   <!-- ================= STORE ================= -->
-  <h4>Nearby Stores</h4>
+<h4 class="section-title">Nearby Stores</h4>
+
   <div class="store-grid">
     <ion-card
       *ngFor="let s of store"
