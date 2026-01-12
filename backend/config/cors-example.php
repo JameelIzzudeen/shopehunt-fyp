@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 // Allow multiple origins (dev + prod)
 $allowed_origins = [
     "http://localhost:8100",
-    "https://sequence.taile5772e.ts.net/backend"
+    'https://your-production-domain.com'
 ];
 
 if (isset($_SERVER['HTTP_ORIGIN']) && in_array($_SERVER['HTTP_ORIGIN'], $allowed_origins)) {

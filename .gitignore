@@ -70,7 +70,8 @@ testem.log
 Thumbs.db
 
 
-backend/connect.php
+backend/config/connect.php
+backend/config/cors.php
 
 
 # Environment files (API keys)

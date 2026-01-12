@@ -13,9 +13,7 @@ import { Geolocation } from '@capacitor/geolocation';
 
 import { GoogleMapsLoaderService } from '../../../core/service/google-maps-loader';
 
-
 declare var google: any;
-
 
 @Component({
   selector: 'app-dashboard-customer',
@@ -56,14 +54,6 @@ export class DashboardCustomerPage implements OnInit {
   public router = inject(Router);
   private directionsService = inject(DirectionsService);
   private mapsLoader = inject(GoogleMapsLoaderService);
-
-
-  // constructor(
-  //   private http: HttpClient,
-  //   public router: Router,
-  //   private directionsService: DirectionsService,
-  //   private mapsLoader: GoogleMapsLoaderService,
-  // ) { }
 
   async ngOnInit() {
     this.userId = localStorage.getItem('user_id');
@@ -120,17 +110,9 @@ export class DashboardCustomerPage implements OnInit {
           { lat: storeLat, lng: storeLng }
         );
 
-        // Parse distance safely
-        let distance = 0;
-        if (routeData.distance) {
-          // Remove non-numeric characters and convert to meters if needed
-          const numeric = parseFloat(routeData.distance.toString().replace(/[^\d.]/g, ''));
-          distance = isNaN(numeric) ? 0 : numeric;
-        }
-
         return {
           ...s,
-          distance: distance,
+          distance: routeData.distance,
           duration: routeData.duration
         };
       });
