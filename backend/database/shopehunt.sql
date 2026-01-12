@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 31, 2025 at 02:10 AM
+-- Generation Time: Jan 12, 2026 at 03:47 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `test`
+-- Database: `shopehunt`
 --
 
 -- --------------------------------------------------------
@@ -61,14 +61,19 @@ INSERT INTO `cart` (`cart_id`, `user_id`, `stock_id`, `cart_quantity`) VALUES
 (2, 2, 5, 2),
 (3, 3, 3, 3),
 (4, 3, 7, 5),
-(5, 4, 9, 2),
 (6, 5, 11, 1),
 (7, 6, 13, 3),
 (8, 7, 6, 1),
 (9, 8, 14, 4),
 (10, 4, 1, 1),
-(11, 4, 5, 1),
-(12, 4, 2, 1);
+(12, 4, 2, 1),
+(15, 4, 4, 1),
+(17, 4, 7, 2),
+(18, 4, 5, 1),
+(23, 19, 2, 55),
+(24, 19, 3, 1),
+(26, 19, 1, 65),
+(27, 19, 6, 1);
 
 -- --------------------------------------------------------
 
@@ -93,7 +98,8 @@ INSERT INTO `category` (`category_id`, `category_name`, `category_image_path`) V
 (4, 'Beverages', '/category/beverages.jpg'),
 (5, 'Frozen Food', '/category/frozen.jpg'),
 (6, 'Seafood', '/category/seafood.jpg'),
-(7, 'Snacks', '/category/snacks.jpg');
+(7, 'Snacks', '/category/snacks.jpg'),
+(18, 'yess', '/category/1767998027_yesss.jpg');
 
 -- --------------------------------------------------------
 
@@ -117,35 +123,10 @@ INSERT INTO `customer` (`customer_id`, `user_id`) VALUES
 (4, 5),
 (5, 6),
 (6, 7),
-(7, 8);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `feedback`
---
-
-CREATE TABLE `feedback` (
-  `feedback_id` int(10) NOT NULL,
-  `customer_id` int(10) NOT NULL,
-  `store_id` int(10) NOT NULL,
-  `stock_id` int(10) NOT NULL,
-  `feedback_msg` varchar(255) NOT NULL,
-  `feedback_date` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `feedback`
---
-
-INSERT INTO `feedback` (`feedback_id`, `customer_id`, `store_id`, `stock_id`, `feedback_msg`, `feedback_date`) VALUES
-(1, 1, 1, 1, 'Chicken quality is excellent', '2025-12-30 15:17:04'),
-(2, 2, 2, 3, 'Vegetables are fresh', '2025-12-30 15:17:04'),
-(3, 3, 3, 9, 'Frozen food is well packed', '2025-12-30 15:17:04'),
-(4, 4, 4, 11, 'Seafood is very fresh', '2025-12-30 15:17:04'),
-(5, 5, 5, 14, 'Snacks are affordable', '2025-12-30 15:17:04'),
-(6, 6, 1, 7, 'Water bottles are cheap', '2025-12-30 15:17:04'),
-(7, 7, 2, 6, 'Cooking oil price is reasonable', '2025-12-30 15:17:04');
+(7, 8),
+(8, 14),
+(9, 19),
+(10, 20);
 
 -- --------------------------------------------------------
 
@@ -175,19 +156,44 @@ INSERT INTO `role` (`role_id`, `role_name`) VALUES
 
 CREATE TABLE `seller` (
   `seller_id` int(10) NOT NULL,
-  `user_id` int(10) NOT NULL
+  `user_id` int(10) NOT NULL,
+  `seller_status` enum('pending','approved','rejected') DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `seller`
 --
 
-INSERT INTO `seller` (`seller_id`, `user_id`) VALUES
-(1, 9),
-(2, 10),
-(3, 11),
-(4, 12),
-(5, 13);
+INSERT INTO `seller` (`seller_id`, `user_id`, `seller_status`) VALUES
+(1, 9, 'approved'),
+(2, 10, 'approved'),
+(3, 11, 'pending'),
+(4, 12, 'approved'),
+(5, 13, 'pending'),
+(7, 16, 'approved'),
+(9, 18, 'approved'),
+(10, 21, 'approved');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `seller_pending`
+--
+
+CREATE TABLE `seller_pending` (
+  `pending_id` int(10) NOT NULL,
+  `seller_id` int(10) NOT NULL,
+  `pending_store_name` varchar(255) NOT NULL,
+  `pending_latitude` decimal(10,8) NOT NULL,
+  `pending_longitude` decimal(11,8) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `seller_pending`
+--
+
+INSERT INTO `seller_pending` (`pending_id`, `seller_id`, `pending_store_name`, `pending_latitude`, `pending_longitude`) VALUES
+(5, 5, 'Aina Daily Mart', 3.05730000, 101.72090000);
 
 -- --------------------------------------------------------
 
@@ -219,8 +225,7 @@ INSERT INTO `stock` (`stock_id`, `stock_name`, `category_id`) VALUES
 (11, 'Fresh Prawn', 6),
 (12, 'Fresh Fish', 6),
 (13, 'Potato Chips', 7),
-(14, 'Chocolate Biscuit', 7),
-(15, 'Whole Chicken', 1);
+(14, 'Chocolate Biscuit', 7);
 
 -- --------------------------------------------------------
 
@@ -246,7 +251,9 @@ INSERT INTO `store` (`store_id`, `seller_id`, `store_name`, `latitude`, `longitu
 (2, 2, 'Zainal Grocery', 3.05410000, 101.72420000, '/store/store2.jpg'),
 (3, 3, 'Farah Mini Mart', 3.05520000, 101.72280000, '/store/store3.jpg'),
 (4, 4, 'Hakim Food Store', 3.05600000, 101.72150000, '/store/store4.jpg'),
-(5, 5, 'Aina Daily Mart', 3.05730000, 101.72090000, '/store/store5.jpg');
+(5, 5, 'Aina Daily Mart', 3.05730000, 101.72090000, '/store/store5.jpg'),
+(7, 9, 'sellerdebug', 3.15752178, 101.71156137, '/store/1768137869_1000232153.jpg'),
+(8, 10, 'Eswarran Store', 3.07481493, 101.71883408, '/store/1768150813_unnamed.jpg');
 
 -- --------------------------------------------------------
 
@@ -268,9 +275,9 @@ CREATE TABLE `store_stock` (
 --
 
 INSERT INTO `store_stock` (`store_id`, `stock_id`, `price`, `quantity`, `description`, `store_stock_image_path`) VALUES
-(1, 1, 70.00, 30, 'Fresh whole chicken', '/stock/chicken.jpg'),
+(1, 1, 70.00, 0, 'Fresh whole chicken', '/stock/1767386915_chicken.jpg'),
 (1, 5, 29.00, 20, 'Local rice 5kg', '/stock/rice.jpg'),
-(1, 7, 2.00, 100, 'Mineral water bottle', '/stock/water.jpg'),
+(1, 7, 2.00, 21, 'Mineral water bottle', '/stock/1768069219_water.jpg'),
 (2, 3, 3.50, 50, 'Fresh spinach', '/stock/spinach.jpg'),
 (2, 4, 2.50, 60, 'Organic carrots', '/stock/carrot.jpg'),
 (2, 6, 8.90, 40, 'Cooking oil 1L', '/stock/oil.jpg'),
@@ -280,10 +287,12 @@ INSERT INTO `store_stock` (`store_id`, `stock_id`, `price`, `quantity`, `descrip
 (4, 11, 28.00, 20, 'Fresh prawns', '/stock/prawn.jpg'),
 (4, 12, 18.00, 30, 'Fresh fish', '/stock/fish.jpg'),
 (4, 13, 4.50, 70, 'Potato chips', '/stock/chips.jpg'),
-(5, 1, 50.00, 22, 'Chicken PokPokPok', '/stock/chicken.jpg'),
-(5, 2, 18.00, 25, 'Chicken breast', '/stock/chicken_breast.jpg'),
+(5, 1, 50.00, 60, 'Chicken PokPokPok', '/stock/chicken.jpg'),
+(5, 2, 18.00, 99, 'Chicken breast', '/stock/chicken_breast.jpg'),
 (5, 7, 2.10, 90, 'Mineral water bottle', '/stock/water1.jpg'),
-(5, 14, 6.00, 40, 'Chocolate biscuit', '/stock/biscuit.jpg');
+(5, 14, 6.00, 40, 'Chocolate biscuit', '/stock/biscuit.jpg'),
+(7, 2, 21.00, 90, 'this is seller debug', '/stock/1768127657_yesss.jpg'),
+(8, 1, 18.00, 70, 'Chopped whole chicken in plastic', '/stock/1768150775_ayam.jpg');
 
 -- --------------------------------------------------------
 
@@ -316,11 +325,17 @@ INSERT INTO `user` (`user_id`, `role_id`, `username`, `first_name`, `last_name`,
 (6, 2, 'nabila', 'Nabila', 'Yusuf', 'nabila@gmail.com', 'nabila123', '0125555555', '2025-12-30 15:17:04'),
 (7, 2, 'amir', 'Amir', 'Haziq', 'amir@gmail.com', 'amir123', '0126666666', '2025-12-30 15:17:04'),
 (8, 2, 'aisyah', 'Aisyah', 'Rahman', 'aisyah@gmail.com', 'aisyah123', '0127777777', '2025-12-30 15:17:04'),
-(9, 3, 'seller_one', 'Ali', 'Hassan', 'seller1@shop.com', 'seller123', '0131111111', '2025-12-30 15:17:04'),
+(9, 3, 'seller_one', 'Ali', 'Hassan', 'seller1@shop.com', '$2y$10$fXhV2FeCO6k1TcRBsbuA0.f3GLRgLlC5jedvCC4HA9PsR7yN9OPEe', '0131111111', '2025-12-30 15:17:04'),
 (10, 3, 'seller_two', 'Zainal', 'Abidin', 'seller2@shop.com', 'seller123', '0132222222', '2025-12-30 15:17:04'),
 (11, 3, 'seller_three', 'Farah', 'Nabila', 'seller3@shop.com', 'seller123', '0133333333', '2025-12-30 15:17:04'),
 (12, 3, 'seller_four', 'Hakim', 'Latif', 'seller4@shop.com', 'seller123', '0134444444', '2025-12-30 15:17:04'),
-(13, 3, 'seller_five', 'Aina', 'Sofia', 'seller5@shop.com', 'seller123', '0135555555', '2025-12-30 15:17:04');
+(13, 3, 'seller_five', 'Aina', 'Sofia', 'seller5@shop.com', 'seller123', '0135555555', '2025-12-30 15:17:04'),
+(14, 2, 'debug', 'debug', 'debug', 'debug@debug', '$2y$10$fXhV2FeCO6k1TcRBsbuA0.f3GLRgLlC5jedvCC4HA9PsR7yN9OPEe', '123456789', '2026-01-10 19:15:31'),
+(16, 3, 'sell', 'sell', 'sell', 'sell@sell', '$2y$10$oaRk881ktIlulKvLyqqa.OrknqE7JsUu77jhjwQ/CtqegrkCLQybW', '123456789', '2026-01-10 21:01:10'),
+(18, 3, 'sellerdebug', 'sellerdebug', 'sellerdebug', 'sellerdebug@sellerdebug', '$2y$10$z1c9iJUw0qEK/FZaNA.kReXeAfDLmEmBfwnezDTtMcl8yyJwKuzSC', '123456789', '2026-01-10 21:23:26'),
+(19, 2, 'meel', 'Mohd Jameel Izzudeen', 'Juna', 'mjijuna@gmail.com', '$2y$10$/SAkh9GVEyScduO4XftyN.l9x5OcoPe1AWi0wT9B7pNQs.UoAYH2C', '0146736932', '2026-01-11 10:18:39'),
+(20, 2, 'dsada', 'adasd', 'asdasd', 'asdasd', '$2y$10$DauxcCs8uq4dJNxIcdxsgu.qmmQ66nrdQJf4mfJlHPpmzaJV/PZSS', '213', '2026-01-11 11:07:29'),
+(21, 3, 'adiba', 'Siti Nur Adibah ', 'Mansur', 'adiba@gmail.com', '$2y$10$4Yi237.NMeLOemkvzhe.k./6oo1r4E1BeV5nB4lSSwB8x52Dw4RI6', '0115746481', '2026-01-11 16:56:49');
 
 --
 -- Indexes for dumped tables
@@ -355,14 +370,6 @@ ALTER TABLE `customer`
   ADD KEY `user_id` (`user_id`);
 
 --
--- Indexes for table `feedback`
---
-ALTER TABLE `feedback`
-  ADD PRIMARY KEY (`feedback_id`),
-  ADD KEY `customer_id` (`customer_id`),
-  ADD KEY `stock_id` (`stock_id`,`store_id`);
-
---
 -- Indexes for table `role`
 --
 ALTER TABLE `role`
@@ -374,6 +381,13 @@ ALTER TABLE `role`
 ALTER TABLE `seller`
   ADD PRIMARY KEY (`seller_id`),
   ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `seller_pending`
+--
+ALTER TABLE `seller_pending`
+  ADD PRIMARY KEY (`pending_id`),
+  ADD KEY `seller_id` (`seller_id`);
 
 --
 -- Indexes for table `stock`
@@ -418,25 +432,19 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `cart_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `cart_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `category_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `category_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customer_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT for table `feedback`
---
-ALTER TABLE `feedback`
-  MODIFY `feedback_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `customer_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `role`
@@ -448,25 +456,31 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT for table `seller`
 --
 ALTER TABLE `seller`
-  MODIFY `seller_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `seller_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `seller_pending`
+--
+ALTER TABLE `seller_pending`
+  MODIFY `pending_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `stock`
 --
 ALTER TABLE `stock`
-  MODIFY `stock_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `stock_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `store`
 --
 ALTER TABLE `store`
-  MODIFY `store_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `store_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `user_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- Constraints for dumped tables
@@ -492,17 +506,16 @@ ALTER TABLE `customer`
   ADD CONSTRAINT `customer_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
 
 --
--- Constraints for table `feedback`
---
-ALTER TABLE `feedback`
-  ADD CONSTRAINT `feedback_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`),
-  ADD CONSTRAINT `feedback_ibfk_2` FOREIGN KEY (`stock_id`,`store_id`) REFERENCES `store_stock` (`stock_id`, `store_id`);
-
---
 -- Constraints for table `seller`
 --
 ALTER TABLE `seller`
   ADD CONSTRAINT `seller_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+
+--
+-- Constraints for table `seller_pending`
+--
+ALTER TABLE `seller_pending`
+  ADD CONSTRAINT `seller_pending_ibfk_1` FOREIGN KEY (`seller_id`) REFERENCES `seller` (`seller_id`);
 
 --
 -- Constraints for table `stock`
@@ -520,7 +533,7 @@ ALTER TABLE `store`
 -- Constraints for table `store_stock`
 --
 ALTER TABLE `store_stock`
-  ADD CONSTRAINT `store_stock_ibfk_1` FOREIGN KEY (`stock_id`) REFERENCES `stock` (`stock_id`),
+  ADD CONSTRAINT `store_stock_ibfk_1` FOREIGN KEY (`stock_id`) REFERENCES `stock` (`stock_id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `store_stock_ibfk_2` FOREIGN KEY (`store_id`) REFERENCES `store` (`store_id`);
 
 --
