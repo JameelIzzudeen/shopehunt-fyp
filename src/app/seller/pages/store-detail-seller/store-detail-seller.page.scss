@@ -16,7 +16,7 @@
 ================================ */
 
 .store-seller-content {
-  background: #f8fafc;
+  --background: #f8fafc;
   padding: 16px;
   padding-bottom: 90px;
 }
@@ -54,6 +54,17 @@
   }
 }
 
+.location-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  ion-input {
+    max-width: 120px;
+  }
+}
+
+
 /* ===============================
    STOCK CARD
 ================================ */
@@ -62,7 +73,7 @@
   border-radius: 16px;
   margin-top: 16px;
   padding: 10px;
-  background: #ffffff;
+  --background: #ffffff;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 
   .stock-image {
@@ -108,8 +119,8 @@
 
 .add-stock-card {
   margin-top: 12px;
-  border-radius: 16px;
-  background: #e6f4ea;
+  --border-radius: 16px;
+  --background: #e6f4ea;
   padding: 12px;
 
   ion-card-title {
@@ -140,4 +151,39 @@ ion-button {
     margin-left: auto;
     margin-right: auto;
   }
+}
+
+ion-list {
+  max-height: 180px;
+  overflow-y: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  margin-top: 4px;
+}
+
+
+/* ===============================
+   PULL-TO-REFRESH
+================================ */
+
+ion-refresher-content {
+  /* Pulling (before refresh) */
+  --pulling-icon-color: #16a34a;
+  --pulling-text-color: #16a34a;
+
+  /* Refreshing spinner */
+  --refreshing-spinner-color: #16a34a;
+  --refreshing-text-color: #16a34a;
+
+  /* Optional: increase icon size */
+  --pulling-icon-size: 28px;
+  --refreshing-spinner-size: 28px;
+
+  /* Optional: spacing */
+  --pulling-text-margin-top: 4px;
+  --refreshing-text-margin-top: 4px;
+
+  /* Optional: font weight */
+  --pulling-text-font-weight: 700;
+  --refreshing-text-font-weight: 700;
 }

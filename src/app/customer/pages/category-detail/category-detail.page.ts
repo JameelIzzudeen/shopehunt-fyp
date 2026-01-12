@@ -60,7 +60,7 @@ export class CategoryDetailPage implements OnInit {
 
   getCategoryDetail() {
     this.http.post<any>(
-      `${environment.Base_URL}/category-detail.php`,
+      `${environment.Base_URL}/category/category-detail.php`,
       {
         category_id : this.categoryId
       }

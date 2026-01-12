@@ -3,7 +3,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonBackButton, IonImg, IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonInput, IonItem,IonCard, IonCardContent, IonCardTitle, IonCardHeader, IonList, IonModal, IonButtons, IonLabel} from '@ionic/angular/standalone';
+import { IonRefresher, IonRefresherContent, IonBackButton, IonImg, IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonInput, IonItem,IonCard, IonCardContent, IonCardTitle, IonCardHeader, IonList, IonModal, IonButtons, IonLabel} from '@ionic/angular/standalone';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
@@ -16,6 +16,8 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./store-detail-seller.page.scss'],
   standalone: true,
   imports: [
+    IonRefresher,
+    IonRefresherContent,
     IonImg,
     CommonModule,
     RouterModule,
@@ -79,6 +81,7 @@ export class StoreDetailSellerPage implements OnInit {
   private http = inject(HttpClient);
   private route = inject(ActivatedRoute);
   private navCtrl = inject(NavController);
+  private router = inject(Router);
 
 
   // constructor(
@@ -89,19 +92,22 @@ export class StoreDetailSellerPage implements OnInit {
 
   ngOnInit() {
     this.userId = localStorage.getItem('user_id');
-
-    if (this.userId) {
-      this.storeId = Number(this.route.snapshot.paramMap.get('id'));
-      this.getStoreDetail();
-      this.loadStockList();
-      this.loadCategoryList();
+    if (!this.userId) {
+      alert('Unauthorized access.');
+      this.router.navigate(['/login']);
+      return;
     }
+    this.storeId = Number(this.route.snapshot.paramMap.get('id'));
+    this.getStoreDetail();
+    this.loadStockList();
+    this.loadCategoryList();
   }
 
   getStoreDetail(){
     this.http.post<any>(
-      `${environment.Base_URL}/store-detail.php`,
+      `${environment.Base_URL}/store/store-detail.php`,
       {
+        user_id: this.userId,
         store_id : this.storeId
       }
     ).subscribe( res=> {
@@ -109,6 +115,9 @@ export class StoreDetailSellerPage implements OnInit {
 
       if (res.status === 'success') {
         this.store = res.store;
+      } else if (res.status === 'unauthorized') {
+        alert('Unauthorized access.');
+        this.router.navigate(['/login']);
       } else {
         alert(res.message);
       }
@@ -116,17 +125,22 @@ export class StoreDetailSellerPage implements OnInit {
   }
 
   loadStockList() {
-    this.http.get<any>(`${environment.Base_URL}/get-stock.php`)
+    this.http.get<any>(`${environment.Base_URL}/stock/get-stock.php`)
       .subscribe(res => {
         if (res.status === 'success') {
           console.log("stock list here: ",res);
           this.stockList = res.data;
+        } else if (res.status === 'unauthorized') {
+          alert('Unauthorized access.');
+          this.router.navigate(['/login']);
+        } else {
+          alert(res.message);
         }
       });
   }
 
     loadCategoryList() {
-    this.http.get<any>(`${environment.Base_URL}/get-category.php`)
+    this.http.get<any>(`${environment.Base_URL}/category/get-category.php`)
       .subscribe(res => {
         if (res.status === 'success') {
           console.log("category list here: ",res);
@@ -159,7 +173,7 @@ export class StoreDetailSellerPage implements OnInit {
       // this.editingStockId = null;
       console.log('Saving data:', stock);
       this.http.post<any>(
-        `${environment.Base_URL}/update-store-detail-seller.php`,
+        `${environment.Base_URL}/store/update-store-detail-seller.php`,
         {
           user_id: this.userId,
           store_id: stock.store_id,
@@ -185,6 +199,7 @@ export class StoreDetailSellerPage implements OnInit {
           this.uploadStockImage(finalStockId, this.storeId);
           alert('Profile updated successfully.');
           this.editingStockId = null;
+          this.getStoreDetail();
         }
         else{
           alert(res.message);
@@ -203,7 +218,7 @@ export class StoreDetailSellerPage implements OnInit {
       this.editingStoreId = null;
       console.log('Saving data:', store);
       this.http.post<any>(
-        `${environment.Base_URL}/update-store-detail-seller.php`,
+        `${environment.Base_URL}/store/update-store-detail-seller.php`,
         {
           user_id: this.userId,
           store_id: store.store_id,
@@ -220,6 +235,7 @@ export class StoreDetailSellerPage implements OnInit {
         console.log(res);
         if (res.status === 'success') {
           alert('Store Profile updated successfully.');
+          this.getStoreDetail();
           this.editingStoreId = null;
         }
         else{
@@ -272,6 +288,7 @@ export class StoreDetailSellerPage implements OnInit {
     selectCategory(category: any, storeStock: any) {
     // storeStock.stock_id = stock.stock_id;
     storeStock.category_name = category.category_name;
+    storeStock.category_id = category.category_id;
     this.filteredCategories = [];
   }
 
@@ -283,7 +300,7 @@ export class StoreDetailSellerPage implements OnInit {
     }
 
     this.http.post<any>(
-      `${environment.Base_URL}/add-store-stock.php`,
+      `${environment.Base_URL}/stock/add-store-stock.php`,
       {
         
         user_id: this.userId,
@@ -339,7 +356,7 @@ export class StoreDetailSellerPage implements OnInit {
     formData.append('store_id', storeId.toString());
 
     this.http.post(
-      `${environment.Base_URL}/upload-store-image.php`,
+      `${environment.Base_URL}/store/upload-store-image.php`,
       formData
     ).subscribe((res: any) => {
       if (res.success) {
@@ -361,7 +378,7 @@ export class StoreDetailSellerPage implements OnInit {
     formData.append('stock_id', stockId.toString());
 
     this.http.post(
-      `${environment.Base_URL}/upload-stock-image.php`,
+      `${environment.Base_URL}/stock/upload-stock-image.php`,
       formData
     ).subscribe((res: any) => {
       if (res.success) {
@@ -376,8 +393,9 @@ export class StoreDetailSellerPage implements OnInit {
     }
 
     this.http.post<any>(
-      `${environment.Base_URL}/delete-store-stock.php`,
+      `${environment.Base_URL}/stock/delete-store-stock.php`,
       {
+        user_id: this.userId,
         stock_id: stockId,
         store_id: this.storeId
       }
@@ -391,5 +409,19 @@ export class StoreDetailSellerPage implements OnInit {
     });
   }
 
+  doRefresh(event: any) {
+    console.log('Begin async refresh');
+
+    // Call your existing function to reload store data
+    this.getStoreDetail();
+    this.loadStockList();
+    this.loadCategoryList();
+
+    // Simulate a short delay if needed
+    setTimeout(() => {
+      console.log('Async refresh complete');
+      event.target.complete(); // important to stop the spinner
+    }, 1000);
+  }
 
 }

@@ -1,0 +1,60 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>Admin Categories</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content>
+
+  <div class="admin-container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <h2 class="logo">ShopeHunt</h2>
+
+      <nav>
+        <a routerLink="/admin-dashboard">Dashboard</a>
+        <a routerLink="/admin-sellers">Sellers</a>
+        <a class="active" routerLink="/admin-categories">Categories</a>
+        <a (click)="logout()">Logout</a>
+      </nav>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <section class="main">
+
+      <h1>Manage Categories</h1>
+
+      <!-- ADD CATEGORY -->
+      <ion-item>
+        <ion-input
+          placeholder="New category name"
+          [(ngModel)]="newCategory">
+        </ion-input>
+        <ion-item>
+          <input type="file" accept="image/*" (change)="onCategoryImageSelected($event)">
+        </ion-item>
+        <ion-button (click)="addCategory()">Add</ion-button>
+      </ion-item>
+
+      <ion-list>
+        <ion-item *ngFor="let c of categories">
+          <ion-img *ngIf="c.category_image_path" class="category-thumb"
+          [src]="environment.Upload_URL + c.category_image_path"
+          alt="{{ c.category_name }}">
+          </ion-img>
+          <ion-label>{{ c.category_name }}</ion-label>
+          <ion-button
+            color="danger"
+            fill="clear"
+            (click)="deleteCategory(c.category_id)">
+            Delete
+          </ion-button>
+        </ion-item>
+      </ion-list>
+
+    </section>
+
+  </div>
+
+</ion-content>

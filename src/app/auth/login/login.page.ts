@@ -65,7 +65,7 @@ export class LoginPage implements OnInit {
     console.log('LOGIN DATA:', this.loginData);
 
     this.http.post<any>(
-      `${environment.Base_URL}/login.php`,
+      `${environment.Base_URL}/auth/login.php`,
       this.loginData
     ).subscribe({
       next: (res) => {

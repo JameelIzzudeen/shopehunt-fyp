@@ -67,7 +67,12 @@ export class RecommendStorePage implements OnInit {
 
     if (this.userId) {
       const userLocation = await this.getCurrentLocation();
+      console.log('cart data:', this.selectedCartItems);
       this.getRecommend(this.userId, userLocation, selectedCartIds);
+    }
+    else {
+      alert('Unauthorized access.');
+      this.router.navigate(['/login']);
     }
   }
 
@@ -87,7 +92,7 @@ export class RecommendStorePage implements OnInit {
 
   async getRecommend(user_id: string, userLocation: any, selectedCartIds: any[]) {
         this.http.post<any>(
-      `${environment.Base_URL}/recommend-store.php`,
+      `${environment.Base_URL}/recommend/recommend-store.php`,
       { user_id, selected_cart_items: selectedCartIds, user_lat: userLocation.lat, user_lng: userLocation.lng }
     ).subscribe(async res => {
       if (res.status === 'success') {
@@ -121,6 +126,9 @@ export class RecommendStorePage implements OnInit {
 
         console.log('Stores with distance:', this.store);
 
+      } else if (res.status === 'unauthorized') {
+        alert('Unauthorized access.');
+        this.router.navigate(['/login']);
       } else {
         alert(res.message);
       }

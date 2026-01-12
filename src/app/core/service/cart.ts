@@ -17,7 +17,7 @@ export class CartService {
   // constructor(private http: HttpClient) {}
 
   updateQuantity(cartId: number, quantity: number): Observable<any> {
-    return this.http.post(`${environment.Base_URL}/update.php`, {
+    return this.http.post(`${environment.Base_URL}/cart/update.php`, {
       cart_id: cartId,
       quantity: quantity
     });

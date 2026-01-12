@@ -1,0 +1,83 @@
+// /* SIDEBAR */
+// .sidebar {
+//   background: #0f172a;
+//   color: #fff;
+//   padding: 24px;
+
+//   .logo {
+//     margin-bottom: 32px;
+//     font-size: 20px;
+//     font-weight: 700;
+//   }
+
+//   nav a {
+//     display: block;
+//     padding: 12px;
+//     color: #cbd5f5;
+//     border-radius: 8px;
+//     margin-bottom: 6px;
+//     cursor: pointer;
+//     text-decoration: none;
+
+//     &:hover,
+//     &.active {
+//       background: #1e293b;
+//       color: #fff;
+//     }
+//   }
+// }
+
+/* PAGE BACKGROUND */
+ion-content {
+  --background: #f5f7fb;
+}
+
+/* CONTAINER */
+.admin-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+
+/* SIDEBAR */
+.sidebar {
+    position: fixed;
+  width: var(--sidebar-width);
+  background: #0f172a;
+  color: white;
+  padding: 20px;
+  height: 100%;
+}
+
+.logo {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.sidebar nav a {
+  display: block;
+  padding: 10px;
+  margin-bottom: 6px;
+  color: #cbd5f5;
+  text-decoration: none;
+  border-radius: 6px;
+}
+
+.sidebar nav a:hover,
+.sidebar nav a.active {
+  background: #1e293b;
+  color: white;
+}
+
+
+/* MAIN CONTENT */
+.main {
+    margin-left: var(--sidebar-width);
+  flex: 1;
+  padding: 24px;
+}
+
+h1 {
+  margin-bottom: 16px;
+}

@@ -67,4 +67,58 @@ export const routes: Routes = [
     path: 'store-detail-seller/:id',
     loadComponent: () => import('./seller/pages/store-detail-seller/store-detail-seller.page').then( m => m.StoreDetailSellerPage)
   },
+  {
+    path: 'admin-login',
+    loadComponent: () => import('./admin/admin-login/admin-login.page').then( m => m.AdminLoginPage)
+  },
+  {
+    path: 'admin-dashboard',
+    loadComponent: () => import('./admin/admin-dashboard/admin-dashboard.page').then( m => m.AdminDashboardPage)
+  },
+  {
+    path: 'admin-sellers',
+    loadComponent: () => import('./admin/admin-sellers/admin-sellers.page').then( m => m.AdminSellersPage)
+  },
+  {
+    path: 'admin-categories',
+    loadComponent: () => import('./admin/admin-categories/admin-categories.page').then( m => m.AdminCategoriesPage)
+  },
+  {
+    path: 'admin-users',
+    loadComponent: () => import('./admin/admin-users/admin-users.page').then( m => m.AdminUsersPage)
+  },  {
+    path: 'user-auth',
+    loadComponent: () => import('./auth/user-auth/user-auth.page').then( m => m.UserAuthPage)
+  },
+  {
+    path: 'register-seller',
+    loadComponent: () => import('./auth/register-seller/register-seller.page').then( m => m.RegisterSellerPage)
+  },
+
+
+    // ===== ADMIN ROUTES =====
+  // {
+  //   path: 'admin',
+  //   children: [
+  //     {
+  //       path: 'login',
+  //       loadChildren: () =>
+  //         import('./admin/admin-login/admin-login.page')
+  //           .then(m => m.AdminLoginPage)
+  //     },
+  //     {
+  //       path: 'dashboard',
+  //       loadChildren: () =>
+  //         import('./admin/admin-dashboard/admin-dashboard.page')
+  //           .then(m => m.AdminDashboardPage)
+  //     }
+  //   ]
+  // },
+
+  // fallback
+  // {
+  //   path: '**',
+  //   redirectTo: 'login'
+  // }
+
 ];

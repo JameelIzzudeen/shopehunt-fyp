@@ -73,6 +73,10 @@ export class DashboardCustomerPage implements OnInit {
       const userLocation = await this.getCurrentLocation();
       this.getUserData(this.userId, userLocation);
     }
+    else {
+      alert('Unauthorized access.');
+      this.router.navigate(['/login']);
+    }
   }
 
   async getCurrentLocation() {
@@ -91,7 +95,7 @@ export class DashboardCustomerPage implements OnInit {
 
   async getUserData(user_id: string, userLocation: any) {
   this.http.post<any>(
-    `${environment.Base_URL}/dashboard.php`,
+    `${environment.Base_URL}/dashboard/customer.php`,
     { user_id }
   ).subscribe(async res => {
 
@@ -139,6 +143,9 @@ export class DashboardCustomerPage implements OnInit {
 
       console.log('Stores sorted by distance:', this.store);
 
+    } else if (res.status === 'unauthorized') {
+      alert('Unauthorized access.');
+      this.router.navigate(['/login']);
     } else {
       alert(res.message);
     }

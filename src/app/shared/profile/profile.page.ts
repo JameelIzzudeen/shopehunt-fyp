@@ -68,7 +68,7 @@ export class ProfilePage implements OnInit {
 
   getUserData() {
     this.http.post<any>(
-      `${environment.Base_URL}/user-profile.php`,
+      `${environment.Base_URL}/profile/user-profile.php`,
       {
         user_id: this.userId
       }
@@ -85,7 +85,7 @@ export class ProfilePage implements OnInit {
       // 🔹 SAVE logic here (call backend if needed)
       console.log('Saving data:', this.userData);
       this.http.post<any>(
-        `${environment.Base_URL}/update-user-profile.php`,
+        `${environment.Base_URL}/profile/update-user-profile.php`,
         {
           user_id: this.userId,
           username: this.userData.username,

@@ -1,0 +1,32 @@
+<ion-header [translucent]="true"></ion-header>
+
+<ion-content class="login-page">
+  <div class="login-wrapper">
+
+    <div class="login-card">
+      <h2>Admin Login</h2>
+
+      <ion-input
+        fill="outline"
+        placeholder="Username"
+        [(ngModel)]="username">
+      </ion-input>
+
+      <ion-input
+        fill="outline"
+        type="password"
+        placeholder="Password"
+        [(ngModel)]="password">
+      </ion-input>
+
+      <ion-button expand="block" (click)="login()">
+        Login
+      </ion-button>
+
+      <p class="error" *ngIf="error">{{ error }}</p>
+    </div>
+
+    <p class="footer-text">ShopeHunt Admin Panel</p>
+
+  </div>
+</ion-content>

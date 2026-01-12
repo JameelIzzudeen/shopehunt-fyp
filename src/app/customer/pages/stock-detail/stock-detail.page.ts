@@ -40,6 +40,7 @@ export class StockDetailPage implements OnInit {
 
   environment = environment;
 
+  userId: string | null = null; //maybe want to change it to number
   stockId !: number;
   stock: any[] = [];
   max_price !: number;
@@ -59,14 +60,21 @@ export class StockDetailPage implements OnInit {
   // ) { }
 
   ngOnInit() {
+    this.userId = localStorage.getItem('user_id');
     this.stockId = Number(this.route.snapshot.paramMap.get('id'));
+    if (!this.userId) {
+      alert('Unauthorized access.');
+      this.router.navigate(['/login']);
+      return;
+    }
     this.getStockDetail();
   }
 
   getStockDetail() {
     this.http.post<any>(
-      `${environment.Base_URL}/stock-detail.php`,
+      `${environment.Base_URL}/stock/stock-detail.php`,
       {
+        user_id: this.userId,
         stock_id : this.stockId
       }
     ).subscribe( res=> {
@@ -76,6 +84,9 @@ export class StockDetailPage implements OnInit {
         // this.prices = this.stock.map((item => Number(item.price)));
         // this.max_price = Math.max(...this.prices);
         // this.min_price = Math.min(...this.prices);
+      } else if (res.status === 'unauthorized') {
+        alert('Unauthorized access.');
+        this.router.navigate(['/login']);
       } else {
         alert(res.message);
       }
@@ -91,7 +102,7 @@ export class StockDetailPage implements OnInit {
     }
 
     this.http.post<any>(
-      `${environment.Base_URL}/add-to-cart.php`,
+      `${environment.Base_URL}/cart/add-to-cart.php`,
       {
         user_id: userId,
         stock_id: stockId,
@@ -101,7 +112,10 @@ export class StockDetailPage implements OnInit {
       if (res.status === 'success') {
         alert('Item added to cart successfully!');
       }
-      else {
+      else if (res.status === 'unauthorized') {
+        alert('Unauthorized access.');
+        this.router.navigate(['/login']);
+      } else {
         alert(res.message);
       }
     });

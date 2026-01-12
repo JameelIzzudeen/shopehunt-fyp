@@ -17,13 +17,13 @@
     <div class="register-card">
       <h2>Create Account</h2>
 
-      <form (ngSubmit)="register()">
+      <form #f="ngForm" (ngSubmit)="register(f)">
 
         <ion-item lines="none">
           <ion-input
             placeholder="Username"
             [(ngModel)]="registerData.username"
-            name="username">
+            name="username" required>
           </ion-input>
         </ion-item>
 
@@ -31,7 +31,7 @@
           <ion-input
             placeholder="First Name"
             [(ngModel)]="registerData.fname"
-            name="fname">
+            name="fname" required>
           </ion-input>
         </ion-item>
 
@@ -39,7 +39,7 @@
           <ion-input
             placeholder="Last Name"
             [(ngModel)]="registerData.lname"
-            name="lname">
+            name="lname" required>
           </ion-input>
         </ion-item>
 
@@ -47,18 +47,29 @@
           <ion-input
             type="email"
             placeholder="Email"
+            pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
             [(ngModel)]="registerData.email"
-            name="email">
+            name="email" required>
           </ion-input>
         </ion-item>
 
         <ion-item lines="none">
-          <ion-input
+          <!-- <ion-input
             type="tel"
             placeholder="Phone"
             pattern="^[0-9]{9,10}$"
             [(ngModel)]="registerData.phone"
-            name="phone">
+            name="phone" required>
+          </ion-input> -->
+          <ion-input
+            type="tel"
+            placeholder="Phone"
+            inputmode="numeric"
+            maxlength="10"
+            pattern="^[0-9]{9,10}$"
+            [(ngModel)]="registerData.phone"
+            name="phone"
+            required>
           </ion-input>
         </ion-item>
 
@@ -67,7 +78,7 @@
             type="password"
             placeholder="Password"
             [(ngModel)]="registerData.password"
-            name="password">
+            name="password" required>
           </ion-input>
         </ion-item>
 
@@ -76,15 +87,27 @@
             type="password"
             placeholder="Confirm Password"
             [(ngModel)]="registerData.confirm_password"
-            name="confirm_password">
+            name="confirm_password" required>
           </ion-input>
         </ion-item>
 
-        <ion-button expand="block" type="submit" class="register-btn">
+        <!-- <ion-button expand="block" type="submit" class="register-btn">
+          Register
+        </ion-button> -->
+
+        <ion-button
+          expand="block"
+          type="submit"
+          [disabled]="f.invalid"
+          class="register-btn">
           Register
         </ion-button>
 
       </form>
+      <a routerLink="/register-seller" class="seller-link">
+        or register as seller
+      </a>
+
     </div>
 
   </div>

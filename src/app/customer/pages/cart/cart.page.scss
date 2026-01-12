@@ -15,10 +15,16 @@
    PAGE
 ================================ */
 
+// ion-content {
+//   --padding-bottom: 140px;
+//   background: #f8fafc;
+// }
+
 ion-content {
-  --padding-bottom: 140px;
+  --padding-bottom: calc(env(safe-area-inset-bottom) + 72px);
   background: #f8fafc;
 }
+
 
 /* ===============================
    CART CONTENT
@@ -44,6 +50,7 @@ ion-content {
 .cart-row {
   display: flex;
   gap: 12px;
+  // padding-bottom: calc(72px + env(safe-area-inset-bottom)) ;
 }
 
 /* ===============================
@@ -137,13 +144,34 @@ ion-button[color="danger"] {
    BOTTOM ACTION
 ================================ */
 
+// .recommend-btn {
+//   position: fixed;
+//   bottom: 72px;
+//   left: 16px;
+//   right: 16px;
+//   height: 52px;
+
+//   font-weight: 600;
+//   --border-radius: 18px;
+
+//   --background: linear-gradient(
+//     135deg,
+//     #16a34a,
+//     #22c55e
+//   );
+
+//   box-shadow: 0 14px 30px rgba(34, 197, 94, 0.45);
+// }
+
 .recommend-btn {
   position: fixed;
-  bottom: 72px;
   left: 16px;
   right: 16px;
-  height: 52px;
 
+  /* Footer height + safe area */
+  bottom: calc(72px + env(safe-area-inset-bottom));
+
+  height: 52px;
   font-weight: 600;
   --border-radius: 18px;
 
@@ -153,8 +181,10 @@ ion-button[color="danger"] {
     #22c55e
   );
 
-  box-shadow: 0 14px 30px rgba(34, 197, 94, 0.45);
+  // box-shadow: 0 14px 30px rgba(34, 197, 94, 0.45);
 }
+
+
 
 /* ===============================
    CHECKBOX TWEAK

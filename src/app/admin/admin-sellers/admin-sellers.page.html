@@ -1,0 +1,80 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>Seller Approval</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content>
+
+  <div class="admin-container">
+
+      <!-- SIDEBAR -->
+    <div class="sidebar">
+      <h2 class="logo">ShopeHunt</h2>
+
+      <nav>
+        <a  routerLink="/admin-dashboard">Dashboard</a>
+        <a class="active" routerLink="/admin-sellers">Sellers</a>
+        <a routerLink="/admin-categories">Categories</a>
+        <a (click)="logout()">Logout</a>
+      </nav>
+    </div>
+
+    <div class="main">
+
+      <h1>Seller Registration Request</h1>
+
+
+      <ion-list>
+        <ion-item *ngFor="let s of sellers">
+
+          <ion-label>
+            <h2>Username: {{ s.username ?? 'N/A' }}</h2>
+            <p>Email: {{ s.email }}</p>
+            <p>Phone: {{ s.phone }}</p>
+            <p>Store Name: {{ s.pending_store_name ?? s.store_name ?? 'N/A' }}</p>
+            <p>Latitude: {{ s.pending_latitude ?? s.latitude ?? 'N/A' }}</p>
+            <p>Longitude: {{ s.pending_longitude ?? s.longitude ?? 'N/A' }}</p>
+
+            <ion-badge
+              color="warning"
+              *ngIf="s.seller_status === 'pending'">
+              Pending
+            </ion-badge>
+
+            <ion-badge
+              color="success"
+              *ngIf="s.seller_status === 'approved'">
+              Approved
+            </ion-badge>
+
+            <ion-badge
+              color="danger"
+              *ngIf="s.seller_status === 'rejected'">
+              Rejected
+            </ion-badge>
+          </ion-label>
+
+          <ion-button
+            slot="end"
+            color="success"
+            *ngIf="s.seller_status === 'pending'"
+            (click)="updateStatus(s.seller_id, 'approved')">
+            Approve
+          </ion-button>
+
+          <ion-button
+            slot="end"
+            color="danger"
+            *ngIf="s.seller_status === 'pending'"
+            (click)="updateStatus(s.seller_id, 'rejected')">
+            Reject
+          </ion-button>
+
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+
+</ion-content>
+

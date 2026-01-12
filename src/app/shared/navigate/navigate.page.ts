@@ -1,31 +1,42 @@
+import { Capacitor } from '@capacitor/core';
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-// import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
-import { IonFooter, IonBackButton, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonInput, IonItem,IonCard, IonCardContent, IonCardTitle, IonCardHeader} from '@ionic/angular/standalone';
+import {
+  IonFooter,
+  IonBackButton,
+  IonButtons,
+  IonContent,
+  IonHeader,
+  IonTitle,
+  IonToolbar,
+  IonButton,
+  IonInput,
+  IonItem,
+  IonCard,
+  IonCardContent,
+  IonCardTitle,
+  IonCardHeader
+} from '@ionic/angular/standalone';
 
 import { DirectionsService } from '../../core/service/directions';
-
-
 import { Geolocation } from '@capacitor/geolocation';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 
-declare var google: any;
+// declare var google: any;
 
 @Component({
   selector: 'app-navigate',
   templateUrl: './navigate.page.html',
   styleUrls: ['./navigate.page.scss'],
   standalone: true,
-  // imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
   imports: [
     IonFooter,
     IonButtons,
     IonBackButton,
     CommonModule,
-    // RouterModule,
     IonHeader,
     IonToolbar,
     IonTitle,
@@ -37,7 +48,7 @@ declare var google: any;
     IonCard,
     IonCardContent,
     IonCardTitle,
-    IonCardHeader,
+    IonCardHeader
   ],
 })
 export class NavigatePage implements OnInit {
@@ -48,96 +59,100 @@ export class NavigatePage implements OnInit {
   distance!: string;
   duration!: string;
 
+  isWeb = Capacitor.getPlatform() === 'web';
+
+  private initialized = false;
+  private routeRequestId = 0;
+
+  private map!: google.maps.Map;
+  private directionsRenderer!: google.maps.DirectionsRenderer;
+
   private http = inject(HttpClient);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private directionsService = inject(DirectionsService);
 
-  // constructor(
-  //   private http: HttpClient,
-  //   private router: Router,
-  //   private route: ActivatedRoute,
-  //   private directionsService: DirectionsService
-  // ) {}
-
   async ngOnInit() {
+    if (this.initialized) return;
+    this.initialized = true;
 
-    const permission = await Geolocation.requestPermissions();
+    const params = await firstValueFrom(this.route.queryParams);
 
-    if (permission.location !== 'granted') {
-      alert('Location permission is required to use navigation');
+    this.storeLat = Number(params['lat']);
+    this.storeLng = Number(params['lng']);
+
+    if (!this.storeLat || !this.storeLng) {
+      alert('Invalid destination');
       return;
     }
 
-    this.route.queryParams.subscribe(async params => {
-      this.storeLat = Number(params['lat']);
-      this.storeLng = Number(params['lng']);
+    try {
+      const userLocation = this.isWeb
+        ? await this.getWebLocation()
+        : await this.getNativeLocation();
 
-      const userLocation = await this.getCurrentLocation();
-      this.loadMap(userLocation);
-    });
+      this.initMap(userLocation);
+      this.loadRoute(userLocation);
+    } catch (err) {
+      console.error(err);
+      alert('Failed to get location');
+    }
   }
 
-  async getCurrentLocation() {
-    const position = await Geolocation.getCurrentPosition(
-      {
-        enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 0
-      }
-    );
+  /* =============================
+     LOCATION
+  ============================== */
+
+  async getNativeLocation() {
+    const position = await Geolocation.getCurrentPosition({
+      enableHighAccuracy: true,
+      timeout: 10000
+    });
+
     return {
       lat: position.coords.latitude,
       lng: position.coords.longitude
     };
   }
 
-  // loadMap(userLocation: any) {
-  //   const map = new google.maps.Map(document.getElementById('map'), {
-  //     zoom: 15,
-  //     center: userLocation
-  //   });
+  getWebLocation(): Promise<{ lat: number; lng: number }> {
+    return new Promise((resolve, reject) => {
+      if (!navigator.geolocation) {
+        reject('Geolocation not supported');
+        return;
+      }
 
-  //   const directionsService = new google.maps.DirectionsService();
-  //   const directionsRenderer = new google.maps.DirectionsRenderer();
-  //   directionsRenderer.setMap(map);
-    
-  //   this.directionsService
-  //   .getRoute(
-  //     userLocation,
-  //     { lat: this.storeLat, lng: this.storeLng }
-  //   )
-  //   .then(data => {
+      navigator.geolocation.getCurrentPosition(
+        pos => resolve({
+          lat: pos.coords.latitude,
+          lng: pos.coords.longitude
+        }),
+        err => reject(err)
+      );
+    });
+  }
 
-  //     const directionsRenderer = new google.maps.DirectionsRenderer({
-  //       suppressMarkers: true
-  //     });
+  /* =============================
+     MAP
+  ============================== */
 
-  //     directionsRenderer.setMap(map);
-  //     directionsRenderer.setDirections(data.result);
+initMap(userLocation: any) {
+  const mapEl = document.getElementById('map');
 
-  //     this.distance = data.distance;
-  //     this.duration = data.duration;
-  //   })
-  //   .catch(err => {
-  //     console.error('Directions error:', err);
-  //   });
-  // }
+  if (!mapEl) {
+    console.error('Map element not found');
+    return;
+  }
 
-  loadMap(userLocation: any) {
+  this.map = new google.maps.Map(mapEl, {
+    zoom: 15,
+    center: userLocation
+  });
 
-  const map = new google.maps.Map(
-    document.getElementById('map'),
-    {
-      zoom: 15,
-      center: userLocation
-    }
-  );
-
-  /* 📍 YOU ARE HERE */
+  /* YOU */
   new google.maps.Marker({
     position: userLocation,
-    map,
+    map: this.map,
     title: 'You are here',
     icon: {
       path: google.maps.SymbolPath.CIRCLE,
@@ -149,34 +164,39 @@ export class NavigatePage implements OnInit {
     }
   });
 
-// DESTINATION
-new google.maps.Marker({
-  position: { lat: this.storeLat, lng: this.storeLng },
-  map,
-  title: 'Destination'
+  /* DESTINATION */
+  new google.maps.Marker({
+    position: { lat: this.storeLat, lng: this.storeLng },
+    map: this.map,
+    title: 'Destination'
   });
 
-  /* 🧭 ROUTE (optional but helpful) */
-  this.directionsService
-    .getRoute(
-      userLocation,
-      { lat: this.storeLat, lng: this.storeLng }
-    )
-    .then(data => {
-
-      const directionsRenderer = new google.maps.DirectionsRenderer({
-        suppressMarkers: true
-      });
-
-      directionsRenderer.setMap(map);
-      directionsRenderer.setDirections(data.result);
-
-      this.distance = data.distance;
-      this.duration = data.duration;
-    });
-}
-
+  this.directionsRenderer = new google.maps.DirectionsRenderer({
+    suppressMarkers: true
+  });
+  this.directionsRenderer.setMap(this.map);
 }
 
 
+  /* =============================
+     ROUTE (RACE-SAFE)
+  ============================== */
 
+  loadRoute(userLocation: any) {
+    const requestId = ++this.routeRequestId;
+
+    this.directionsService
+      .getRoute(
+        userLocation,
+        { lat: this.storeLat, lng: this.storeLng }
+      )
+      .then(data => {
+        if (requestId !== this.routeRequestId) return; // 🚫 stale result
+
+        this.directionsRenderer.setDirections(data.result);
+        this.distance = data.distance;
+        this.duration = data.duration;
+      })
+      .catch(err => console.error('Directions error:', err));
+  }
+}

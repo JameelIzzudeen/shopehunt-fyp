@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonFooter, IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonInput, IonItem,IonCard, IonCardContent, IonCardTitle, IonCardHeader, IonIcon} from '@ionic/angular/standalone';
+import { IonRefresher, IonRefresherContent, IonFooter, IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonInput, IonItem,IonCard, IonCardContent, IonCardTitle, IonCardHeader, IonIcon} from '@ionic/angular/standalone';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from 'src/environments/environment';
@@ -15,6 +15,8 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./dashboard-seller.page.scss'],
   standalone: true,
   imports: [
+    IonRefresher,
+    IonRefresherContent,
     CommonModule,
     RouterModule,
     IonHeader,
@@ -52,17 +54,18 @@ export class DashboardSellerPage implements OnInit {
 
   ngOnInit() {
     this.userId = localStorage.getItem('user_id');
-
-    if (this.userId) {
-      this.getUserData(this.userId);
+    if (!this.userId) {
+      alert('Unauthorized access.');
+      this.router.navigate(['/login']);
+      return;
     }
+    this.getUserData(this.userId);
   }
 
   getUserData(user_id: string){
     this.http.post<any>(
-      `${environment.Base_URL}/seller.php`,
+      `${environment.Base_URL}/dashboard/seller.php`,
       {
-        // user_id: this.userId
         user_id
       }
     ).subscribe( res=> {
@@ -70,11 +73,24 @@ export class DashboardSellerPage implements OnInit {
       if (res.status === 'success') {
         this.user = res.data;
         this.store = res.store;
-      }
-      else{
+      } else if (res.status === 'unauthorized') {
+        alert('Unauthorized access.');
+        this.router.navigate(['/login']);
+      } else{
         alert(res.message);
       }
     })
   }
+  doRefresh(event: any) {
+  console.log('Begin async refresh');
 
+  // Call your existing function to reload store data
+  this.getUserData(this.userId!);
+
+  // Simulate a short delay if needed
+  setTimeout(() => {
+    console.log('Async refresh complete');
+    event.target.complete(); // important to stop the spinner
+  }, 1000);
+}
 }

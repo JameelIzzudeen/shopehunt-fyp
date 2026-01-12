@@ -1,0 +1,81 @@
+<!-- <ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Admin Dashboard</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<!-- <ion-content class="dashboard">
+  <div class="cards">
+    <div class="card">Users<br><strong>{{ stats.total_users }}</strong></div>
+    <div class="card">Sellers<br><strong>{{ stats.total_sellers }}</strong></div>
+    <div class="card">Pending<br><strong>{{ stats.pending_sellers }}</strong></div>
+    <div class="card">Stores<br><strong>{{ stats.total_stores }}</strong></div>
+    <div class="card">Stocks<br><strong>{{ stats.total_stocks }}</strong></div>
+  </div>
+</ion-content> -->
+
+<!-- <ion-content class="admin-layout"> -->
+<ion-content>
+
+  <div class="admin-container">
+
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <h2 class="logo">ShopeHunt</h2>
+
+      <nav>
+        <a class="active" routerLink="/admin-dashboard">Dashboard</a>
+        <a routerLink="/admin-sellers">Sellers</a>
+        <a routerLink="/admin-categories">Categories</a>
+        <a (click)="logout()">Logout</a>
+      </nav>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+
+      <h1>Admin Dashboard</h1>
+
+      <!-- STATS CARDS -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span>Users</span>
+          <strong>{{ stats.total_users }}</strong>
+        </div>
+        <div class="stat-card">
+          <span>Sellers</span>
+          <strong>{{ stats.total_sellers }}</strong>
+        </div>
+        <div class="stat-card highlight">
+          <span>Pending Sellers</span>
+          <strong>{{ stats.pending_sellers }}</strong>
+        </div>
+        <div class="stat-card">
+          <span>Stores</span>
+          <strong>{{ stats.total_stores }}</strong>
+        </div>
+        <div class="stat-card">
+          <span>Stocks</span>
+          <strong>{{ stats.total_stocks }}</strong>
+        </div>
+      </div>
+
+      <!-- CHARTS -->
+      <div class="charts">
+        <div class="chart-card">
+          <h3>Seller Status</h3>
+          <canvas id="sellerChart"></canvas>
+        </div>
+
+        <div class="chart-card">
+          <h3>Stock by Category</h3>
+          <canvas id="categoryChart"></canvas>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</ion-content>

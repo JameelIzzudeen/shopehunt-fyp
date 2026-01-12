@@ -98,7 +98,7 @@ ion-input {
     #22c55e
   );
 
-  box-shadow: 0 10px 25px rgba(34, 197, 94, 0.45);
+  // box-shadow: 0 10px 25px rgba(34, 197, 94, 0.45);
 }
 
 /* ===============================
@@ -112,4 +112,10 @@ ion-input {
 
 .login-header ion-title {
   color: #fff;
+}
+
+
+ion-content {
+  --padding-bottom: calc(env(safe-area-inset-bottom));
+  background: #f8fafc;
 }

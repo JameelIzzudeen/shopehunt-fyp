@@ -70,7 +70,7 @@ export class CartPage implements OnInit {
 
   getCartData() {
     this.http.post<any>(
-      `${environment.Base_URL}/cart.php`,
+      `${environment.Base_URL}/cart/cart.php`,
       {
         user_id: this.userId
       }
@@ -82,6 +82,10 @@ export class CartPage implements OnInit {
           ...item,
           selected: false   // ✅ frontend-only property
         }));
+      }
+      else if (res.status === 'unauthorized') {
+        alert('Unauthorized access.');
+        this.router.navigate(['/login']);
       }
       else{
         alert(res.message);
@@ -114,6 +118,11 @@ export class CartPage implements OnInit {
     //   alert('Please select at least one item');
     //   return;
     // }
+    if (selectedItems.length === 0) {
+      // If no items are selected, clear the stored selection
+      alert('No items selected');
+      return;
+    }
 
     localStorage.setItem('selected_cart_items', JSON.stringify(selectedItems));
     this.router.navigate(['/recommend-store']);
@@ -122,7 +131,7 @@ export class CartPage implements OnInit {
   deleteCartItem(cartId: number) {
     console.log('Deleting cart item with ID:', cartId, 'for user ID:', this.userId);
     this.http.post<any>(
-      `${environment.Base_URL}/delete-cart-item.php`,
+      `${environment.Base_URL}/cart/delete-cart-item.php`,
       {
         user_id: this.userId,
         cart_id: cartId
@@ -133,6 +142,10 @@ export class CartPage implements OnInit {
         // this.cartData = res.cart_data;
         this.getCartData();
         alert(res.message);
+      }
+      else if (res.status === 'unauthorized') {
+        alert('Unauthorized access.');
+        this.router.navigate(['/login']);
       }
       else{
         alert(res.message);

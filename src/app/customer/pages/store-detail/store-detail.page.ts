@@ -42,6 +42,7 @@ export class StoreDetailPage implements OnInit {
 
   environment = environment;
 
+  userId: string | null = null; //maybe want to change it to number
   storeId !: number;
   store: any[] = [];
 
@@ -62,21 +63,31 @@ export class StoreDetailPage implements OnInit {
   // ) { }
 
   ngOnInit() {
+    this.userId = localStorage.getItem('user_id');
     this.storeId = Number(this.route.snapshot.paramMap.get('id'));
+    if (!this.userId) {
+      alert('Unauthorized access.');
+      this.router.navigate(['/login']);
+      return;
+    }
     this.getStoreDetail();
   }
 
   getStoreDetail(){
     this.http.post<any>(
-      `${environment.Base_URL}/store-detail.php`,
+      `${environment.Base_URL}/store/store-detail.php`,
       {
-        store_id : this.storeId
+        user_id: this.userId,
+        store_id : this.storeId,
       }
     ).subscribe( res=> {
       console.log(res);
 
       if (res.status === 'success') {
         this.store = res.store;
+      } else if (res.status === 'unauthorized') {
+        alert('Unauthorized access.');
+        this.router.navigate(['/login']);
       } else {
         alert(res.message);
       }
@@ -86,8 +97,11 @@ export class StoreDetailPage implements OnInit {
   navigateToStore() {
     this.navCtrl.navigateForward('/navigate', {
       queryParams: {
-        lat: this.store[0].latitude,
-        lng: this.store[0].longitude,
+        // lat: this.store[0].latitude,
+        // lng: this.store[0].longitude,
+        lat: Number(this.store[0].latitude),
+        lng: Number(this.store[0].longitude),
+
         name: this.store[0].store_name
       }
     });
