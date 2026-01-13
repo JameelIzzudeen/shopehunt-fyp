@@ -85,8 +85,10 @@ export class RecommendStorePage implements OnInit {
       }
     );
     return {
-      lat: position.coords.latitude,
-      lng: position.coords.longitude
+      // lat: position.coords.latitude,
+      // lng: position.coords.longitude
+      lat: 4.266711143751758,
+      lng: 118.01374062897702
     };
   }
 
@@ -103,7 +105,7 @@ export class RecommendStorePage implements OnInit {
           return;
         }
 
-        // 🔑 Calculate distance PER STORE
+        // Calculate distance PER STORE
         const promises = this.store.map(async (s: any) => {
 
           const storeLat = Number(s.latitude);
@@ -121,7 +123,7 @@ export class RecommendStorePage implements OnInit {
           };
         });
 
-        // 🔑 WAIT FOR ALL STORES
+        // WAIT FOR ALL STORES
         this.store = await Promise.all(promises);
 
         console.log('Stores with distance:', this.store);

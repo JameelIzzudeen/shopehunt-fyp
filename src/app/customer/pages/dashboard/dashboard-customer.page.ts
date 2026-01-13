@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonFooter, IonTitle, IonToolbar, IonButton, IonInput, IonItem,IonCard, IonCardContent, IonCardTitle, IonCardHeader, IonIcon} from '@ionic/angular/standalone';
+import { IonRefresher, IonRefresherContent, IonContent, IonHeader, IonFooter, IonTitle, IonToolbar, IonButton, IonInput, IonItem,IonCard, IonCardContent, IonCardTitle, IonCardHeader, IonIcon} from '@ionic/angular/standalone';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from 'src/environments/environment';
@@ -22,6 +22,8 @@ declare var google: any;
   styleUrls: ['./dashboard-customer.page.scss'],
   standalone: true,
   imports: [
+    IonRefresher,
+    IonRefresherContent,
     CommonModule,
     RouterModule,
     IonHeader,
@@ -43,12 +45,13 @@ declare var google: any;
 
 
 export class DashboardCustomerPage implements OnInit {
-  environment = environment; // ✅ expose to HTML
+  environment = environment; // expose to HTML
 
   userId: string | null = null; //maybe want to change it to number
   user: any = {};
   category: any[] = [];
   store: any[] = [];
+  userLocation: any = null;
 
   private http = inject(HttpClient);
   public router = inject(Router);
@@ -60,8 +63,8 @@ export class DashboardCustomerPage implements OnInit {
 
     if (this.userId) {
       await this.mapsLoader.load();
-      const userLocation = await this.getCurrentLocation();
-      this.getUserData(this.userId, userLocation);
+      this.userLocation = await this.getCurrentLocation();
+      this.getUserData(this.userId, this.userLocation);
     }
     else {
       alert('Unauthorized access.');
@@ -78,15 +81,20 @@ export class DashboardCustomerPage implements OnInit {
       }
     );
     return {
-      lat: position.coords.latitude,
-      lng: position.coords.longitude
+      // lat: position.coords.latitude,
+      // lng: position.coords.longitude
+      lat: 4.266711143751758,
+      lng: 118.01374062897702
     };
   }
 
   async getUserData(user_id: string, userLocation: any) {
   this.http.post<any>(
     `${environment.Base_URL}/dashboard/customer.php`,
-    { user_id }
+    { user_id,
+      user_lat: userLocation.lat,
+      user_lng: userLocation.lng
+     }
   ).subscribe(async res => {
 
     if (res.status === 'success') {
@@ -134,5 +142,17 @@ export class DashboardCustomerPage implements OnInit {
   });
 }
 
+  doRefresh(event: any) {
+    console.log('Begin async refresh');
+
+    // Call existing function to reload store data
+    this.ngOnInit();
+
+    // Simulate a short delay if needed
+    setTimeout(() => {
+      console.log('Async refresh complete');
+      event.target.complete(); // to stop the spinner
+    }, 1000);
+  }
 
 }

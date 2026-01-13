@@ -81,16 +81,17 @@ export class DashboardSellerPage implements OnInit {
       }
     })
   }
+
   doRefresh(event: any) {
-  console.log('Begin async refresh');
+    console.log('Begin async refresh');
 
-  // Call your existing function to reload store data
-  this.getUserData(this.userId!);
+    // Call your existing function to reload store data
+    this.getUserData(this.userId!);
 
-  // Simulate a short delay if needed
-  setTimeout(() => {
-    console.log('Async refresh complete');
-    event.target.complete(); // important to stop the spinner
-  }, 1000);
-}
+    // Simulate a short delay if needed
+    setTimeout(() => {
+      console.log('Async refresh complete');
+      event.target.complete(); // important to stop the spinner
+    }, 1000);
+  }
 }

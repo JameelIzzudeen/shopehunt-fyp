@@ -10,6 +10,8 @@
     
     $data = json_decode(file_get_contents("php://input"), true);
     $user_id = $data['user_id'] ?? null;
+    $userLat = $data['user_lat'] ?? null;
+    $userLng = $data['user_lng'] ?? null;
     
     require_once '../auth/customer-auth.php';
     
@@ -17,7 +19,7 @@
 
     if(!$user_id){
         $response['status'] = "error";
-        $response['message'] = "No User ID";
+        $response['message'] = "No User IDs";
         echo json_encode($response);
         exit;
     }
@@ -46,15 +48,41 @@
         $response['category'] = $categories;
         
         //list stores
-        $sql = "SELECT s.* FROM store s, store_stock ss WHERE s.store_id = ss.store_id";
+        $sql = "
+            SELECT DISTINCT
+            s.store_id,
+            s.store_name,
+            s.latitude,
+            s.longitude,
+            s.store_image_path
+            FROM store s
+            JOIN store_stock ss ON s.store_id = ss.store_id
+            ";
         $result = $conn -> query($sql);
 
-        $stores = [];
-        while ($row = $result->fetch_assoc()) {
-            $stores[] = $row;
-        }
-        $response['store'] = $stores;
+        $storesInRadius = [];
 
+        while ($row = $result->fetch_assoc()) {
+
+            $distance = distanceKm(
+                $userLat,
+                $userLng,
+                $row['latitude'],
+                $row['longitude']
+            );
+
+            // ✅ Only keep stores within 100 km
+            if ($distance <= 100) {
+                $row['distance_km'] = round($distance, 2);
+                $storesInRadius[] = $row;
+            }
+        }
+        usort($storesInRadius, function ($a, $b) {
+            return $a['distance_km'] <=> $b['distance_km'];
+        });
+        $recommendedStores = array_slice($storesInRadius, 0, 10);
+        $response['status'] = "success";
+        $response['store'] = $recommendedStores;
 
     } else {
         
@@ -63,5 +91,17 @@
         
     }
     echo json_encode($response);
+    /* ---------- HELPERS ---------- */
+        function distanceKm($lat1, $lon1, $lat2, $lon2) {
+        $earthRadius = 6371;
+        $dLat = deg2rad($lat2 - $lat1);
+        $dLon = deg2rad($lon2 - $lon1);
 
+        $a = sin($dLat / 2) * sin($dLat / 2) +
+            cos(deg2rad($lat1)) * cos(deg2rad($lat2)) *
+            sin($dLon / 2) * sin($dLon / 2);
+
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+        return $earthRadius * $c;
+    }
 ?>

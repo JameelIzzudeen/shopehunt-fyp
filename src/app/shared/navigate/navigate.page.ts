@@ -100,7 +100,7 @@ export class NavigatePage implements OnInit {
   }
 
   /* =============================
-     LOCATION
+     GET LOCATION (WEB AND NATIVE)
   ============================== */
 
   async getNativeLocation() {
@@ -110,8 +110,10 @@ export class NavigatePage implements OnInit {
     });
 
     return {
-      lat: position.coords.latitude,
-      lng: position.coords.longitude
+      // lat: position.coords.latitude,
+      // lng: position.coords.longitude
+      lat: 4.266711143751758,
+      lng: 118.01374062897702
     };
   }
 
@@ -124,8 +126,10 @@ export class NavigatePage implements OnInit {
 
       navigator.geolocation.getCurrentPosition(
         pos => resolve({
-          lat: pos.coords.latitude,
-          lng: pos.coords.longitude
+          // lat: pos.coords.latitude,
+          // lng: pos.coords.longitude
+          lat: 4.266711143751758,
+          lng: 118.01374062897702
         }),
         err => reject(err)
       );
@@ -149,7 +153,7 @@ initMap(userLocation: any) {
     center: userLocation
   });
 
-  /* YOU */
+  /* USER MARKER */
   new google.maps.Marker({
     position: userLocation,
     map: this.map,
@@ -164,7 +168,7 @@ initMap(userLocation: any) {
     }
   });
 
-  /* DESTINATION */
+  /* DESTINATION MARKER */
   new google.maps.Marker({
     position: { lat: this.storeLat, lng: this.storeLng },
     map: this.map,
@@ -179,7 +183,7 @@ initMap(userLocation: any) {
 
 
   /* =============================
-     ROUTE (RACE-SAFE)
+     ROUTE
   ============================== */
 
   loadRoute(userLocation: any) {
@@ -191,7 +195,7 @@ initMap(userLocation: any) {
         { lat: this.storeLat, lng: this.storeLng }
       )
       .then(data => {
-        if (requestId !== this.routeRequestId) return; // 🚫 stale result
+        if (requestId !== this.routeRequestId) return; // stale result
 
         this.directionsRenderer.setDirections(data.result);
         this.distance = data.distance;
