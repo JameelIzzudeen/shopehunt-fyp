@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 13, 2026 at 06:17 PM
+-- Generation Time: Jan 13, 2026 at 07:09 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -31,6 +31,13 @@ CREATE TABLE `admin` (
   `admin_id` int(10) NOT NULL,
   `user_id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`admin_id`, `user_id`) VALUES
+(1, 0);
 
 -- --------------------------------------------------------
 
@@ -598,26 +605,27 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `role_id`, `username`, `first_name`, `last_name`, `email`, `password`, `phone`, `creation_date`) VALUES
-(1, 3, 'seller1', 'Ali', 'Hassan', 'seller1@shop.com', '$2y$fakehash', '0123456781', '2026-01-13 13:00:43'),
-(2, 3, 'seller2', 'Ahmad', 'Zaki', 'seller2@shop.com', '$2y$fakehash', '0123456782', '2026-01-13 13:00:43'),
-(3, 3, 'seller3', 'Siti', 'Aisyah', 'seller3@shop.com', '$2y$fakehash', '0123456783', '2026-01-13 13:00:43'),
-(4, 3, 'seller4', 'Nur', 'Aina', 'seller4@shop.com', '$2y$fakehash', '0123456784', '2026-01-13 13:00:43'),
-(5, 3, 'seller5', 'Hafiz', 'Iqbal', 'seller5@shop.com', '$2y$fakehash', '0123456785', '2026-01-13 13:00:43'),
-(6, 3, 'seller6', 'Amir', 'Faris', 'seller6@shop.com', '$2y$fakehash', '0123456786', '2026-01-13 13:00:43'),
-(7, 3, 'seller7', 'Aina', 'Sofea', 'seller7@shop.com', '$2y$fakehash', '0123456787', '2026-01-13 13:00:43'),
-(8, 3, 'seller8', 'Faiz', 'Hakim', 'seller8@shop.com', '$2y$fakehash', '0123456788', '2026-01-13 13:00:43'),
-(9, 3, 'seller9', 'Irfan', 'Zul', 'seller9@shop.com', '$2y$fakehash', '0123456789', '2026-01-13 13:00:43'),
-(10, 3, 'seller10', 'Nabila', 'Rose', 'seller10@shop.com', '$2y$fakehash', '0123456790', '2026-01-13 13:00:43'),
-(11, 3, 'seller11', 'Adam', 'Daniel', 'seller11@shop.com', '$2y$fakehash', '0123456791', '2026-01-13 13:00:43'),
-(12, 3, 'seller12', 'Aisyah', 'Amani', 'seller12@shop.com', '$2y$fakehash', '0123456792', '2026-01-13 13:00:43'),
-(13, 3, 'seller13', 'Haziq', 'Arif', 'seller13@shop.com', '$2y$fakehash', '0123456793', '2026-01-13 13:00:43'),
-(14, 3, 'seller14', 'Farah', 'Nabila', 'seller14@shop.com', '$2y$fakehash', '0123456794', '2026-01-13 13:00:43'),
-(15, 3, 'seller15', 'Syafiq', 'Azman', 'seller15@shop.com', '$2y$fakehash', '0123456795', '2026-01-13 13:00:43'),
-(16, 3, 'seller16', 'Izzat', 'Hakimi', 'seller16@shop.com', '$2y$fakehash', '0123456796', '2026-01-13 13:00:43'),
-(17, 3, 'seller17', 'Nurin', 'Alya', 'seller17@shop.com', '$2y$fakehash', '0123456797', '2026-01-13 13:00:43'),
-(18, 3, 'seller18', 'Aiman', 'Shah', 'seller18@shop.com', '$2y$fakehash', '0123456798', '2026-01-13 13:00:43'),
-(19, 3, 'seller19', 'Sofia', 'Hani', 'seller19@shop.com', '$2y$fakehash', '0123456799', '2026-01-13 13:00:43'),
-(20, 3, 'seller20', 'Zain', 'Amir', 'seller20@shop.com', '$2y$fakehash', '0123456800', '2026-01-13 13:00:43'),
+(0, 1, 'admin', 'admin', 'admin', 'admin@shopehunt.cc', '$2y$10$AraI9GSlrWeVjU8D2NtuaeOCzWzRcM2XAZ/VwIrufkkr72oSHoNr2', '0146935758', '2026-01-13 17:58:58'),
+(1, 3, 'seller1', 'Ali', 'Hassan', 'seller1@shop.com', '$2y$10$y8K4N2KCRND4MHFsbZIvTuzQID1drYvtx0GIKlLEl50wpf8UGE3c.', '0123456781', '2026-01-13 13:00:43'),
+(2, 3, 'seller2', 'Ahmad', 'Zaki', 'seller2@shop.com', '$2y$10$Z7B/3rX66tfP/0E5S7nSCuHVM88kuX9yPTUZ7TALHTa1sJZHKFmEG', '0123456782', '2026-01-13 13:00:43'),
+(3, 3, 'seller3', 'Siti', 'Aisyah', 'seller3@shop.com', '$2y$10$T.7/WQ2/I0HKFTUOwgXJJOz5eEgazkTSA0jddzLvJzgyhZP0PCmfm', '0123456783', '2026-01-13 13:00:43'),
+(4, 3, 'seller4', 'Nur', 'Aina', 'seller4@shop.com', '$2y$10$v7rvuItsKT8xiXi2nV9XzOm/rVmXTNiGy79DL9YOYtlTNk0Q.2z6G', '0123456784', '2026-01-13 13:00:43'),
+(5, 3, 'seller5', 'Hafiz', 'Iqbal', 'seller5@shop.com', '$2y$10$/j/gg7FhDPfeyxuh8GmCIuibCx0ZPj8JG1km2D2xz1c3Hu2HZpsUa', '0123456785', '2026-01-13 13:00:43'),
+(6, 3, 'seller6', 'Amir', 'Faris', 'seller6@shop.com', '$2y$10$m9gGh.Z3m8k1Tp7icbK2AeJxyoQ7sHFAseNQ6dKfy4f.r3Z34FdNK', '0123456786', '2026-01-13 13:00:43'),
+(7, 3, 'seller7', 'Aina', 'Sofea', 'seller7@shop.com', '$2y$10$TKMGkrwbq.bSfqoT3I7.b.UR9LDjTCQHWdPhqDL0eVIj.x9Le7tJy', '0123456787', '2026-01-13 13:00:43'),
+(8, 3, 'seller8', 'Faiz', 'Hakim', 'seller8@shop.com', '$2y$10$EGpC0st.49So.oZV0fD8x.QPLuirL6i.SEULIztDhWzbgUSWcfguq', '0123456788', '2026-01-13 13:00:43'),
+(9, 3, 'seller9', 'Irfan', 'Zul', 'seller9@shop.com', '$2y$10$SPvZnRVlv5dm9.LLgI9YIeMmI/R4QFmWhNDlRJieYsET2EZbP6uZG', '0123456789', '2026-01-13 13:00:43'),
+(10, 3, 'seller10', 'Nabila', 'Rose', 'seller10@shop.com', '$2y$10$MN/3aCecJzUa1IoMbymhTuptQnbUe9ZOlKA1VpbH0f4x9PJtW/iHq', '0123456790', '2026-01-13 13:00:43'),
+(11, 3, 'seller11', 'Adam', 'Daniel', 'seller11@shop.com', '$2y$10$o159Wieal5CLWlmuTWjhXut1Fur1I/HSmXIHfA2x0MnLn2LAFoweK', '0123456791', '2026-01-13 13:00:43'),
+(12, 3, 'seller12', 'Aisyah', 'Amani', 'seller12@shop.com', '$2y$10$lVvrRF1YR8a0RrGwji9VNu1ds9cmD3e4hmu3fyquODAq0.ebQt/Nu', '0123456792', '2026-01-13 13:00:43'),
+(13, 3, 'seller13', 'Haziq', 'Arif', 'seller13@shop.com', '$2y$10$neFM4BFYNG8WH0MfyW0Tv.dSeduRMqHyC4EQJ38yIc3vcZCryqmmy', '0123456793', '2026-01-13 13:00:43'),
+(14, 3, 'seller14', 'Farah', 'Nabila', 'seller14@shop.com', '$2y$10$qQTHGeRb9tYMpwNCy.6kFueVp3x9IRXcmpbPQHIM1BdeEPz7jYSD2', '0123456794', '2026-01-13 13:00:43'),
+(15, 3, 'seller15', 'Syafiq', 'Azman', 'seller15@shop.com', '$2y$10$ZerAUNoxgM1mBxhpv/VrQusCs9BjQy046KX6d.tRqkaZC3.8SFIcu', '0123456795', '2026-01-13 13:00:43'),
+(16, 3, 'seller16', 'Izzat', 'Hakimi', 'seller16@shop.com', '$2y$10$7k/uuJGOdM/aP5yoDPAaZO1uz8bbiD.iq4wcNWxhV31dr5X1j/pcu', '0123456796', '2026-01-13 13:00:43'),
+(17, 3, 'seller17', 'Nurin', 'Alya', 'seller17@shop.com', '$2y$10$ppfqVSzrFvZxFVg3Nt8RVO91z3OZZ3kvPqzKLb0AiTKaaVt/xH1NS', '0123456797', '2026-01-13 13:00:43'),
+(18, 3, 'seller18', 'Aiman', 'Shah', 'seller18@shop.com', '$2y$10$82b4Oh/GXxFmMG0D52bofu650nSu7MZk.U7NuC/ObkeQCC/wTbq/S', '0123456798', '2026-01-13 13:00:43'),
+(19, 3, 'seller19', 'Sofia', 'Hani', 'seller19@shop.com', '$2y$10$NgjmCQiLCnyo7uVPugCVVeCUOzQuaHtbcvd7w94IPZupTv3m52nPC', '0123456799', '2026-01-13 13:00:43'),
+(20, 3, 'seller20', 'Zain', 'Amir', 'seller20@shop.com', '$2y$10$prEW35pxAfHuvo7EFkXrTuV6BMG5bFAU7tbZfd1NOuaCBc4VrZ6wO', '0123456800', '2026-01-13 13:00:43'),
 (21, 2, 'yaya', 'Ayuna', 'Ismail', 'ayuna@gmail.com', '$2y$10$jV2FPWPNyv2zi/v5hIvanuFvvoaHmMUKgh5iKEsPvH9Vk6rgZjuNW', '0156736943', '2026-01-13 13:13:31');
 
 --
@@ -709,7 +717,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `admin_id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `admin_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `cart`
@@ -763,7 +771,7 @@ ALTER TABLE `store`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `user_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- Constraints for dumped tables

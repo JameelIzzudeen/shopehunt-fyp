@@ -53,8 +53,7 @@ $result = $stmt->get_result();
 
 if ($admin = $result->fetch_assoc()) {
 
-    // ⚠ Plain text for now (as requested)
-    if ($password === $admin['password']) {
+    if (password_verify($password, $admin['password'])) {
         $_SESSION["admin_id"] = $admin['admin_id'];
         echo json_encode([
             "status" => "success",
@@ -65,6 +64,10 @@ if ($admin = $result->fetch_assoc()) {
         ]);
         exit();
     }
+    echo json_encode([
+        "status" => "error",
+        "message" => "something rong"
+    ]);
 }
 
 // fallback
