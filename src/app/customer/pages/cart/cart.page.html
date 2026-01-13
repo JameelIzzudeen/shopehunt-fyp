@@ -6,6 +6,16 @@
 
 <ion-content [fullscreen]="true">
 
+    <!-- Pull to refresh -->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+
   <div class="cart-content">
 
     <ion-card *ngFor="let c of cartData" class="cart-card">

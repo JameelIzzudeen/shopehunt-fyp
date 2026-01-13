@@ -17,7 +17,7 @@
 
 ion-content {
   --padding-bottom: 90px;
-  background: #f8fafc;
+  --background: #f8fafc;
 }
 
 
@@ -130,4 +130,26 @@ ion-content {
   .store-grid {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
+}
+
+ion-refresher-content {
+  /* Pulling (before refresh) */
+  --pulling-icon-color: #16a34a;
+  --pulling-text-color: #16a34a;
+
+  /* Refreshing spinner */
+  --refreshing-spinner-color: #16a34a;
+  --refreshing-text-color: #16a34a;
+
+  /* Optional: increase icon size */
+  --pulling-icon-size: 28px;
+  --refreshing-spinner-size: 28px;
+
+  /* Optional: spacing */
+  --pulling-text-margin-top: 4px;
+  --refreshing-text-margin-top: 4px;
+
+  /* Optional: font weight */
+  --pulling-text-font-weight: 700;
+  --refreshing-text-font-weight: 700;
 }

@@ -98,3 +98,25 @@ ion-input[readonly] {
   font-weight: 600;
   --border-radius: 16px;
 }
+
+ion-refresher-content {
+  /* Pulling (before refresh) */
+  --pulling-icon-color: #16a34a;
+  --pulling-text-color: #16a34a;
+
+  /* Refreshing spinner */
+  --refreshing-spinner-color: #16a34a;
+  --refreshing-text-color: #16a34a;
+
+  /* Optional: increase icon size */
+  --pulling-icon-size: 28px;
+  --refreshing-spinner-size: 28px;
+
+  /* Optional: spacing */
+  --pulling-text-margin-top: 4px;
+  --refreshing-text-margin-top: 4px;
+
+  /* Optional: font weight */
+  --pulling-text-font-weight: 700;
+  --refreshing-text-font-weight: 700;
+}

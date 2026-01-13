@@ -81,10 +81,10 @@ export class DashboardCustomerPage implements OnInit {
       }
     );
     return {
-      // lat: position.coords.latitude,
-      // lng: position.coords.longitude
-      lat: 4.266711143751758,
-      lng: 118.01374062897702
+      lat: position.coords.latitude,
+      lng: position.coords.longitude
+      // lat: 4.266711143751758,
+      // lng: 118.01374062897702
     };
   }
 

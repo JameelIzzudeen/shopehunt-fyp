@@ -3,7 +3,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonAvatar,IonLabel, IonContent, IonHeader, IonFooter, IonTitle, IonToolbar, IonButton, IonInput, IonItem,IonCard, IonCardContent, IonCardTitle, IonCardHeader, IonCheckbox, IonIcon} from '@ionic/angular/standalone';
+import { IonRefresher, IonRefresherContent, IonAvatar,IonLabel, IonContent, IonHeader, IonFooter, IonTitle, IonToolbar, IonButton, IonInput, IonItem,IonCard, IonCardContent, IonCardTitle, IonCardHeader, IonCheckbox, IonIcon} from '@ionic/angular/standalone';
 import { HttpClient } from '@angular/common/http';
 
 
@@ -18,7 +18,9 @@ import { CartService } from '../../../core/service/cart';
   styleUrls: ['./cart.page.scss'],
   standalone: true,
   imports: [
-    CommonModule,
+    IonRefresher,
+    IonRefresherContent, 
+    CommonModule, 
     RouterModule,
     IonHeader, IonFooter,
     IonToolbar,
@@ -151,5 +153,18 @@ export class CartPage implements OnInit {
         alert(res.message);
       }
     });
+  }
+
+    doRefresh(event: any) {
+    console.log('Begin async refresh');
+
+    // Call existing function to reload store data
+    this.ngOnInit();
+
+    // Simulate a short delay if needed
+    setTimeout(() => {
+      console.log('Async refresh complete');
+      event.target.complete(); // to stop the spinner
+    }, 1000);
   }
 }
